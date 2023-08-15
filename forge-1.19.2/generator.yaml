@@ -1,13 +1,13 @@
 name: Minecraft Forge for @minecraft (@buildfileversion)
-status: legacy
-buildfileversion: 43.2.0
+status: deprecated
+buildfileversion: 43.2.21
 
 import:
   - datapack-1.19.2
 
 java_models:
   key: mojmap-1.19.x
-  compatible: [mojmap-1.17.x, mojmap-1.18.x]
+  compatible: [mojmap-1.17.x, mojmap-1.18.x, mojmap-1.20.x]
   requested_key_words: [ModelPart, ~ModelRenderer]
 
 # gradle task definitions
