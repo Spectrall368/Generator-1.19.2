@@ -35,7 +35,7 @@
 </#macro>
 
 <#macro onStoppedUsing procedure="">
-<#if hasProcedure(procedure) && (data.useDuration > 0)>
+<#if hasProcedure(procedure)>
 @Override public void releaseUsing(ItemStack itemstack, Level world, LivingEntity entity, int time) {
 	<@procedureCode data.onStoppedUsing, {
 		"x": "entity.getX()",
@@ -201,11 +201,27 @@
 }
 </#macro>
 
+<#-- Armor triggers -->
+<#macro onArmorTick procedure="">
+<#if hasProcedure(procedure)>
+@Override public void onArmorTick(ItemStack itemstack, Level world, Player entity) {
+	<@procedureCode procedure, {
+		"x": "entity.getX()",
+		"y": "entity.getY()",
+		"z": "entity.getZ()",
+		"world": "world",
+		"entity": "entity",
+		"itemstack": "itemstack"
+	}/>
+}
+</#if>
+</#macro>
+
 <#-- Block-related triggers -->
 <#macro onDestroyedByPlayer procedure="">
 <#if hasProcedure(procedure)>
 @Override public boolean onDestroyedByPlayer(BlockState blockstate, Level world, BlockPos pos, Player entity, boolean willHarvest, FluidState fluid) {
-			boolean retval = super.onDestroyedByPlayer(blockstate, world, pos, entity, willHarvest, fluid);
+	boolean retval = super.onDestroyedByPlayer(blockstate, world, pos, entity, willHarvest, fluid);
 	<@procedureCode procedure, {
 	"x": "pos.getX()",
 	"y": "pos.getY()",
@@ -222,7 +238,7 @@
 <#macro onDestroyedByExplosion procedure="">
 <#if hasProcedure(procedure)>
 @Override public void wasExploded(Level world, BlockPos pos, Explosion e) {
-			super.wasExploded(world, pos, e);
+	super.wasExploded(world, pos, e);
 	<@procedureCode procedure, {
 	"x": "pos.getX()",
 	"y": "pos.getY()",
@@ -236,7 +252,7 @@
 <#macro onEntityCollides procedure="">
 <#if hasProcedure(procedure)>
 @Override public void entityInside(BlockState blockstate, Level world, BlockPos pos, Entity entity) {
-			super.entityInside(blockstate, world, pos, entity);
+	super.entityInside(blockstate, world, pos, entity);
 	<@procedureCode procedure, {
 	"x": "pos.getX()",
 	"y": "pos.getY()",
@@ -252,7 +268,7 @@
 <#macro onBlockAdded procedure="" scheduleTick=false tickRate=0>
 <#if scheduleTick || hasProcedure(procedure)>
 @Override public void onPlace(BlockState blockstate, Level world, BlockPos pos, BlockState oldState, boolean moving) {
-			super.onPlace(blockstate, world, pos, oldState, moving);
+	super.onPlace(blockstate, world, pos, oldState, moving);
 	<#if scheduleTick>
 		world.scheduleTick(pos, this, ${tickRate});
 	</#if>
@@ -274,7 +290,7 @@
 <#macro onEntityWalksOn procedure="">
 <#if hasProcedure(procedure)>
 @Override public void stepOn(Level world, BlockPos pos, BlockState blockstate, Entity entity) {
-			super.stepOn(world, pos, blockstate, entity);
+	super.stepOn(world, pos, blockstate, entity);
 	<@procedureCode procedure, {
 	"x": "pos.getX()",
 	"y": "pos.getY()",
@@ -290,7 +306,7 @@
 <#macro onBlockPlacedBy procedure="">
 <#if hasProcedure(procedure)>
 @Override public void setPlacedBy(Level world, BlockPos pos, BlockState blockstate, LivingEntity entity, ItemStack itemstack) {
-			super.setPlacedBy(world, pos, blockstate, entity, itemstack);
+	super.setPlacedBy(world, pos, blockstate, entity, itemstack);
 	<@procedureCode procedure, {
 	"x": "pos.getX()",
 	"y": "pos.getY()",
@@ -307,7 +323,7 @@
 <#macro onStartToDestroy procedure="">
 <#if hasProcedure(procedure)>
 @Override public void attack(BlockState blockstate, Level world, BlockPos pos, Player entity) {
-			super.attack(blockstate, world, pos, entity);
+	super.attack(blockstate, world, pos, entity);
 	<@procedureCode procedure, {
 	"x": "pos.getX()",
 	"y": "pos.getY()",
@@ -323,7 +339,7 @@
 <#macro onRedstoneOrNeighborChanged onRedstoneOn="" onRedstoneOff="" onNeighborChanged="">
 <#if hasProcedure(onRedstoneOn) || hasProcedure(onRedstoneOff) || hasProcedure(onNeighborChanged)>
 @Override public void neighborChanged(BlockState blockstate, Level world, BlockPos pos, Block neighborBlock, BlockPos fromPos, boolean moving) {
-			super.neighborChanged(blockstate, world, pos, neighborBlock, fromPos, moving);
+	super.neighborChanged(blockstate, world, pos, neighborBlock, fromPos, moving);
 	<#if hasProcedure(onRedstoneOn) || hasProcedure(onRedstoneOff)>
 		if (world.getBestNeighborSignal(pos) > 0) {
 		<#if hasProcedure(onRedstoneOn)>
@@ -363,7 +379,7 @@
 <#macro onAnimateTick procedure="">
 <#if hasProcedure(procedure)>
 @Override public void animateTick(BlockState blockstate, Level world, BlockPos pos, RandomSource random) {
-			super.animateTick(blockstate, world, pos, random);
+	super.animateTick(blockstate, world, pos, random);
 	<@procedureCode procedure, {
 	"x": "pos.getX()",
 	"y": "pos.getY()",
@@ -379,7 +395,7 @@
 <#macro onBlockTick procedure="" scheduleTick=false tickRate=0>
 <#if hasProcedure(procedure)>
 @Override public void tick(BlockState blockstate, ServerLevel world, BlockPos pos, RandomSource random) {
-			super.tick(blockstate, world, pos, random);
+	super.tick(blockstate, world, pos, random);
 	<@procedureCode procedure, {
 	"x": "pos.getX()",
 	"y": "pos.getY()",
@@ -397,7 +413,7 @@
 <#macro onBlockRightClicked procedure="">
 <#if hasProcedure(procedure)>
 @Override public InteractionResult use(BlockState blockstate, Level world, BlockPos pos, Player entity, InteractionHand hand, BlockHitResult hit) {
-			super.use(blockstate, world, pos, entity, hand, hit);
+	super.use(blockstate, world, pos, entity, hand, hit);
 	<@procedureCodeWithOptResult procedure, "actionresulttype", "InteractionResult.SUCCESS", {
 	"x": "pos.getX()",
 	"y": "pos.getY()",
@@ -434,7 +450,7 @@
 </#macro>
 
 <#macro bonemealEvents isBonemealTargetCondition="" bonemealSuccessCondition="" onBonemealSuccess="">
-@Override public boolean isValidBonemealTarget(BlockGetter worldIn, BlockPos pos, BlockState blockstate, boolean clientSide) {
+@Override public boolean isValidBonemealTarget(LevelReader worldIn, BlockPos pos, BlockState blockstate, boolean clientSide) {
 	<#if hasProcedure(isBonemealTargetCondition)>
 	if (worldIn instanceof LevelAccessor world) {
 		int x = pos.getX();
@@ -470,20 +486,4 @@
 	}/>
 	</#if>
 }
-</#macro>
-
-<#-- Armor triggers -->
-<#macro onArmorTick procedure="">
-	<#if hasProcedure(procedure)>
-@Override public void onArmorTick(ItemStack itemstack, Level world, Player entity) {
-	<@procedureCode procedure, {
-	"x": "entity.getX()",
-	"y": "entity.getY()",
-	"z": "entity.getZ()",
-	"world": "world",
-	"entity": "entity",
-	"itemstack": "itemstack"
-	}/>
-			}
-	</#if>
 </#macro>
