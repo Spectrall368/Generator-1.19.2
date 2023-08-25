@@ -63,9 +63,7 @@ public class ${name}Feature extends RandomPatchFeature {
 		PLACED_FEATURE = PlacementUtils.register("${modid}:${registryname}", CONFIGURED_FEATURE,
 				List.of(
 			CountPlacement.of(${data.frequencyOnChunks}),
-			<#if (data.plantType == "normal" && data.staticPlantGenerationType == "Flower") ||
-			(data.plantType == "double" && data.doublePlantGenerationType == "Flower") ||
-			data.plantType == "growapable">
+			<#if ((data.plantType == "normal" || data.plantType == "double") && data.generationType == "Flower") || data.plantType == "growapable">
 			RarityFilter.onAverageOnceEvery(32),
 			</#if>
 			InSquarePlacement.spread(),
