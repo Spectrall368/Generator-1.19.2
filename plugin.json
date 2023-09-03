@@ -1,7 +1,7 @@
 {
   "id": "generator-1.19.2",
   "minversion": 202300300000,
-  "maxversion": 202300400000,
+  "maxversion": 202300399999,
   "info": {
     "name": "Minecraft Forge 1.19.2 Java Edition/Datapack Generator",
     "version": "1.0.2",
