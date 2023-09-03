@@ -1,8 +1,8 @@
 {
   "generator-1.19.2": {
-    "latest": "1.0",
+    "latest": "1.0.2",
 	"changes": [
-		"Ported The Plugin To MCreator 2023.3"
+		"Improvements"
 	]
   }
 }
