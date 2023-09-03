@@ -66,8 +66,7 @@ public class ${name}Feature extends RandomPatchFeature {
 			<#if data.generateAtAnyHeight>
 				PlacementUtils.FULL_RANGE
 			<#else>
-			PlacementUtils.HEIGHTMAP<#if ((data.plantType == "normal" || data.plantType == "double") && data.generationType == "Grass") || data.plantType == "growapable">_WORLD_SURFACE</#if>
-			</#if>,
+			PlacementUtils.HEIGHTMAP<#if ((data.plantType == "normal" || data.plantType == "double") && data.generationType == "Grass") || data.plantType == "growapable">_WORLD_SURFACE</#if>,
 			 BiomeFilter.biome()
 		));
 		return FEATURE;
