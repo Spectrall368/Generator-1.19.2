@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2022, Pylo, opensource contributors
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@
 
 package ${package}.potion;
 
+<#compress>
 public class ${name}MobEffect extends MobEffect {
 
 	public ${name}MobEffect() {
@@ -45,92 +46,93 @@ public class ${name}MobEffect extends MobEffect {
 	}
 
 	<#if data.isInstant>
-	@Override public boolean isInstantenous() {
-	   	return true;
-   	}
-   	</#if>
+		@Override public boolean isInstantenous() {
+			return true;
+		}
+	</#if>
 
 	<#if hasProcedure(data.onStarted)>
 		<#if data.isInstant>
-		@Override public void applyInstantenousEffect(Entity source, Entity indirectSource, LivingEntity entity, int amplifier, double health) {
-			<@procedureCode data.onStarted, {
-				"x": "entity.getX()",
-				"y": "entity.getY()",
-				"z": "entity.getZ()",
-				"world": "entity.level",
-				"entity": "entity",
-				"amplifier": "amplifier"
-			}/>
-		}
+			@Override public void applyInstantenousEffect(Entity source, Entity indirectSource, LivingEntity entity, int amplifier, double health) {
+				<@procedureCode data.onStarted, {
+					"x": "entity.getX()",
+					"y": "entity.getY()",
+					"z": "entity.getZ()",
+					"world": "entity.level",
+					"entity": "entity",
+					"amplifier": "amplifier"
+				}/>
+			}
 		<#else>
-		@Override public void addAttributeModifiers(LivingEntity entity, AttributeMap attributeMap, int amplifier) {
-			<@procedureCode data.onStarted, {
-				"x": "entity.getX()",
-				"y": "entity.getY()",
-				"z": "entity.getZ()",
-				"world": "entity.level",
-				"entity": "entity",
-				"amplifier": "amplifier"
-			}/>
-		}
+			@Override public void addAttributeModifiers(LivingEntity entity, AttributeMap attributeMap, int amplifier) {
+				<@procedureCode data.onStarted, {
+					"x": "entity.getX()",
+					"y": "entity.getY()",
+					"z": "entity.getZ()",
+					"world": "entity.level",
+					"entity": "entity",
+					"amplifier": "amplifier"
+				}/>
+			}
 		</#if>
 	</#if>
 
 	<#if hasProcedure(data.onActiveTick)>
-	@Override public void applyEffectTick(LivingEntity entity, int amplifier) {
-		<@procedureCode data.onActiveTick, {
-			"x": "entity.getX()",
-			"y": "entity.getY()",
-			"z": "entity.getZ()",
-			"world": "entity.level",
-			"entity": "entity",
-			"amplifier": "amplifier"
-		}/>
-	}
+		@Override public void applyEffectTick(LivingEntity entity, int amplifier) {
+			<@procedureCode data.onActiveTick, {
+				"x": "entity.getX()",
+				"y": "entity.getY()",
+				"z": "entity.getZ()",
+				"world": "entity.level",
+				"entity": "entity",
+				"amplifier": "amplifier"
+			}/>
+		}
 	</#if>
 
-   	<#if hasProcedure(data.onExpired)>
-	@Override public void removeAttributeModifiers(LivingEntity entity, AttributeMap attributeMap, int amplifier) {
-   		super.removeAttributeModifiers(entity, attributeMap, amplifier);
-		<@procedureCode data.onExpired, {
-			"x": "entity.getX()",
-			"y": "entity.getY()",
-			"z": "entity.getZ()",
-			"world": "entity.level",
-			"entity": "entity",
-			"amplifier": "amplifier"
-		}/>
-	}
+	<#if hasProcedure(data.onExpired)>
+		@Override public void removeAttributeModifiers(LivingEntity entity, AttributeMap attributeMap, int amplifier) {
+			super.removeAttributeModifiers(entity, attributeMap, amplifier);
+			<@procedureCode data.onExpired, {
+				"x": "entity.getX()",
+				"y": "entity.getY()",
+				"z": "entity.getZ()",
+				"world": "entity.level",
+				"entity": "entity",
+				"amplifier": "amplifier"
+			}/>
+		}
 	</#if>
 
 	@Override public boolean isDurationEffectTick(int duration, int amplifier) {
 		<#if hasProcedure(data.activeTickCondition)>
-		return <@procedureOBJToConditionCode data.activeTickCondition/>;
+			return <@procedureOBJToConditionCode data.activeTickCondition/>;
 		<#else>
-		return true;
+			return true;
 		</#if>
 	}
 
 	<#if data.hasCustomRenderer()>
-	@Override public void initializeClient(java.util.function.Consumer<IClientMobEffectExtensions> consumer) {
-		consumer.accept(new IClientMobEffectExtensions() {
-			<#if !data.renderStatusInInventory>
-			@Override public boolean isVisibleInInventory(MobEffectInstance effect) {
-				return false;
-			}
-
-			@Override public boolean renderInventoryText(MobEffectInstance instance, EffectRenderingInventoryScreen<?> screen, PoseStack poseStack, int x, int y, int blitOffset) {
-				return false;
-			}
-			</#if>
-
-			<#if !data.renderStatusInHUD>
-			@Override public boolean isVisibleInGui(MobEffectInstance effect) {
-				return false;
-			}
-			</#if>
-		});
-	}
+		@Override public void initializeClient(java.util.function.Consumer<IClientMobEffectExtensions> consumer) {
+			consumer.accept(new IClientMobEffectExtensions() {
+				<#if !data.renderStatusInInventory>
+					@Override public boolean isVisibleInInventory(MobEffectInstance effect) {
+						return false;
+					}
+		
+					@Override public boolean renderInventoryText(MobEffectInstance instance, EffectRenderingInventoryScreen<?> screen, PoseStack poseStack, int x, int y, int blitOffset) {
+						return false;
+					}
+				</#if>
+	
+				<#if !data.renderStatusInHUD>
+					@Override public boolean isVisibleInGui(MobEffectInstance effect) {
+						return false;
+					}
+				</#if>
+			});
+		}
 	</#if>
 }
+</#compress>
 <#-- @formatter:on -->
