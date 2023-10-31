@@ -42,7 +42,7 @@ public class ${name}Feature extends OreFeature {
 
 	public static Feature<?> feature() {
 		FEATURE = new ${name}Feature();
-		CONFIGURED_FEATURE = FeatureUtils.register("${modid}:${registryname}", FEATURE,
+		CONFIGURED_FEATURE = FeatureUtils.register("minecraft:ore", FEATURE,
 			new OreConfiguration(
 				List.of(
 					<#list data.blocksToReplace as replacementBlock>
@@ -61,7 +61,7 @@ public class ${name}Feature extends OreFeature {
 				${data.frequencyOnChunk}
 			)
 		);
-		PLACED_FEATURE = PlacementUtils.register("${modid}:${registryname}", CONFIGURED_FEATURE, List.of(
+		PLACED_FEATURE = PlacementUtils.register("minecraft:ore", CONFIGURED_FEATURE, List.of(
 			CountPlacement.of(${data.frequencyPerChunks}),
 			InSquarePlacement.spread(),
 			HeightRangePlacement.${data.generationShape?lower_case}(VerticalAnchor.absolute(${data.minGenerateHeight}), VerticalAnchor.absolute(${data.maxGenerateHeight})),
@@ -70,31 +70,8 @@ public class ${name}Feature extends OreFeature {
 		return FEATURE;
 	}
 
-	private final Set<ResourceKey<Level>> generate_dimensions = Set.of(
-		<#list data.spawnWorldTypes as worldType>
-			<#if worldType == "Surface">
-				Level.OVERWORLD
-			<#elseif worldType == "Nether">
-				Level.NETHER
-			<#elseif worldType == "End">
-				Level.END
-			<#else>
-				ResourceKey.create(Registry.DIMENSION_REGISTRY,
-						new ResourceLocation("${generator.getResourceLocationForModElement(worldType.toString().replace("CUSTOM:", ""))}"))
-			</#if><#sep>,
-		</#list>
-	);
-
 	public ${name}Feature() {
 		super(OreConfiguration.CODEC);
-	}
-
-	public boolean place(FeaturePlaceContext<OreConfiguration> context) {
-		WorldGenLevel world = context.level();
-		if (!generate_dimensions.contains(world.getLevel().dimension()))
-			return false;
-
-		return super.place(context);
 	}
 
 }
