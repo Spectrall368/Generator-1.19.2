@@ -594,14 +594,14 @@ public class ${name}Entity extends ${extendsClass} <#if data.ranged>implements R
 		}
 
 		@Override public boolean isFood(ItemStack stack) {
-			return List.of(<#list data.breedTriggerItems as breedTriggerItem>${mappedMCItemToItem(breedTriggerItem)}<#if breedTriggerItem?has_next>,</#if></#list>).contains(stack.getItem());
+			return ${mappedMCItemsToIngredient(data.breedTriggerItems)}.test(stack);
 		}
     </#if>
 
 	<#if data.waterMob>
 	@Override public boolean canBreatheUnderwater() {
-    	return true;
-    }
+    		return true;
+    	}
 
     @Override public boolean checkSpawnObstruction(LevelReader world) {
 		return world.isUnobstructed(this);
