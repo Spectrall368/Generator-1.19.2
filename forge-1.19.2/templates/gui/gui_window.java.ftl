@@ -94,7 +94,7 @@ public class ${name}Screen extends AbstractContainerScreen<${name}Menu> {
 				<#if hasProcedure(component.displayCondition)>
 					if (<@procedureOBJToConditionCode component.displayCondition/>)
 				</#if>
-				InventoryScreen.renderEntityInInventoryFollowsAngle(ms, this.leftPos + ${x + 10}, this.topPos + ${y + 20}, ${component.scale},
+				InventoryScreen.renderEntityInInventoryRaw(ms, this.leftPos + ${x + 10}, this.topPos + ${y + 20}, ${component.scale},
 					${component.rotationX / 20.0}f <#if followMouse> + (float) Math.atan((this.leftPos + ${x + 10} - mouseX) / 40.0)</#if>,
 					<#if followMouse>(float) Math.atan((this.topPos + ${y + 21 - 50} - mouseY) / 40.0)<#else>0</#if>,
 					livingEntity
@@ -171,10 +171,13 @@ public class ${name}Screen extends AbstractContainerScreen<${name}Menu> {
 
 	@Override public void onClose() {
 		super.onClose();
+		Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
 	}
 
 	@Override public void init() {
 		super.init();
+
+		this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
 
 		<#list data.getComponentsOfType("TextField") as component>
 			${component.getName()} = new EditBox(this.font, this.leftPos + ${component.gx(data.width) + 1}, this.topPos + ${component.gy(data.height) + 1},
@@ -218,14 +221,12 @@ public class ${name}Screen extends AbstractContainerScreen<${name}Menu> {
 					<@buttonOnClick component/>, this.font
 				)<@buttonDisplayCondition component/>;
 			<#else>
-				${component.getName()} = Button.builder(Component.translatable("gui.${modid}.${registryname}.${component.getName()}"), <@buttonOnClick component/>)
-					.bounds(this.leftPos + ${component.gx(data.width)}, this.topPos + ${component.gy(data.height)},
-					${component.width}, ${component.height})
-					<#if hasProcedure(component.displayCondition)>
-						.build(builder -> new Button(builder)<@buttonDisplayCondition component/>);
-					<#else>
-						.build();
-					</#if>
+				${component.getName()} = new Button(
+					this.leftPos + ${component.gx(data.width)}, this.topPos + ${component.gy(data.height)},
+					${component.width}, ${component.height},
+					Component.translatable("gui.${modid}.${registryname}.${component.getName()}"),
+					<@buttonOnClick component/>, this.font
+				)<@buttonDisplayCondition component/>;
 		    </#if>
 
 			guistate.put("button:${component.getName()}", ${component.getName()});
