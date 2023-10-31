@@ -103,7 +103,7 @@ package ${package}.client.screens;
 			    	<#if hasProcedure(component.displayCondition)>
                         if (<@procedureOBJToConditionCode component.displayCondition/>)
                     </#if>
-					InventoryScreen.renderEntityInInventoryFollowsAngle(event.getPoseStack(), <@calculatePosition component=component x_offset=10 y_offset=20/>,
+					InventoryScreen.renderEntityInInventoryRaw(event.getPoseStack(), <@calculatePosition component=component x_offset=10 y_offset=20/>,
 			    }
 			</#list>
         }
