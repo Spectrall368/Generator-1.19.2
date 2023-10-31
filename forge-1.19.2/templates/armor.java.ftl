@@ -153,7 +153,7 @@ public abstract class ${name}Item extends ArmorItem {
 		}
 		</#if>
 
-		<@addSpecialInformation data.helmetSpecialInformation/>
+		<@addSpecialInformation data.bodySpecialInformation/>
 
 		@Override public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
 			<#if data.bodyModelTexture?has_content && data.bodyModelTexture != "From armor">
@@ -196,14 +196,7 @@ public abstract class ${name}Item extends ArmorItem {
 		}
 		</#if>
 
-		<#if data.leggingsSpecialInfo?has_content>
-		@Override public void appendHoverText(ItemStack itemstack, Level world, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(itemstack, world, list, flag);
-			<#list data.leggingsSpecialInfo as entry>
-			list.add(Component.literal("${JavaConventions.escapeStringForJava(entry)}"));
-			</#list>
-		}
-		</#if>
+		<@addSpecialInformation data.leggingsSpecialInformation/>
 
 		@Override public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
 			<#if data.leggingsModelTexture?has_content && data.leggingsModelTexture != "From armor">
@@ -246,7 +239,7 @@ public abstract class ${name}Item extends ArmorItem {
 		}
 		</#if>
 
-		<@addSpecialInformation data.helmetSpecialInformation/>
+		<@addSpecialInformation data.bootsSpecialInformation/>
 
 		@Override public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
 			<#if data.bootsModelTexture?has_content && data.bootsModelTexture != "From armor">
