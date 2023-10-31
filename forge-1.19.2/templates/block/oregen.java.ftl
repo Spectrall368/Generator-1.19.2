@@ -74,6 +74,9 @@ public class ${name}Feature extends OreFeature {
 		super(OreConfiguration.CODEC);
 	}
 
+	public boolean place(FeaturePlaceContext<OreConfiguration> context) {
+		return super.place(context);
+	}
 }
 
 <#-- @formatter:on -->
