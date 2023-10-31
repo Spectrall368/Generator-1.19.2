@@ -78,6 +78,10 @@ public class ${name}Feature extends RandomPatchFeature {
 	public ${name}Feature() {
 		super(RandomPatchConfiguration.CODEC);
 	}
+
+	public boolean place(FeaturePlaceContext<RandomPatchConfiguration> context) {
+		return super.place(context);
+	}
 }
 
 <#-- @formatter:on -->
