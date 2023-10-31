@@ -75,11 +75,13 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")?repl
 			</#if>
 
 				new Item.Properties()
+			 	.tab(${data.creativeTab})
 				<#if data.immuneToFire>
 				.fireResistant()
 				</#if>
 		<#elseif data.toolType == "Shears" || data.toolType == "Shield">
 			new Item.Properties()
+			 	.tab(${data.creativeTab})
 				.durability(${data.usageCount})
 				<#if data.immuneToFire>
 				.fireResistant()
@@ -163,6 +165,7 @@ public class ${name}Item extends Item {
 
 	public ${name}Item() {
 		super(new Item.Properties()
+			 .tab(${data.creativeTab})
 			.durability(${data.usageCount})
 			<#if data.immuneToFire>
 			.fireResistant()
@@ -203,6 +206,7 @@ public class ${name}Item extends FishingRodItem {
 
 	public ${name}Item() {
 		super(new Item.Properties()
+			.tab(${data.creativeTab})
 			.durability(${data.usageCount})
 			<#if data.immuneToFire>
 			.fireResistant()
