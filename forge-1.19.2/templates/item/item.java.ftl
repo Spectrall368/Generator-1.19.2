@@ -44,6 +44,7 @@ public class ${name}Item extends Item {
 	public ${name}Item() {
 		super(new Item.Properties()
 				<#if data.hasInventory()>
+				.tab(${data.creativeTab})
 				.stacksTo(1)
 				<#elseif data.damageCount != 0>
 				.durability(${data.damageCount})
