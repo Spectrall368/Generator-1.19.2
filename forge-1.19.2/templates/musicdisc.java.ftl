@@ -42,12 +42,6 @@ public class ${name}Item extends RecordItem {
 				new Item.Properties().tab(${data.creativeTab}).stacksTo(1).rarity(Rarity.RARE), ${data.lengthInTicks});
 	}
 
-	<#if data.hasGlow>
-	@Override @OnlyIn(Dist.CLIENT) public boolean isFoil(ItemStack itemstack) {
-		return true;
-	}
-	</#if>
-
 	<@addSpecialInformation data.specialInformation/>
 
 	<@onRightClickedInAir data.onRightClickedInAir/>
@@ -61,5 +55,8 @@ public class ${name}Item extends RecordItem {
 	<@onCrafted data.onCrafted/>
 
 	<@onItemTick data.onItemInUseTick, data.onItemInInventoryTick/>
+
+	<@hasGlow data.glowCondition/>
+
 }
 <#-- @formatter:on -->
