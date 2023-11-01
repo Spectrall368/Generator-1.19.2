@@ -42,7 +42,7 @@ public class ${name}Feature extends OreFeature {
 
 	public static Feature<?> feature() {
 		FEATURE = new ${name}Feature();
-		CONFIGURED_FEATURE = FeatureUtils.register("minecraft:ore", FEATURE,
+		CONFIGURED_FEATURE = FeatureUtils.register("${modid}:${registryname}", FEATURE,
 			new OreConfiguration(
 				List.of(
 					<#list data.blocksToReplace as replacementBlock>
@@ -61,7 +61,7 @@ public class ${name}Feature extends OreFeature {
 				${data.frequencyOnChunk}
 			)
 		);
-		PLACED_FEATURE = PlacementUtils.register("minecraft:ore", CONFIGURED_FEATURE, List.of(
+		PLACED_FEATURE = PlacementUtils.register("${modid}:${registryname}", CONFIGURED_FEATURE, List.of(
 			CountPlacement.of(${data.frequencyPerChunks}),
 			InSquarePlacement.spread(),
 			HeightRangePlacement.${data.generationShape?lower_case}(VerticalAnchor.absolute(${data.minGenerateHeight}), VerticalAnchor.absolute(${data.maxGenerateHeight})),
