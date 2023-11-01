@@ -14,6 +14,10 @@ templates:
     condition: generateFeature
     name: "@MODDATAROOT/forge/biome_modifier/@registryname_biome_modifier.json"
     variables: "step=underground_ores"
+  - template: block/placed_oregen.json.ftl
+    writer: json
+    condition: generateFeature
+    name: "@MODDATAROOT/worldgen/placed_feature/@registryname.json"
 
   # Block item templates
   - template: json/block_item.json.ftl
