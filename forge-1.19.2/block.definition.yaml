@@ -6,14 +6,19 @@ templates:
     name: "@SRCROOT/@BASEPACKAGEPATH/block/entity/@NAMEBlockEntity.java"
 
   # Worldgen
-  - template: block/oregen.java.ftl
-    condition: generateFeature
-    name: "@SRCROOT/@BASEPACKAGEPATH/world/features/ores/@NAMEFeature.java"
   - template: json/block_feature_biome_modifier.json.ftl
     writer: json
     condition: generateFeature
     name: "@MODDATAROOT/forge/biome_modifier/@registryname_biome_modifier.json"
     variables: "step=underground_ores"
+  - template: block/configured_oregen.json.ftl
+    writer: json
+    condition: generateFeature
+    name: "@MODDATAROOT/worldgen/configured_feature/@registryname.json"
+  - template: block/placed_oregen.json.ftl
+    writer: json
+    condition: generateFeature
+    name: "@MODDATAROOT/worldgen/placed_feature/@registryname.json"
 
   # Block item templates
   - template: json/block_item.json.ftl
