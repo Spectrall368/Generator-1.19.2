@@ -44,7 +44,7 @@ public class ${name}Feature extends RandomPatchFeature {
 
 	public static Feature<?> feature() {
 		FEATURE = new ${name}Feature();
-		CONFIGURED_FEATURE = FeatureUtils.register("minecraft:random_patch", FEATURE,
+		CONFIGURED_FEATURE = FeatureUtils.register("${modid}:${registryname}", FEATURE,
 			<#if data.plantType == "growapable">
 				FeatureUtils.simpleRandomPatchConfiguration(${data.patchSize}, PlacementUtils.filtered(
 								Feature.BLOCK_COLUMN, BlockColumnConfiguration.simple(BiasedToBottomInt.of(2, 4),
@@ -58,7 +58,7 @@ public class ${name}Feature extends RandomPatchFeature {
 						List.of(), ${data.patchSize})
 			</#if>
 		);
-		PLACED_FEATURE = PlacementUtils.register("minecraft:random_patch", CONFIGURED_FEATURE,
+		PLACED_FEATURE = PlacementUtils.register("${modid}:${registryname}", CONFIGURED_FEATURE,
 				List.of(
 			CountPlacement.of(${data.frequencyOnChunks}),
 			<#if ((data.plantType == "normal" || data.plantType == "double") && data.generationType == "Flower") || data.plantType == "growapable">
