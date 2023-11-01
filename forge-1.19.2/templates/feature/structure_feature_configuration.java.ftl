@@ -42,7 +42,7 @@ public record StructureFeatureConfiguration(ResourceLocation structure, boolean 
 			return config.randomRotation;
 		}), Codec.BOOL.fieldOf("random_mirror").orElse(false).forGetter(config -> {
 			return config.randomMirror;
-		}), RegistryCodecs.homogeneousList(Registries.BLOCK).fieldOf("ignored_blocks").forGetter(config -> {
+		}), RegistryCodecs.homogeneousList(Registry.BLOCK_REGISTRY).fieldOf("ignored_blocks").forGetter(config -> {
 			return config.ignoredBlocks;
 		}), Vec3i.offsetCodec(48).optionalFieldOf("offset", Vec3i.ZERO).forGetter(config -> {
 			return config.offset;
