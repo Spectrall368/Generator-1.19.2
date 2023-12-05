@@ -1,27 +1,134 @@
-_default: DamageSource.GENERIC
+_default:
+  - DamageSource.GENERIC
+  - generic
 _mcreator_prefix: "CUSTOM:"
-_mcreator_map_template: "ResourceKey.create(new ResourceLocation(\"@modid:@registryname\"))"
-IN_FIRE: DamageSource.IN_FIRE
-LIGHTNING_BOLT: DamageSource.LIGHTNING_BOLT
-ON_FIRE: DamageSource.ON_FIRE
-LAVA: DamageSource.LAVA
-HOT_FLOOR: DamageSource.HOT_FLOOR
-IN_WALL: DamageSource.IN_WALL
-CRAMMING: DamageSource.CRAMMING
-DROWN: DamageSource.DROWN
-STARVE: DamageSource.STARVE
-CACTUS: DamageSource.CACTUS
-FALL: DamageSource.FALL
-FLY_INTO_WALL: DamageSource.FLY_INTO_WALL
-OUT_OF_WORLD: DamageSource.OUT_OF_WORLD
-GENERIC: DamageSource.GENERIC
-MAGIC: DamageSource.MAGIC
-WITHER: DamageSource.WITHER
-ANVIL: DamageSource.ANVIL
-FALLING_BLOCK: DamageSource.FALLING_BLOCK
-DRAGON_BREATH: DamageSource.DRAGON_BREATH
-DRYOUT: DamageSource.DRY_OUT
-SWEET_BERRY_BUSH: DamageSource.SWEET_BERRY_BUSH
-FREEZE: DamageSource.FREEZE
-FALLING_STALACTITE: DamageSource.FALLING_STALACTITE
-STALAGMITE: DamageSource.STALAGMITE
+_mcreator_map_template:
+  - "ResourceKey.create(new ResourceLocation(\"@modid:@registryname\"))"
+  - "@modid:@registryname"
+_bypass_prefix: "#"
+IN_FIRE:
+  - DamageSource.IN_FIRE
+  - in_fire
+LIGHTNING_BOLT:
+  - DamageSource.LIGHTNING_BOLT
+  - lightning_bolt
+ON_FIRE:
+  - DamageSource.ON_FIRE
+  - on_fire
+LAVA:
+  - DamageSource.LAVA
+  - lava
+HOT_FLOOR:
+  - DamageSource.HOT_FLOOR
+  - hot_floor
+IN_WALL:
+  - DamageSource.IN_WALL
+  - in_wall
+CRAMMING:
+  - DamageSource.CRAMMING
+  - cramming
+DROWN:
+  - DamageSource.DROWN
+  - drown
+STARVE:
+  - DamageSource.STARVE
+  - starve
+CACTUS:
+  - DamageSource.CACTUS
+  - cactus
+FALL:
+  - DamageSource.FALL
+  - fall
+FLY_INTO_WALL:
+  - DamageSource.FLY_INTO_WALL
+  - fly_into_wall
+OUT_OF_WORLD:
+  - DamageSource.OUT_OF_WORLD
+  - out_of_world
+GENERIC:
+  - DamageSource.GENERIC
+  - generic
+MAGIC:
+  - DamageSource.MAGIC
+  - magic
+WITHER:
+  - DamageSource.WITHER
+  - wither
+DRAGON_BREATH:
+  - DamageSource.DRAGON_BREATH
+  - dragon_breath
+DRYOUT:
+  - DamageSource.DRY_OUT
+  - dry_out
+SWEET_BERRY_BUSH:
+  - DamageSource.SWEET_BERRY_BUSH
+  - sweet_berry_bush
+FREEZE:
+  - DamageSource.FREEZE
+  - freeze
+STALAGMITE:
+  - DamageSource.STALAGMITE
+  - stalagmite
+FALLING_BLOCK:
+  - DamageSource.FALLING_BLOCK
+  - falling_block
+ANVIL:
+  - DamageSource.FALLING_ANVIL
+  - falling_anvil
+FALLING_STALACTITE:
+  - DamageSource.FALLING_STALACTITE
+  - falling_stalactite
+STING:
+  - DamageSource.STING
+  - sting
+MOB_ATTACK:
+  - DamageSource.MOB_ATTACK
+  - mob_attack
+MOB_ATTACK_NO_AGGRO:
+  - DamageSource.MOB_ATTACK_NO_AGGRO
+  - mob_attack_no_aggro
+PLAYER_ATTACK:
+  - DamageSource.PLAYER_ATTACK
+  - player_attack
+ARROW:
+  - DamageSource.ARROW
+  - arrow
+TRIDENT:
+  - DamageSource.TRIDENT
+  - trident
+MOB_PROJECTILE:
+  - DamageSource.MOB_PROJECTILE
+  - mob_projectile
+FIREWORKS:
+  - DamageSource.FIREWORKS
+  - fireworks
+FIREBALL:
+  - DamageSource.FIREBALL
+  - fireball
+UNATTRIBUTED_FIREBALL:
+  - DamageSource.UNATTRIBUTED_FIREBALL
+  - unattributed_fireball
+WITHER_SKULL:
+  - DamageSource.WITHER_SKULL
+  - wither_skull
+THROWN:
+  - DamageSource.THROWN
+  - thrown
+INDIRECT_MAGIC:
+  - DamageSource.INDIRECT_MAGIC
+  - indirect_magic
+THORNS:
+  - DamageSource.THORNS
+  - thorns
+EXPLOSION:
+  - DamageSource.EXPLOSION
+  - explosion
+PLAYER_EXPLOSION:
+  - DamageSource.PLAYER_EXPLOSION
+  - player_explosion
+SONIC_BOOM:
+  - DamageSource.SONIC_BOOM
+  - sonic_boom
+BAD_RESPAWN_POINT:
+  - DamageSource.BAD_RESPAWN_POINT
+  - bad_respawn_point
