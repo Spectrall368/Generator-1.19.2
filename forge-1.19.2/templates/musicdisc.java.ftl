@@ -30,7 +30,6 @@
 
 <#-- @formatter:off -->
 <#include "triggers.java.ftl">
-
 package ${package}.item;
 
 import net.minecraft.network.chat.Component;
@@ -39,7 +38,7 @@ public class ${name}Item extends RecordItem {
 
 	public ${name}Item() {
 		super(${data.analogOutput}, () -> ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.music}")),
-				new Item.Properties().tab(${data.creativeTab}).stacksTo(1).rarity(Rarity.RARE), ${data.lengthInTicks});
+			new Item.Properties().stacksTo(1).rarity(Rarity.${data.rarity}), ${data.lengthInTicks});
 	}
 
 	<@addSpecialInformation data.specialInformation/>
