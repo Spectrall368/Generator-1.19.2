@@ -1,7 +1,6 @@
-templates:
-  - template: damagetype.json.ftl # loaded from datapack generator
-    writer: json
-    name: "@MODDATAROOT/damage_type/@registryname.json"
+global_templates:
+  - template: elementinits/damagetype.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameDamageSources.java"
 
 localizationkeys:
   - key: death.attack.@registryname
@@ -10,3 +9,5 @@ localizationkeys:
     mapto: itemDeathMessage
   - key: death.attack.@registryname.player
     mapto: playerDeathMessage
+
+field_exclusions: [exhaustion]
