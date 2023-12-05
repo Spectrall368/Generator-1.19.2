@@ -38,7 +38,7 @@ package ${package}.init;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${JavaModName}DamageSources {
 
 <#list damagetypes as damageType>
-		public static final <#if data.scaling == "when_caused_by_living_non_player" || data.effects == "thorns">EntityDamageSource<#else>DamageSource</#if> ${damageType.getModElement().getRegistryNameUpper()} = (new DamageSource("${registryname}"))<#if data.scaling == "when_caused_by_living_non_player">.scalesWithDifficulty()<#elseif data.scaling == "always">.setScalesWithDifficulty()</#if><#if data.effects == "burning">.bypassArmor().setIsFire()<#elseif data.effects == "freezing" || data.effects == "drowning">.bypassArmor()<#elseif data.effects == "thorns">.setThorns()</#if>;
+		public static final <#if damageType.scaling == "when_caused_by_living_non_player" || damageType.effects == "thorns">EntityDamageSource<#else>DamageSource</#if> ${damageType.getModElement().getRegistryNameUpper()} = (new DamageSource("${registryname}"))<#if damageType.scaling == "when_caused_by_living_non_player">.scalesWithDifficulty()<#elseif damageType.scaling == "always">.setScalesWithDifficulty()</#if><#if damageType.effects == "burning">.bypassArmor().setIsFire()<#elseif damageType.effects == "freezing" || damageType.effects == "drowning">.bypassArmor()<#elseif damageType.effects == "thorns">.setThorns()</#if>;
 </#list>
 }
 <#-- @formatter:on -->
