@@ -37,7 +37,7 @@ package ${package}.init;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${JavaModName}DamageSources {
 
 <#list damagetypes as damageType>
-		public static final DamageSource ${damageType.getModElement().getRegistryNameUpper()} = (new DamageSource("${damageType.getModElement().getRegistryName()}"))<#if damageType.scaling == "always" || damageType.scaling == "when_caused_by_living_non_player">.setScalesWithDifficulty()</#if><#if damageType.effects == "burning">.bypassArmor().setIsFire()<#elseif damageType.effects == "freezing" || damageType.effects == "drowning">.bypassArmor()</#if>;
+		public static final DamageSource ${damageType.getModElement().getRegistryNameUpper()} = (new DamageSource("${damageType.getModElement().getRegistryName()}"))<#if damageType.scaling == "always" || damageType.scaling == "when_caused_by_living_non_player">.setScalesWithDifficulty()</#if><#if damageType.effects == "burning">.bypassArmor().setIsFire()<#elseif damageType.effects == "freezing" || damageType.effects == "drowning">.bypassArmor()<#elseif damageType.effects == "thorns">.setMagic()</#if>;
 </#list>
 }
 <#-- @formatter:on -->
