@@ -3,7 +3,7 @@ _default:
   - generic
 _mcreator_prefix: "CUSTOM:"
 _mcreator_map_template:
-  - "ResourceKey.create(new ResourceLocation(\"@modid:@registryname\"))"
+  - "@JavaModNameDamageSources.@REGISTRYNAME"
   - "@modid:@registryname"
 _bypass_prefix: "#"
 IN_FIRE:
