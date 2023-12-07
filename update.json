@@ -1,8 +1,8 @@
 {
   "generator-1.19.2": {
-    "latest": "1.2",
+    "latest": "1.2.1",
 	"changes": [
-		"Added MCreator 2023.4 (49117) Support!"
+		"Bug Fix"
 	]
   }
 }
