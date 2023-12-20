@@ -1,1 +1,1 @@
-new IndirectEntityDamageSource(${generator.map(field$damagetype, "damagesources")}), ${input$directcause}, ${input$cause}
+new IndirectEntityDamageSource(${generator.map(field$damagetype, "damagesources", 1)}), ${input$directcause}, ${input$cause}
