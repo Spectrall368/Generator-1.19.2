@@ -61,7 +61,7 @@ package ${package}.world.dimension;
 				}
 
 			};
-			event.register(new ResourceLocation("${modid}:${registryname}"), customEffect);
+			event.enqueueWork(() -> DimensionSpecialEffects.EFFECTS.put(new ResourceLocation("${modid}:${registryname}"), customEffect));
 		}
 
 	}
