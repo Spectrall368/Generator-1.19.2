@@ -2,7 +2,7 @@
 
 <#-- Item-related triggers -->
 <#macro addSpecialInformation procedure="" isBlock=false>
-	<#if procedure?has_content || hasProcedure(procedure)>
+	<#if procedure?has_content && (hasProcedure(procedure) || !procedure.getFixedValue().isEmpty())>
 		@Override public void appendHoverText(ItemStack itemstack, <#if isBlock>BlockGetter<#else>Level</#if> level, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, level, list, flag);
 		<#if hasProcedure(procedure)>
@@ -12,7 +12,8 @@
 				"y": "entity != null ? entity.getY() : 0.0",
 				"z": "entity != null ? entity.getZ() : 0.0",
 				"entity": "entity",
-				"world": "level instanceof Level ? (LevelAccessor) level : null"
+				"world": "level instanceof Level ? (LevelAccessor) level : null",
+				"itemstack": "itemstack"
 			}, false/>));
 		<#else>
 			<#list procedure.getFixedValue() as entry>
@@ -31,7 +32,7 @@
 		"x": "entity.getX()",
 		"y": "entity.getY()",
 		"z": "entity.getZ()",
-		"world": "entity.level",
+		"world": "entity.level()",
 		"entity": "entity",
 		"itemstack": "itemstack"
 	}/>
@@ -69,7 +70,7 @@
 			"x": "entity.getX()",
 			"y": "entity.getY()",
 			"z": "entity.getZ()",
-			"world": "entity.level",
+			"world": "entity.level()",
 			"entity": "entity",
 			"sourceentity": "sourceentity",
 			"itemstack": "itemstack"
@@ -159,7 +160,7 @@
 		"x": "entity.getX()",
 		"y": "entity.getY()",
 		"z": "entity.getZ()",
-		"world": "entity.level",
+		"world": "entity.level()",
 		"entity": "entity",
 		"itemstack": "itemstack"
 	}/>
@@ -199,7 +200,7 @@
 			"y": "entity.getY()",
 			"z": "entity.getZ()",
 			"entity": "entity",
-			"world": "entity.level",
+			"world": "entity.level()",
 			"itemstack": "itemstack"
 		}/>
 	<#else>
@@ -212,51 +213,43 @@
 <#-- Armor triggers -->
 <#macro onArmorTick procedure="">
 <#if hasProcedure(procedure)>
-@Override public void onArmorTick(ItemStack itemstack, Level world, Player entity) {
-	<@procedureCode procedure, {
+<#-- ideally we would use onInventoryTick for slotIndex [36, 40), however this method is not being called in 1.20.1 FG properly -->
+@Override public void inventoryTick(ItemStack itemstack, Level world, Entity entity, int slot, boolean selected) {
+	super.inventoryTick(itemstack, world, entity, slot, selected);
+	if (entity instanceof Player player && Iterables.contains(player.getArmorSlots(), itemstack)) {
+		<@procedureCode procedure, {
 		"x": "entity.getX()",
 		"y": "entity.getY()",
 		"z": "entity.getZ()",
 		"world": "world",
 		"entity": "entity",
 		"itemstack": "itemstack"
-	}/>
+		}/>
+	}
 }
 </#if>
 </#macro>
 
 <#macro piglinNeutral procedure="">
-<#if procedure?has_content || hasProcedure(procedure)>
+<#if procedure?has_content && (hasProcedure(procedure) || procedure.getFixedValue())>
 @Override public boolean makesPiglinsNeutral(ItemStack itemstack, LivingEntity entity) {
 	<#if hasProcedure(procedure)>
-		double x = entity.getX();
-		double y = entity.getY();
-		double z = entity.getZ();
-		Level world = entity.level;
+		return <@procedureCode procedure, {
+			"x": "entity.getX()",
+			"y": "entity.getY()",
+			"z": "entity.getZ()",
+			"world": "entity.level()",
+			"entity": "entity",
+			"itemstack": "itemstack"
+		}/>
+	<#else>
+		return true;
 	</#if>
-	return <@procedureOBJToConditionCode procedure procedure.getFixedValue() false/>;
 }
 </#if>
 </#macro>
 
 <#-- Block-related triggers -->
-<#macro onDestroyedByPlayer procedure="">
-<#if hasProcedure(procedure)>
-@Override public boolean onDestroyedByPlayer(BlockState blockstate, Level world, BlockPos pos, Player entity, boolean willHarvest, FluidState fluid) {
-	boolean retval = super.onDestroyedByPlayer(blockstate, world, pos, entity, willHarvest, fluid);
-	<@procedureCode procedure, {
-	"x": "pos.getX()",
-	"y": "pos.getY()",
-	"z": "pos.getZ()",
-	"world": "world",
-	"entity": "entity",
-	"blockstate": "blockstate"
-	}/>
-	return retval;
-}
-</#if>
-</#macro>
-
 <#macro onDestroyedByExplosion procedure="">
 <#if hasProcedure(procedure)>
 @Override public void wasExploded(Level world, BlockPos pos, Explosion e) {
@@ -305,6 +298,97 @@
 		"moving": "moving"
 		}/>
 	</#if>
+}
+</#if>
+</#macro>
+
+<#macro onRedstoneOrNeighborChanged onRedstoneOn="" onRedstoneOff="" onNeighborChanged="">
+<#if hasProcedure(onRedstoneOn) || hasProcedure(onRedstoneOff) || hasProcedure(onNeighborChanged)>
+@Override public void neighborChanged(BlockState blockstate, Level world, BlockPos pos, Block neighborBlock, BlockPos fromPos, boolean moving) {
+	super.neighborChanged(blockstate, world, pos, neighborBlock, fromPos, moving);
+	<#if hasProcedure(onRedstoneOn) || hasProcedure(onRedstoneOff)>
+		if (world.getBestNeighborSignal(pos) > 0) {
+		<#if hasProcedure(onRedstoneOn)>
+			<@procedureCode onRedstoneOn, {
+			"x": "pos.getX()",
+			"y": "pos.getY()",
+			"z": "pos.getZ()",
+			"world": "world",
+			"blockstate": "blockstate"
+			}/>
+		</#if>
+		}
+		<#if hasProcedure(onRedstoneOff)> else {
+			<@procedureCode onRedstoneOff, {
+			"x": "pos.getX()",
+			"y": "pos.getY()",
+			"z": "pos.getZ()",
+			"world": "world",
+			"blockstate": "blockstate"
+			}/>
+		}
+		</#if>
+	</#if>
+	<#if hasProcedure(onNeighborChanged)>
+		<@procedureCode onNeighborChanged, {
+		"x": "pos.getX()",
+		"y": "pos.getY()",
+		"z": "pos.getZ()",
+		"world": "world",
+		"blockstate": "blockstate"
+		}/>
+	</#if>
+}
+</#if>
+</#macro>
+
+<#macro onAnimateTick procedure="">
+<#if hasProcedure(procedure)>
+@Override @OnlyIn(Dist.CLIENT) public void animateTick(BlockState blockstate, Level world, BlockPos pos, RandomSource random) {
+	super.animateTick(blockstate, world, pos, random);
+	<@procedureCode procedure, {
+	"x": "pos.getX()",
+	"y": "pos.getY()",
+	"z": "pos.getZ()",
+	"world": "world",
+	"entity": "Minecraft.getInstance().player",
+	"blockstate": "blockstate"
+	}/>
+}
+</#if>
+</#macro>
+
+<#macro onBlockTick procedure="" scheduleTick=false tickRate=0>
+<#if hasProcedure(procedure)>
+@Override public void tick(BlockState blockstate, ServerLevel world, BlockPos pos, RandomSource random) {
+	super.tick(blockstate, world, pos, random);
+	<@procedureCode procedure, {
+	"x": "pos.getX()",
+	"y": "pos.getY()",
+	"z": "pos.getZ()",
+	"world": "world",
+	"blockstate": "blockstate"
+	}/>
+	<#if scheduleTick>
+	world.scheduleTick(pos, this, ${tickRate});
+	</#if>
+}
+</#if>
+</#macro>
+
+<#macro onDestroyedByPlayer procedure="">
+<#if hasProcedure(procedure)>
+@Override public boolean onDestroyedByPlayer(BlockState blockstate, Level world, BlockPos pos, Player entity, boolean willHarvest, FluidState fluid) {
+	boolean retval = super.onDestroyedByPlayer(blockstate, world, pos, entity, willHarvest, fluid);
+	<@procedureCode procedure, {
+	"x": "pos.getX()",
+	"y": "pos.getY()",
+	"z": "pos.getZ()",
+	"world": "world",
+	"entity": "entity",
+	"blockstate": "blockstate"
+	}/>
+	return retval;
 }
 </#if>
 </#macro>
@@ -358,80 +442,6 @@
 </#if>
 </#macro>
 
-<#macro onRedstoneOrNeighborChanged onRedstoneOn="" onRedstoneOff="" onNeighborChanged="">
-<#if hasProcedure(onRedstoneOn) || hasProcedure(onRedstoneOff) || hasProcedure(onNeighborChanged)>
-@Override public void neighborChanged(BlockState blockstate, Level world, BlockPos pos, Block neighborBlock, BlockPos fromPos, boolean moving) {
-	super.neighborChanged(blockstate, world, pos, neighborBlock, fromPos, moving);
-	<#if hasProcedure(onRedstoneOn) || hasProcedure(onRedstoneOff)>
-		if (world.getBestNeighborSignal(pos) > 0) {
-		<#if hasProcedure(onRedstoneOn)>
-			<@procedureCode onRedstoneOn, {
-			"x": "pos.getX()",
-			"y": "pos.getY()",
-			"z": "pos.getZ()",
-			"world": "world",
-			"blockstate": "blockstate"
-			}/>
-		</#if>
-		}
-		<#if hasProcedure(onRedstoneOff)> else {
-			<@procedureCode onRedstoneOff, {
-			"x": "pos.getX()",
-			"y": "pos.getY()",
-			"z": "pos.getZ()",
-			"world": "world",
-			"blockstate": "blockstate"
-			}/>
-		}
-		</#if>
-	</#if>
-	<#if hasProcedure(onNeighborChanged)>
-		<@procedureCode onNeighborChanged, {
-		"x": "pos.getX()",
-		"y": "pos.getY()",
-		"z": "pos.getZ()",
-		"world": "world",
-		"blockstate": "blockstate"
-		}/>
-	</#if>
-}
-</#if>
-</#macro>
-
-<#macro onAnimateTick procedure="">
-<#if hasProcedure(procedure)>
-@Override public void animateTick(BlockState blockstate, Level world, BlockPos pos, RandomSource random) {
-	super.animateTick(blockstate, world, pos, random);
-	<@procedureCode procedure, {
-	"x": "pos.getX()",
-	"y": "pos.getY()",
-	"z": "pos.getZ()",
-	"world": "world",
-	"entity": "Minecraft.getInstance().player",
-	"blockstate": "blockstate"
-	}/>
-}
-</#if>
-</#macro>
-
-<#macro onBlockTick procedure="" scheduleTick=false tickRate=0>
-<#if hasProcedure(procedure)>
-@Override public void tick(BlockState blockstate, ServerLevel world, BlockPos pos, RandomSource random) {
-	super.tick(blockstate, world, pos, random);
-	<@procedureCode procedure, {
-	"x": "pos.getX()",
-	"y": "pos.getY()",
-	"z": "pos.getZ()",
-	"world": "world",
-	"blockstate": "blockstate"
-	}/>
-	<#if scheduleTick>
-	world.scheduleTick(pos, this, ${tickRate});
-	</#if>
-}
-</#if>
-</#macro>
-
 <#macro onBlockRightClicked procedure="">
 <#if hasProcedure(procedure)>
 @Override public InteractionResult use(BlockState blockstate, Level world, BlockPos pos, Player entity, InteractionHand hand, BlockHitResult hit) {
@@ -472,13 +482,17 @@
 </#macro>
 
 <#macro bonemealEvents isBonemealTargetCondition="" bonemealSuccessCondition="" onBonemealSuccess="">
-@Override public boolean isValidBonemealTarget(BlockGetter worldIn, BlockPos pos, BlockState blockstate, boolean clientSide) {
+@Override public boolean isValidBonemealTarget(LevelReader worldIn, BlockPos pos, BlockState blockstate, boolean clientSide) {
 	<#if hasProcedure(isBonemealTargetCondition)>
 	if (worldIn instanceof LevelAccessor world) {
-		int x = pos.getX();
-		int y = pos.getY();
-		int z = pos.getZ();
-		return <@procedureOBJToConditionCode isBonemealTargetCondition/>;
+		return <@procedureCode isBonemealTargetCondition, {
+			"x": "pos.getX()",
+			"y": "pos.getY()",
+			"z": "pos.getZ()",
+			"world": "world",
+			"blockstate": "blockstate",
+			"clientSide": "clientSide"
+		}/>
 	}
 	return false;
 	<#else>
@@ -488,10 +502,13 @@
 
 @Override public boolean isBonemealSuccess(Level world, RandomSource random, BlockPos pos, BlockState blockstate) {
 	<#if hasProcedure(bonemealSuccessCondition)>
-		int x = pos.getX();
-		int y = pos.getY();
-		int z = pos.getZ();
-		return <@procedureOBJToConditionCode bonemealSuccessCondition/>;
+	return <@procedureCode bonemealSuccessCondition, {
+		"x": "pos.getX()",
+		"y": "pos.getY()",
+		"z": "pos.getZ()",
+		"world": "world",
+		"blockstate": "blockstate"
+	}/>
 	<#else>
 	return true;
 	</#if>
