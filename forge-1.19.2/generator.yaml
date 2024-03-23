@@ -1,7 +1,7 @@
 name: Minecraft Forge for @minecraft (@buildfileversion)
 status: deprecated
 buildfileversion: 43.3.9
-subversion: 1.0.1
+subversion: 1.0.2
 
 import:
   - datapack-1.19.2
