@@ -31,18 +31,12 @@
 <#-- @formatter:off -->
 <#include "../mcitems.ftl">
 <#include "../procedures.java.ftl">
-
 package ${package}.entity;
 
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.sounds.SoundEvent;
-
-import javax.annotation.Nullable;
-
 <#assign extendsClass = "PathfinderMob">
 
 <#if data.aiBase != "(none)" >
@@ -50,11 +44,9 @@ import javax.annotation.Nullable;
 <#else>
 	<#assign extendsClass = data.mobBehaviourType?replace("Mob", "Monster")?replace("Creature", "PathfinderMob")>
 </#if>
-
 <#if data.breedable>
 	<#assign extendsClass = "Animal">
 </#if>
-
 <#if (data.tameable && data.breedable)>
 	<#assign extendsClass = "TamableAnimal">
 </#if>

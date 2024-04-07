@@ -29,12 +29,9 @@
 -->
 
 <#-- @formatter:off -->
-
 <#include "../procedures.java.ftl">
-
 package ${package}.block;
 
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class ${name}PortalBlock extends NetherPortalBlock {
@@ -117,7 +114,5 @@ public class ${name}PortalBlock extends NetherPortalBlock {
 	private void teleportToDimension(Entity entity, BlockPos pos, ResourceKey<Level> destinationType) {
 		entity.changeDimension(entity.getServer().getLevel(destinationType), new ${name}Teleporter(entity.getServer().getLevel(destinationType), pos));
 	}
-
 }
-
 <#-- @formatter:on -->

@@ -31,10 +31,8 @@
 <#-- @formatter:off -->
 <#include "../procedures.java.ftl">
 <#include "../triggers.java.ftl">
-
 package ${package}.block;
 
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 <#compress>

@@ -32,7 +32,6 @@
 <#include "mcitems.ftl">
 <#include "procedures.java.ftl">
 <#include "triggers.java.ftl">
-
 package ${package}.item;
 
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -54,7 +53,13 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")?repl
 				}
 
 				public float getAttackDamageBonus() {
+					<#if data.toolType == "Sword">
+					return ${data.damageVsEntity - 4}f;
+					<#elseif data.toolType == "Hoe">
+					return ${data.damageVsEntity - 1}f;
+					<#else>
 					return ${data.damageVsEntity - 2}f;
+					</#if>
 				}
 
 				public int getLevel() {
@@ -136,7 +141,7 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")?repl
 			if (equipmentSlot == EquipmentSlot.MAINHAND) {
 				ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 				builder.putAll(super.getDefaultAttributeModifiers(equipmentSlot));
-				builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", ${data.damageVsEntity - 2}f, AttributeModifier.Operation.ADDITION));
+				builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", ${data.damageVsEntity - 1}f, AttributeModifier.Operation.ADDITION));
 				builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", ${data.attackSpeed - 4}, AttributeModifier.Operation.ADDITION));
 				return builder.build();
 			}
@@ -191,7 +196,7 @@ public class ${name}Item extends Item {
 		if (equipmentSlot == EquipmentSlot.MAINHAND) {
 			ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 			builder.putAll(super.getDefaultAttributeModifiers(equipmentSlot));
-			builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", ${data.damageVsEntity - 2}f, AttributeModifier.Operation.ADDITION));
+			builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", ${data.damageVsEntity - 1}f, AttributeModifier.Operation.ADDITION));
 			builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", ${data.attackSpeed - 4}, AttributeModifier.Operation.ADDITION));
 			return builder.build();
 		}
@@ -249,7 +254,6 @@ public class ${name}Item extends FishingRodItem {
 }
 </#if>
 </#compress>
-
 <#macro commonMethods>
 	<#if data.stayInGridWhenCrafting>
 		@Override public boolean hasCraftingRemainingItem(ItemStack stack) {

@@ -29,16 +29,11 @@
 -->
 
 <#-- @formatter:off -->
-
 <#include "../mcitems.ftl">
-
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
-
-import net.minecraft.sounds.SoundEvent;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${JavaModName}VillagerProfessions {
 
@@ -92,8 +87,6 @@ import net.minecraft.sounds.SoundEvent;
 			this.block = block;
 			this.poiType = poiType;
 		}
-
 	}
-
 }
 <#-- @formatter:on -->

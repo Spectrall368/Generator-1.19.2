@@ -33,8 +33,6 @@ package ${package}.procedures;
 
 import net.minecraftforge.eventbus.api.Event;
 
-import javax.annotation.Nullable;
-
 <#assign nullableDependencies = []/>
 <#list dependencies as dependency>
 	<#if dependency.getType(generator.getWorkspace()) != "double"
@@ -48,9 +46,7 @@ import javax.annotation.Nullable;
 		<#assign nullableDependencies += [dependency.getName()]/>
 	</#if>
 </#list>
-
 <#compress>
-
 <#if trigger_code?has_content>
 ${trigger_code}
 <#else>
@@ -87,9 +83,6 @@ public class ${name}Procedure {
 
 		${procedurecode}
 	}
-
 }
-
 </#compress>
-
 <#-- @formatter:on -->

@@ -33,11 +33,8 @@
 <#include "../procedures.java.ftl">
 <#include "../triggers.java.ftl">
 <#include "../mcitems.ftl">
-
 package ${package}.block;
 
-import net.minecraft.world.level.material.Material;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 <#compress>
@@ -373,7 +370,6 @@ public class ${name}Block extends <#if data.plantType == "normal">Flower<#elseif
 }
 </#compress>
 <#-- @formatter:on -->
-
 <#macro canPlaceOnList blockList condition>
 <#if (blockList?size > 1) && condition>(</#if>
 <#list blockList as canBePlacedOn>

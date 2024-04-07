@@ -29,14 +29,11 @@
 -->
 
 <#-- @formatter:off -->
-
 <#include "../procedures.java.ftl">
-
 package ${package}.client.renderer;
 
 <#assign humanoid = false>
 <#assign model = "HumanoidModel">
-
 <#if data.mobModelName == "Chicken">
 	<#assign super = "super(context, new ChickenModel(context.bakeLayer(ModelLayers.CHICKEN)), " + data.modelShadowSize + "f);">
 	<#assign model = "ChickenModel">
@@ -87,7 +84,6 @@ package ${package}.client.renderer;
 	<#assign model = "HumanoidModel">
 	<#assign humanoid = true>
 </#if>
-
 <#assign model = model + "<" + name + "Entity>">
 
 public class ${name}Renderer extends <#if humanoid>Humanoid</#if>MobRenderer<${name}Entity, ${model}> {
@@ -121,9 +117,9 @@ public class ${name}Renderer extends <#if humanoid>Humanoid</#if>MobRenderer<${n
 					this.getParentModel().copyPropertiesTo(model);
 					model.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
 					model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-					model.renderToBuffer(poseStack, vertexConsumer, 15728640, LivingEntityRenderer.getOverlayCoords(entity, 0), 1, 1, 1, 1);
+					model.renderToBuffer(poseStack, vertexConsumer, light, LivingEntityRenderer.getOverlayCoords(entity, 0), 1, 1, 1, 1);
 				<#else>
-					this.getParentModel().renderToBuffer(poseStack, vertexConsumer, 15728640, LivingEntityRenderer.getOverlayCoords(entity, 0), 1, 1, 1, 1);
+					this.getParentModel().renderToBuffer(poseStack, vertexConsumer, light, LivingEntityRenderer.getOverlayCoords(entity, 0), 1, 1, 1, 1);
 				</#if>
 
 				<#if hasProcedure(layer.condition)>}</#if>

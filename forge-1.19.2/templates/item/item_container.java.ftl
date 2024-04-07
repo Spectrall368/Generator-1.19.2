@@ -29,10 +29,7 @@
 -->
 
 <#-- @formatter:off -->
-
 package ${package}.item.inventory;
-
-import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber(Dist.CLIENT) public class ${name}InventoryCapability implements ICapabilitySerializable<CompoundTag> {
 
@@ -78,7 +75,5 @@ import javax.annotation.Nullable;
 	private ItemStackHandler getItemHandler() {
 		return inventory.orElseThrow(RuntimeException::new);
 	}
-
 }
-
 <#-- @formatter:on -->

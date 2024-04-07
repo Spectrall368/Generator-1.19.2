@@ -33,12 +33,9 @@
 <#include "../mcitems.ftl">
 <#include "../procedures.java.ftl">
 <#include "../triggers.java.ftl">
-
 package ${package}.block;
 
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-import net.minecraft.world.level.material.Material;
 
 <#compress>
 public class ${name}Block extends
