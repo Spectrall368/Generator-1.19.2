@@ -26,6 +26,7 @@ import_formatter:
     Material: net.minecraft.world.level.material
     Nullable: javax.annotation
     Codec: com.mojang.serialization
+    SoundEvent: net.minecraft.sounds
 
 # base generator roots
 source_root: "@WORKSPACEROOT/src/main/java"
