@@ -48,29 +48,29 @@
 		<#--UNDERGROUND_ORES-->[
 		<#if data.defaultFeatures?contains("Ores")>
 			"minecraft:ore_dirt",
-      		"minecraft:ore_gravel",
-      		"minecraft:ore_granite_upper",
-      		"minecraft:ore_granite_lower",
-      		"minecraft:ore_diorite_upper",
-      		"minecraft:ore_diorite_lower",
-      		"minecraft:ore_andesite_upper",
-      		"minecraft:ore_andesite_lower",
-      		"minecraft:ore_tuff",
-      		"minecraft:ore_coal_upper",
-      		"minecraft:ore_coal_lower",
-      		"minecraft:ore_iron_upper",
-      		"minecraft:ore_iron_middle",
-      		"minecraft:ore_iron_small",
-      		"minecraft:ore_gold",
-      		"minecraft:ore_gold_lower",
-      		"minecraft:ore_redstone",
-      		"minecraft:ore_redstone_lower",
-      		"minecraft:ore_diamond",
-      		"minecraft:ore_diamond_large",
-      		"minecraft:ore_diamond_buried",
-      		"minecraft:ore_lapis",
-      		"minecraft:ore_lapis_buried",
-      		"minecraft:ore_copper"
+      			"minecraft:ore_gravel",
+      			"minecraft:ore_granite_upper",
+      			"minecraft:ore_granite_lower",
+      			"minecraft:ore_diorite_upper",
+      			"minecraft:ore_diorite_lower",
+      			"minecraft:ore_andesite_upper",
+      			"minecraft:ore_andesite_lower",
+      			"minecraft:ore_tuff",
+      			"minecraft:ore_coal_upper",
+      			"minecraft:ore_coal_lower",
+      			"minecraft:ore_iron_upper",
+      			"minecraft:ore_iron_middle",
+      			"minecraft:ore_iron_small",
+      			"minecraft:ore_gold",
+      			"minecraft:ore_gold_lower",
+      			"minecraft:ore_redstone",
+      			"minecraft:ore_redstone_lower",
+      			"minecraft:ore_diamond",
+      			"minecraft:ore_diamond_large",
+      			"minecraft:ore_diamond_buried",
+      			"minecraft:ore_lapis",
+      			"minecraft:ore_lapis_buried",
+      			"minecraft:ore_copper"
 		</#if>
     	],
 		<#--UNDERGROUND_DECORATION-->[],
@@ -91,13 +91,12 @@
 	</#list>
 	<#return retval>
 </#function>
-
 <#macro generateEntityList entityList type>
 	<#assign entities = getEntitiesOfType(entityList, type)>
 	<#list entities as entry>
 	<#-- @formatter:off -->
     {
-		"type": "${generator.map(entry.entity.getUnmappedValue(), "entities", 2)}",
+		"type": "${entry.entity.getMappedValue(2)}",
 		"weight": ${entry.weight},
 		"minCount": ${entry.minGroup},
 		"maxCount": ${entry.maxGroup}
