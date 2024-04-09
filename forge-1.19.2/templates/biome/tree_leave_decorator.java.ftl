@@ -35,22 +35,20 @@ package ${package}.world.features.treedecorators;
 public class ${name}LeaveDecorator extends LeaveVineDecorator {
 
     public static final ${name}LeaveDecorator INSTANCE = new ${name}LeaveDecorator();
-
-    public static com.mojang.serialization.Codec<LeaveVineDecorator> codec;
+    public static Codec<LeaveVineDecorator> codec;
     public static TreeDecoratorType<?> tdt;
 
     static {
-        codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
+        codec = Codec.unit(() -> INSTANCE);
         tdt = new TreeDecoratorType<>(codec);
         ForgeRegistries.TREE_DECORATOR_TYPES.register("${registryname}_tree_leave_decorator", tdt);
     }
 
-	public ${name}LeaveDecorator() {
-		super(0.25f);
-	}
+    public ${name}LeaveDecorator() {
+        super(0.25f);
+    }
 
-    @Override
-    protected TreeDecoratorType<?> type() {
+    @Override protected TreeDecoratorType<?> type() {
         return tdt;
     }
 
@@ -64,38 +62,37 @@ public class ${name}LeaveDecorator extends LeaveVineDecorator {
                 }
             }
 
-			if (context.random().nextFloat() <  0.25f) {
-				BlockPos pos = blockpos.east();
-				if (context.isAir(pos)) {
-					addVine(pos, context);
-				}
-			}
+            if (context.random().nextFloat() <  0.25f) {
+                BlockPos pos = blockpos.east();
+                if (context.isAir(pos)) {
+                    addVine(pos, context);
+                }
+            }
 
-			if (context.random().nextFloat() <  0.25f) {
-				BlockPos pos = blockpos.north();
-				if (context.isAir(pos)) {
-					addVine(pos, context);
-				}
-			}
+            if (context.random().nextFloat() <  0.25f) {
+                BlockPos pos = blockpos.north();
+                if (context.isAir(pos)) {
+                    addVine(pos, context);
+                }
+            }
 
-			if (context.random().nextFloat() <  0.25f) {
-				BlockPos pos = blockpos.south();
-				if (context.isAir(pos)) {
-					addVine(pos, context);
-				}
-			}
+            if (context.random().nextFloat() <  0.25f) {
+                BlockPos pos = blockpos.south();
+                if (context.isAir(pos)) {
+                    addVine(pos, context);
+                }
+            }
         });
     }
 
     private static void addVine(BlockPos pos, TreeDecorator.Context context) {
-		context.setBlock(pos, ${mappedBlockToBlockStateCode(data.treeVines)});
+        context.setBlock(pos, ${mappedBlockToBlockStateCode(data.treeVines)});
         int i = 4;
         for(BlockPos blockpos = pos.below(); context.isAir(blockpos) && i > 0; --i) {
-			context.setBlock(blockpos, ${mappedBlockToBlockStateCode(data.treeVines)});
+            context.setBlock(blockpos, ${mappedBlockToBlockStateCode(data.treeVines)});
             blockpos = blockpos.below();
         }
 
     }
-
 }
 <#-- @formatter:on -->

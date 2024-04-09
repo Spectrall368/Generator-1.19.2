@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2022, Pylo, opensource contributors
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -33,14 +33,14 @@
 <#include "../procedures.java.ftl">
 
 /*
- *    MCreator note: This file will be REGENERATED on each build.
+ *	MCreator note: This file will be REGENERATED on each build.
  */
 
 package ${package}.init;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = {Dist.CLIENT}) public class ${JavaModName}KeyMappings {
 
-    <#list keybinds as keybind>
+	<#list keybinds as keybind>
 	public static final KeyMapping ${keybind.getModElement().getRegistryNameUpper()} = new KeyMapping(
 			"key.${modid}.${keybind.getModElement().getRegistryName()}", GLFW.GLFW_KEY_${generator.map(keybind.triggerKey, "keybuttons")},
 			"key.categories.${keybind.keyBindingCategoryKey}")
@@ -74,7 +74,7 @@ package ${package}.init;
 				}
 				</#if>
 			;
-    </#list>
+	</#list>
 
 	<#list keybinds as keybind>
 		<#if hasProcedure(keybind.onKeyReleased)>

@@ -35,12 +35,11 @@ package ${package}.world.features.treedecorators;
 public class ${name}FruitDecorator extends CocoaDecorator {
 
     public static final ${name}FruitDecorator INSTANCE = new ${name}FruitDecorator();
-
-    public static com.mojang.serialization.Codec<${name}FruitDecorator> codec;
+    public static Codec<${name}FruitDecorator> codec;
     public static TreeDecoratorType<?> tdt;
 
     static {
-        codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
+        codec = Codec.unit(() -> INSTANCE);
         tdt = new TreeDecoratorType<>(codec);
         ForgeRegistries.TREE_DECORATOR_TYPES.register("${registryname}_tree_fruit_decorator", tdt);
     }
@@ -54,9 +53,8 @@ public class ${name}FruitDecorator extends CocoaDecorator {
     }
 
     @Override ${mcc.getMethod("net.minecraft.world.level.levelgen.feature.treedecorators.CocoaDecorator", "place", "TreeDecorator.Context")
-    .replace("this.probability", "0.2F")
-    .replace("Blocks.COCOA.defaultBlockState().setValue(CocoaBlock.AGE,Integer.valueOf(randomsource.nextInt(3))).setValue(CocoaBlock.FACING,direction)",mappedBlockToBlockStateCode(data.treeFruits))
-    .replace("p_226028_", "context")}
+	.replace("this.probability", "0.2F")	.replace("Blocks.COCOA.defaultBlockState().setValue(CocoaBlock.AGE,Integer.valueOf(randomsource.nextInt(3))).setValue(CocoaBlock.FACING,direction)",mappedBlockToBlockStateCode(data.treeFruits))
+   	.replace("p_226028_", "context")}
 
 }
 <#-- @formatter:on -->

@@ -35,52 +35,48 @@ package ${package}.world.features.treedecorators;
 public class ${name}TrunkDecorator extends TrunkVineDecorator {
 
     public static final ${name}TrunkDecorator INSTANCE = new ${name}TrunkDecorator();
-
-    public static com.mojang.serialization.Codec<${name}TrunkDecorator> codec;
+    public static Codec<${name}TrunkDecorator> codec;
     public static TreeDecoratorType<?> tdt;
 
     static {
-        codec = com.mojang.serialization.Codec.unit(() -> INSTANCE);
+        codec = Codec.unit(() -> INSTANCE);
         tdt = new TreeDecoratorType<>(codec);
         ForgeRegistries.TREE_DECORATOR_TYPES.register("${registryname}_tree_trunk_decorator", tdt);
     }
 
-    @Override
-    protected TreeDecoratorType<?> type() {
+    @Override protected TreeDecoratorType<?> type() {
         return tdt;
     }
 
-    @Override
-    public void place(TreeDecorator.Context context) {
+    @Override public void place(TreeDecorator.Context context) {
         context.logs().forEach(blockpos -> {
             if (context.random().nextInt(3) > 0) {
                 BlockPos pos = blockpos.west();
                 if (context.isAir(pos)) {
-					context.setBlock(pos, ${mappedBlockToBlockStateCode(data.treeVines)});
+			context.setBlock(pos, ${mappedBlockToBlockStateCode(data.treeVines)});
                 }
             }
 
-			if (context.random().nextInt(3) > 0) {
-				BlockPos pos = blockpos.east();
-				if (context.isAir(pos)) {
-					context.setBlock(pos, ${mappedBlockToBlockStateCode(data.treeVines)});
-				}
+		if (context.random().nextInt(3) > 0) {
+			BlockPos pos = blockpos.east();
+			if (context.isAir(pos)) {
+				context.setBlock(pos, ${mappedBlockToBlockStateCode(data.treeVines)});
 			}
+		}
 
-			if (context.random().nextInt(3) > 0) {
-				BlockPos pos = blockpos.north();
-				if (context.isAir(pos)) {
-					context.setBlock(pos, ${mappedBlockToBlockStateCode(data.treeVines)});
-				}
+		if (context.random().nextInt(3) > 0) {
+			BlockPos pos = blockpos.north();
+			if (context.isAir(pos)) {
+				context.setBlock(pos, ${mappedBlockToBlockStateCode(data.treeVines)});
 			}
+		}
 
-			if (context.random().nextInt(3) > 0) {
-				BlockPos pos = blockpos.south();
-				if (context.isAir(pos)) {
-					context.setBlock(pos, ${mappedBlockToBlockStateCode(data.treeVines)});
-				}
+		if (context.random().nextInt(3) > 0) {
+			BlockPos pos = blockpos.south();
+			if (context.isAir(pos)) {
+				context.setBlock(pos, ${mappedBlockToBlockStateCode(data.treeVines)});
 			}
-
+		}
         });
     }
 
