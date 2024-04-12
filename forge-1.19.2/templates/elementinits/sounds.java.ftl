@@ -42,6 +42,5 @@ public class ${JavaModName}Sounds {
 	public static final RegistryObject<SoundEvent> ${sound.getJavaName()} =
 			REGISTRY.register("${sound.getName()}", () -> new SoundEvent(new ResourceLocation("${modid}", "${sound}")));
 	</#list>
-
 }
 <#-- @formatter:on -->
