@@ -29,26 +29,20 @@
 -->
 
 <#-- @formatter:off -->
-
 <#include "../mcitems.ftl">
-
 /*
  *	MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${JavaModName}CompostableItems {
 
-	@SubscribeEvent
-	public static void addComposterItems(FMLCommonSetupEvent event) {
+	@SubscribeEvent public static void addComposterItems(FMLCommonSetupEvent event) {
 		<#list itemextensions as extension>
 			<#if (extension.compostLayerChance > 0)>
 				ComposterBlock.COMPOSTABLES.put(${mappedMCItemToItem(extension.item)}, ${extension.compostLayerChance}f);
 			</#if>
 		</#list>
 	}
-
 }
-
 <#-- @formatter:on -->
