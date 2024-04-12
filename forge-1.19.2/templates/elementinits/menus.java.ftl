@@ -29,11 +29,9 @@
 -->
 
 <#-- @formatter:off -->
-
 /*
  *	MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
 
 public class ${JavaModName}Menus {
@@ -44,7 +42,5 @@ public class ${JavaModName}Menus {
 	public static final RegistryObject<MenuType<${gui.getModElement().getName()}Menu>> ${gui.getModElement().getRegistryNameUpper()}
 		= REGISTRY.register("${gui.getModElement().getRegistryName()}", () -> IForgeMenuType.create(${gui.getModElement().getName()}Menu::new));
 	</#list>
-
 }
-
 <#-- @formatter:on -->
