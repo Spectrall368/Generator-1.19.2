@@ -29,11 +29,9 @@
 -->
 
 <#-- @formatter:off -->
-
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
 
 public class ${JavaModName}ParticleTypes {
@@ -44,6 +42,5 @@ public class ${JavaModName}ParticleTypes {
 	public static final RegistryObject<SimpleParticleType> ${particle.getModElement().getRegistryNameUpper()} =
 			REGISTRY.register("${particle.getModElement().getRegistryName()}", () -> new SimpleParticleType(${particle.alwaysShow}));
 	</#list>
-
 }
 <#-- @formatter:on -->
