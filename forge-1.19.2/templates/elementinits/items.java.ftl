@@ -30,13 +30,10 @@
 
 <#-- @formatter:off -->
 <#include "../procedures.java.ftl">
-
 /*
  *    MCreator note: This file will be REGENERATED on each build.
- */
-
+*/
 package ${package}.init;
-
 <#assign hasBlocks = false>
 <#assign hasDoubleBlocks = false>
 <#assign hasItemsWithProperties = w.getGElementsOfType("item")?filter(e -> e.customProperties?has_content)?size != 0
@@ -137,7 +134,5 @@ public class ${JavaModName}Items {
 	}
 	</#compress>
 	</#if>
-
 }
-
 <#-- @formatter:on -->
