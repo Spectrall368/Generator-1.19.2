@@ -29,11 +29,9 @@
 -->
 
 <#-- @formatter:off -->
-
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
 
 public class ${JavaModName}Potions {
@@ -46,7 +44,5 @@ public class ${JavaModName}Potions {
 			new MobEffectInstance(${effect.effect}, ${effect.duration}, ${effect.amplifier}, ${effect.ambient}, ${effect.showParticles})<#sep>,
 			</#list>));
 	</#list>
-
 }
-
 <#-- @formatter:on -->
