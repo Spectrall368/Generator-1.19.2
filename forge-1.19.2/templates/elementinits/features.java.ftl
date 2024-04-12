@@ -29,11 +29,9 @@
 -->
 
 <#-- @formatter:off -->
-
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
 
 @Mod.EventBusSubscriber public class ${JavaModName}Features {
@@ -50,5 +48,4 @@ package ${package}.init;
 		</#if>);
 	</#list>
 }
-
 <#-- @formatter:on -->
