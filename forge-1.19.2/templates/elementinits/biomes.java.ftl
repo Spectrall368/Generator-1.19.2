@@ -234,9 +234,6 @@ public class ${JavaModName}Biomes {
 			);
 		}
 		</#if>
-
 	</#if>
-
 }
-
 <#-- @formatter:on -->
