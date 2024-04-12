@@ -29,11 +29,9 @@
 -->
 
 <#-- @formatter:off -->
-
 /*
  *	MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
 
 public class ${JavaModName}Enchantments {
@@ -44,6 +42,5 @@ public class ${JavaModName}Enchantments {
 	public static final RegistryObject<Enchantment> ${enchantment.getModElement().getRegistryNameUpper()} =
 		REGISTRY.register("${enchantment.getModElement().getRegistryName()}", () -> new ${enchantment.getModElement().getName()}Enchantment());
 	</#list>
-
 }
 <#-- @formatter:on -->
