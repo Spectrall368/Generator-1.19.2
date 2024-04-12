@@ -29,13 +29,10 @@
 -->
 
 <#-- @formatter:off -->
-
 <#include "../mcitems.ftl">
-
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
 
 public class ${JavaModName}Tabs {
@@ -46,7 +43,7 @@ public class ${JavaModName}Tabs {
 
 	public static void load() {
         <#list tabs as tab>
-        TAB_${tab.getModElement().getRegistryNameUpper()} = new CreativeModeTab("tab${tab.getModElement().getRegistryName()}") {
+        TAB_${tab.getModElement().getRegistryNameUpper()} = new CreativeModeTab("tab_${tab.getModElement().getRegistryName()}") {
 			@Override public ItemStack makeIcon() {
 				return ${mappedMCItemToItemStackCode(tab.icon, 1)};
 			}
@@ -57,7 +54,5 @@ public class ${JavaModName}Tabs {
         }<#if tab.showSearch>.setBackgroundSuffix("item_search.png")</#if>;
         </#list>
     }
-
 }
-
 <#-- @formatter:on -->
