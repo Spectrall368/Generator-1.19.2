@@ -29,11 +29,9 @@
 -->
 
 <#-- @formatter:off -->
-
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
 
 public class ${JavaModName}Paintings {
@@ -45,5 +43,4 @@ public class ${JavaModName}Paintings {
 			REGISTRY.register("${painting.getModElement().getRegistryName()}", () -> new PaintingVariant(${painting.width}, ${painting.height}));
 	</#list>
 }
-
 <#-- @formatter:on -->
