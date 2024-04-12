@@ -29,13 +29,10 @@
 -->
 
 <#-- @formatter:off -->
-
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
-
 <#assign hasTintedBlocks = false>
 <#assign hasTintedBlockItems = false>
 <#list blocks as block>
@@ -100,7 +97,5 @@ public class ${JavaModName}Blocks {
 		</#if>
 	}
 	</#if>
-
 }
-
 <#-- @formatter:on -->
