@@ -29,11 +29,9 @@
 -->
 
 <#-- @formatter:off -->
-
 /*
  * MCreator note: This file will be REGENERATED on each build.
  */
-
 package ${package}.init;
 
 public class ${JavaModName}FluidTypes {
@@ -45,5 +43,4 @@ public class ${JavaModName}FluidTypes {
 		REGISTRY.register("${fluid.getModElement().getRegistryName()}", () -> new ${fluid.getModElement().getName()}FluidType());
 	</#list>
 }
-
 <#-- @formatter:on -->
