@@ -73,14 +73,14 @@ public class ${JavaModName}Biomes {
 
 						<#list spawn_overworld as biome>
 						for (Climate.ParameterPoint parameterPoint : ${biome.getModElement().getName()}Biome.PARAMETER_POINTS) {
-							parameters.add(new Pair<>(parameterPoint, biomeRegistry.getOrCreateHolderOrThrow(
+							addParameterPoint(parameters, new Pair<>(parameterPoint, biomeRegistry.getOrCreateHolderOrThrow(
 									ResourceKey.create(Registry.BIOME_REGISTRY, ${biome.getModElement().getRegistryNameUpper()}.getId()))));
 						}
 						</#list>
 
 						<#list spawn_overworld_caves as biome>
 						for (Climate.ParameterPoint parameterPoint : ${biome.getModElement().getName()}Biome.UNDERGROUND_PARAMETER_POINTS) {
-							parameters.add(new Pair<>(parameterPoint, biomeRegistry.getOrCreateHolderOrThrow(
+							addParameterPoint(parameters, new Pair<>(parameterPoint, biomeRegistry.getOrCreateHolderOrThrow(
 									ResourceKey.create(Registry.BIOME_REGISTRY, ${biome.getModElement().getRegistryNameUpper()}.getId()))));
 						}
 						</#list>
@@ -99,7 +99,7 @@ public class ${JavaModName}Biomes {
 							List<SurfaceRules.RuleSource> surfaceRules = new ArrayList<>(sequenceRuleSource.sequence());
 
 							<#list spawn_overworld_caves as biome>
-							surfaceRules.add(1, anySurfaceRule(
+							addSurfaceRule(surfaceRules, 1, anySurfaceRule(
 								ResourceKey.create(Registry.BIOME_REGISTRY, ${biome.getModElement().getRegistryNameUpper()}.getId()),
 								${mappedBlockToBlockStateCode(biome.groundBlock)},
 								${mappedBlockToBlockStateCode(biome.undergroundBlock)},
@@ -108,7 +108,7 @@ public class ${JavaModName}Biomes {
 							</#list>
 
 							<#list spawn_overworld as biome>
-							surfaceRules.add(1, preliminarySurfaceRule(
+							addSurfaceRule(surfaceRules, 1, preliminarySurfaceRule(
 								ResourceKey.create(Registry.BIOME_REGISTRY, ${biome.getModElement().getRegistryNameUpper()}.getId()),
 								${mappedBlockToBlockStateCode(biome.groundBlock)},
 								${mappedBlockToBlockStateCode(biome.undergroundBlock)},
@@ -145,7 +145,7 @@ public class ${JavaModName}Biomes {
 
 						<#list spawn_nether as biome>
 						for (Climate.ParameterPoint parameterPoint : ${biome.getModElement().getName()}Biome.PARAMETER_POINTS) {
-							parameters.add(new Pair<>(parameterPoint, biomeRegistry.getOrCreateHolderOrThrow(
+							addParameterPoint(parameters, new Pair<>(parameterPoint, biomeRegistry.getOrCreateHolderOrThrow(
 									ResourceKey.create(Registry.BIOME_REGISTRY, ${biome.getModElement().getRegistryNameUpper()}.getId()))));
 						}
 						</#list>
@@ -165,7 +165,7 @@ public class ${JavaModName}Biomes {
 
 							<#list spawn_nether as biome>
 							surfaceRules.add(2, anySurfaceRule(
-									ResourceKey.create(Registry.BIOME_REGISTRY, ${biome.getModElement().getRegistryNameUpper()}.getId()),
+								ResourceKey.create(Registry.BIOME_REGISTRY, ${biome.getModElement().getRegistryNameUpper()}.getId()),
 								${mappedBlockToBlockStateCode(biome.groundBlock)},
 								${mappedBlockToBlockStateCode(biome.undergroundBlock)},
 								${mappedBlockToBlockStateCode(biome.getUnderwaterBlock())}
@@ -235,5 +235,15 @@ public class ${JavaModName}Biomes {
 		}
 		</#if>
 	</#if>
+
+	private static void addParameterPoint(List<Pair<Climate.ParameterPoint, Holder<Biome>>> parameters, Pair<Climate.ParameterPoint, Holder<Biome>> point) {
+		if (!parameters.contains(point))
+			parameters.add(point);
+	}
+
+	private static void addSurfaceRule(List<SurfaceRules.RuleSource> surfaceRules,  int index, SurfaceRules.RuleSource rule) {
+		if (!surfaceRules.contains(rule))
+			surfaceRules.add(index, rule);
+	}
 }
 <#-- @formatter:on -->
