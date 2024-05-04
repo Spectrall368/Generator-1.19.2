@@ -7,10 +7,11 @@ import org.apache.logging.log4j.Logger;
 @Mod("${modid}") public class ${JavaModName} {
 
 	public static final Logger LOGGER = LogManager.getLogger(${JavaModName}.class);
-
 	public static final String MODID = "${modid}";
 
 	public ${JavaModName}() {
+		// Start of user code block mod constructor
+		// End of user code block mod constructor
 		MinecraftForge.EVENT_BUS.register(this);
 
 		<#if w.hasElementsOfType("tab")>${JavaModName}Tabs.load();</#if>
@@ -53,8 +54,7 @@ import org.apache.logging.log4j.Logger;
 
 	private static int messageID = 0;
 
-	public static <T> void addNetworkMessage(Class<T> messageType, BiConsumer<T, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, T> decoder,
-										BiConsumer<T, Supplier<NetworkEvent.Context>> messageConsumer) {
+	public static <T> void addNetworkMessage(Class<T> messageType, BiConsumer<T, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, T> decoder, BiConsumer<T, Supplier<NetworkEvent.Context>> messageConsumer) {
 		PACKET_HANDLER.registerMessage(messageID, messageType, encoder, decoder, messageConsumer);
 		messageID++;
 	}
@@ -78,6 +78,5 @@ import org.apache.logging.log4j.Logger;
 			workQueue.removeAll(actions);
 		}
 	}
-
 }
 <#-- @formatter:on -->
