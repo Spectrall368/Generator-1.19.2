@@ -164,7 +164,7 @@ public class ${JavaModName}Biomes {
 							List<SurfaceRules.RuleSource> surfaceRules = new ArrayList<>(sequenceRuleSource.sequence());
 
 							<#list spawn_nether as biome>
-							surfaceRules.add(2, anySurfaceRule(
+							addSurfaceRule(surfaceRules, 2, anySurfaceRule(
 								ResourceKey.create(Registry.BIOME_REGISTRY, ${biome.getModElement().getRegistryNameUpper()}.getId()),
 								${mappedBlockToBlockStateCode(biome.groundBlock)},
 								${mappedBlockToBlockStateCode(biome.undergroundBlock)},
