@@ -3,7 +3,7 @@ _default:
   - "minecraft:overworld"
 _mcreator_prefix: "CUSTOM:"
 _mcreator_map_template:
-  - "ResourceKey.create(Registry.DIMENSION, new ResourceLocation(\"@modid:@registryname\"))"
+  - "ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(\"@modid:@registryname\"))"
   - "@modid:@registryname"
 Surface:
   - Level.OVERWORLD
