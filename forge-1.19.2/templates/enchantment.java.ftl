@@ -30,7 +30,6 @@
 
 <#-- @formatter:off -->
 <#include "mcitems.ftl">
-
 package ${package}.enchantment;
 
 public class ${name}Enchantment extends Enchantment {
@@ -38,12 +37,6 @@ public class ${name}Enchantment extends Enchantment {
 	public ${name}Enchantment(EquipmentSlot... slots) {
 		super(Enchantment.Rarity.${data.rarity}, EnchantmentCategory.${generator.map(data.type, "enchantmenttypes")}, slots);
 	}
-
-	<#if data.minLevel != 1>
-		@Override public int getMinLevel() {
-			return ${data.minLevel};
-		}
-	</#if>
 
 	<#if data.maxLevel != 1>
 		@Override public int getMaxLevel() {

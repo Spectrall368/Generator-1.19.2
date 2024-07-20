@@ -16,7 +16,11 @@ templates:
     condition: spawnThisMob
     name: "@MODDATAROOT/forge/biome_modifier/@registryname_biome_modifier.json"
 
-unmodifiable_ai_bases: [ Bat, MagmaCube, Slime ]
+unmodifiable_ai_bases: [Bat, MagmaCube, Slime]
+
+tags:
+  - tag: ENTITIES:minecraft:raiders
+    condition: "${data.mobBehaviourType == 'Raider'}"
 
 localizationkeys:
   - key: item.@modid.@registryname_spawn_egg

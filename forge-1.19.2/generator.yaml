@@ -1,7 +1,7 @@
 name: Minecraft Forge for @minecraft (@buildfileversion)
 status: deprecated
-buildfileversion: 43.3.13
-subversion: 1.0.4
+buildfileversion: 43.4.2
+subversion: 1.0.5 # force setup re-run to update Gradle wrapper to work with Java 21
 
 import:
   - datapack-1.19.2
@@ -46,6 +46,10 @@ screen_textures_dir: "@MODASSETSROOT/textures/screens"
 armor_textures_dir: "@MODASSETSROOT/textures/models/armor"
 other_textures_dir: "@MODASSETSROOT/textures"
 
+# vanilla resources
+vanilla_block_textures_dir: "client-extra.jar!/assets/minecraft/textures/block"
+vanilla_item_textures_dir: "client-extra.jar!/assets/minecraft/textures/item"
+
 base_templates:
   - template: modbase/mod.java.ftl
     name: "@SRCROOT/@BASEPACKAGEPATH/@JavaModName.java"
@@ -81,6 +85,7 @@ base_templates:
 sources_setup_tasks:
   - task: copy_models
     type: JAVA_viatemplate
+    cleanupBeforeCopy: true
     template: javamodel.java.ftl
     to: "@SRCROOT/@BASEPACKAGEPATH/client/model"
 

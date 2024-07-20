@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2023, Pylo, opensource contributors
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  # 
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -118,6 +118,8 @@ public abstract class ${name}Item extends ArmorItem {
 			</#if>
 		}
 
+		<@hasGlow data.helmetGlowCondition/>
+
 		<@piglinNeutral data.helmetPiglinNeutral/>
 
 		<@onArmorTick data.onHelmetTick/>
@@ -162,6 +164,8 @@ public abstract class ${name}Item extends ArmorItem {
 			return "${modid}:textures/models/armor/${data.armorTextureFile}_layer_1.png";
 			</#if>
 		}
+
+		<@hasGlow data.bodyGlowCondition/>
 
 		<@piglinNeutral data.bodyPiglinNeutral/>
 
@@ -208,6 +212,8 @@ public abstract class ${name}Item extends ArmorItem {
 			</#if>
 		}
 
+		<@hasGlow data.leggingsGlowCondition/>
+
 		<@piglinNeutral data.leggingsPiglinNeutral/>
 
 		<@onArmorTick data.onLeggingsTick/>
@@ -252,6 +258,8 @@ public abstract class ${name}Item extends ArmorItem {
 			return "${modid}:textures/models/armor/${data.armorTextureFile}_layer_1.png";
 			</#if>
 		}
+
+		<@hasGlow data.bootsGlowCondition/>
 
 		<@piglinNeutral data.bootsPiglinNeutral/>
 
