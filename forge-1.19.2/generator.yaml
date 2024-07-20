@@ -70,7 +70,7 @@ base_templates:
     writer: file
     name: "@RESROOT/META-INF/accesstransformer.cfg"
     condition_any:
-      - "${w.getGElementsOfType('gamerule')?filter(e -> e.Number || e.Logic)?size != 0}"
+      - "${w.getGElementsOfType('gamerule')?filter(e -> e.type.equals('Number') || e.type.equals('Logic'))?size != 0}"
       - ${w.hasElementsOfType('dimension')}
       - ${w.hasElementsOfType('biome')}
       - ${w.hasElementsOfType('feature')}
