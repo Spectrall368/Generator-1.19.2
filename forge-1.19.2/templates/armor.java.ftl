@@ -83,7 +83,7 @@ public abstract class ${name}Item extends ArmorItem {
 	public static class Helmet extends ${name}Item {
 
 		public Helmet() {
-			super(EquipmentSlot.HEAD, new Item.Properties()<@CreativeTabs data.creativeTabs/><#if data.helmetImmuneToFire>.fireResistant()</#if>);
+			super(EquipmentSlot.HEAD, new Item.Properties().tab(<@CreativeTabs data.creativeTabs/>)<#if data.helmetImmuneToFire>.fireResistant()</#if>);
 		}
 
 		<#if data.helmetModelName != "Default" && data.getHelmetModel()??>
@@ -130,7 +130,7 @@ public abstract class ${name}Item extends ArmorItem {
 	public static class Chestplate extends ${name}Item {
 
 		public Chestplate() {
-			super(EquipmentSlot.CHEST, new Item.Properties()<@CreativeTabs data.creativeTabs/><#if data.bodyImmuneToFire>.fireResistant()</#if>);
+			super(EquipmentSlot.CHEST, new Item.Properties().tab(<@CreativeTabs data.creativeTabs/>)<#if data.bodyImmuneToFire>.fireResistant()</#if>);
 		}
 
 		<#if data.bodyModelName != "Default" && data.getBodyModel()??>
@@ -177,7 +177,7 @@ public abstract class ${name}Item extends ArmorItem {
 	public static class Leggings extends ${name}Item {
 
 		public Leggings() {
-			super(EquipmentSlot.LEGS, new Item.Properties()<@CreativeTabs data.creativeTabs/><#if data.leggingsImmuneToFire>.fireResistant()</#if>);
+			super(EquipmentSlot.LEGS, new Item.Properties().tab(<@CreativeTabs data.creativeTabs/>)<#if data.leggingsImmuneToFire>.fireResistant()</#if>);
 		}
 
 		<#if data.leggingsModelName != "Default" && data.getLeggingsModel()??>
@@ -224,7 +224,7 @@ public abstract class ${name}Item extends ArmorItem {
 	public static class Boots extends ${name}Item {
 
 		public Boots() {
-			super(EquipmentSlot.FEET, new Item.Properties()<@CreativeTabs data.creativeTabs/><#if data.bootsImmuneToFire>.fireResistant()</#if>);
+			super(EquipmentSlot.FEET, new Item.Properties().tab(<@CreativeTabs data.creativeTabs/>)<#if data.bootsImmuneToFire>.fireResistant()</#if>);
 		}
 
 		<#if data.bootsModelName != "Default" && data.getBootsModel()??>
