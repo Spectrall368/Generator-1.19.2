@@ -39,7 +39,7 @@ public class ${name}Item extends BucketItem {
 	public ${name}Item() {
 		super(${JavaModName}Fluids.${data.getModElement().getRegistryNameUpper()},
 			new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).rarity(Rarity.${data.rarity})
-			<@CreativeTabs data.creativeTabs/>);
+			.tab(<@CreativeTabs data.creativeTabs/>));
 	}
 
 	<@addSpecialInformation data.specialInformation/>
