@@ -38,7 +38,7 @@ public class ${name}Item extends RecordItem {
 
 	public ${name}Item() {
 		super(${data.analogOutput}, () -> ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.music}")),
-			new Item.Properties()<@CreativeTabs data.creativeTabs/>.stacksTo(1).rarity(Rarity.${data.rarity}), ${data.lengthInTicks});
+			new Item.Properties().tab(<@CreativeTabs data.creativeTabs/>).stacksTo(1).rarity(Rarity.${data.rarity}), ${data.lengthInTicks});
 	}
 
 	<@addSpecialInformation data.specialInformation/>
