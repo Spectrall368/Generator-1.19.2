@@ -5,7 +5,7 @@
 	<#if tabs == "[]">
 	.tab(null)
 	<#else>
-	.tab(CreativeModeTab.${tabs?keep_after_last("CreativeModeTab")?replace("]", ")")};
+	.tab(CreativeModeTab.${tabs?keep_after_last("CreativeModeTab")?replace("]", ")")}
 </#macro>
 
 <#macro addSpecialInformation procedure="" isBlock=false>
