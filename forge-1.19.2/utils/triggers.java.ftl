@@ -3,9 +3,9 @@
 <#-- Item-related triggers -->
 <#macro CreativeTabs tabs="">
 	<#if tabs == "[]">
-	.tab(null)
+	null
 	<#else>
-	.tab(CreativeModeTab${tabs?keep_after_last("CreativeModeTab")?replace("]", ")")}
+	CreativeModeTab${tabs?keep_after_last("CreativeModeTab")?replace("]", "")}
 	</#if>
 </#macro>
 
