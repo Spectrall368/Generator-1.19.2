@@ -1,6 +1,13 @@
 <#include "procedures.java.ftl">
 
 <#-- Item-related triggers -->
+<#macro CreativeTabs tabs="">
+	<#if tabs == "[]">
+	.tab(null)
+	<#else>
+	.tab(CreativeModeTab.${tabs?keep_after_last("CreativeModeTab")?replace("]", ")")};
+</#macro>
+
 <#macro addSpecialInformation procedure="" isBlock=false>
 	<#if procedure?has_content && (hasProcedure(procedure) || !procedure.getFixedValue().isEmpty())>
 		@Override public void appendHoverText(ItemStack itemstack, <#if isBlock>BlockGetter<#else>Level</#if> level, List<Component> list, TooltipFlag flag) {
