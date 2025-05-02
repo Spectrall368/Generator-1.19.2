@@ -9,14 +9,14 @@ import org.apache.logging.log4j.Logger;
 	public static final Logger LOGGER = LogManager.getLogger(${JavaModName}.class);
 	public static final String MODID = "${modid}";
 
-	public ${JavaModName}() {
+	public ${JavaModName}(FMLJavaModLoadingContext context) {
 		// Start of user code block mod constructor
 		// End of user code block mod constructor
 		MinecraftForge.EVENT_BUS.register(this);
 
 		<#if w.hasElementsOfType("tab")>${JavaModName}Tabs.load();</#if>
 
-		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		IEventBus bus = context.getModEventBus();
 		<#if w.hasSounds()>${JavaModName}Sounds.REGISTRY.register(bus);</#if>
 		<#if w.hasElementsOfBaseType("block")>${JavaModName}Blocks.REGISTRY.register(bus);</#if>
 		<#if w.hasElementsOfBaseType("item")>${JavaModName}Items.REGISTRY.register(bus);</#if>
@@ -36,6 +36,7 @@ import org.apache.logging.log4j.Logger;
 			${JavaModName}Fluids.REGISTRY.register(bus);
 			${JavaModName}FluidTypes.REGISTRY.register(bus);
 		</#if>
+		<#if w.hasElementsOfType("attribute")>${JavaModName}Attributes.REGISTRY.register(bus);</#if>
 
 		// Start of user code block mod init
 		// End of user code block mod init

@@ -1,7 +1,7 @@
-name: Minecraft Forge for @minecraft (@buildfileversion)
+name: Forge for @minecraft (@buildfileversion)
 status: deprecated
-buildfileversion: 43.4.2
-subversion: 1.0.6 # force setup re-run to remove configuration cache setting
+buildfileversion: 43.5.0
+subversion: 1.1 # force setup re-run to remove configuration cache setting
 
 import:
   - datapack-1.19.2
@@ -9,11 +9,10 @@ import:
 java_models:
   key: mojmap-1.19.x
   compatible: [mojmap-1.17.x, mojmap-1.18.x, mojmap-1.20.x]
-  requested_key_words: [ModelPart, ~ModelRenderer]
+  requested_key_words: [ModelPart, ~ModelRenderer, ~(ResourceLocation.]
 
 # gradle task definitions
 gradle:
-  setup_task: eclipse
   run_client: runClient
   run_server: runServer
   export_file: "build/libs/modid-1.0.jar"
@@ -27,6 +26,7 @@ import_formatter:
     Nullable: javax.annotation
     Codec: com.mojang.serialization
     SoundEvent: net.minecraft.sounds
+    Attributes: net.minecraft.world.entity.ai.attributes
 
 # base generator roots
 source_root: "@WORKSPACEROOT/src/main/java"
@@ -47,8 +47,8 @@ armor_textures_dir: "@MODASSETSROOT/textures/models/armor"
 other_textures_dir: "@MODASSETSROOT/textures"
 
 # vanilla resources
-vanilla_block_textures_dir: "client-extra.jar!/assets/minecraft/textures/block"
-vanilla_item_textures_dir: "client-extra.jar!/assets/minecraft/textures/item"
+vanilla_block_textures_dir: "client-extra-.*.jar!/assets/minecraft/textures/block"
+vanilla_item_textures_dir: "client-extra-.*.jar!/assets/minecraft/textures/item"
 
 base_templates:
   - template: modbase/mod.java.ftl
@@ -70,6 +70,9 @@ base_templates:
   - template: modbase/variableslist.java.ftl
     name: "@SRCROOT/@BASEPACKAGEPATH/network/@JavaModNameVariables.java"
     condition: hasVariables()
+  - template: elementinits/tabs.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/init/@JavaModNameTabs.java"
+    condition: hasItemsInTabs()
   - template: modbase/accesstransformer.cfg.ftl
     writer: file
     name: "@RESROOT/META-INF/accesstransformer.cfg"
@@ -91,7 +94,7 @@ sources_setup_tasks:
 
 tags:
   template: tags.json.ftl # loaded from datapack generator
-  name: "@RESROOT/data/@namespace/tags/@folder/@name.json"
+  name: "@RESROOT/data/@namespace/tags/@folder_pre21/@name.json"
 
 language_file:
   format: json

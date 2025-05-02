@@ -1,6 +1,7 @@
 {
   "parent": "forge:item/default",
   "loader": "forge:composite",
+  "render_type": "${data.getRenderType()}",
   "children": {
     "part1": {
       "loader": "forge:obj",

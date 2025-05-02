@@ -284,8 +284,8 @@ e -> {
 <#if hasProcedure(component.displayCondition)>
 {
 	@Override public void render(PoseStack ms, int gx, int gy, float ticks) {
-		if (<@procedureOBJToConditionCode component.displayCondition/>)
-			super.render(ms, gx, gy, ticks);
+		this.visible = <@procedureOBJToConditionCode component.displayCondition/>;
+ 		super.renderWidget(ms, gx, gy, ticks);
 	}
 }
 </#if>

@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2023, Pylo, opensource contributors
+ # Copyright (C) 2020-2024, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 
 	<#if w.getGElementsOfType("villagertrade")?filter(e -> e.hasVillagerTrades(true))?size != 0>
 	@SubscribeEvent public static void registerWanderingTrades(WandererTradesEvent event) {
+		<#compress>
 		<#list villagertrades as trade>
 			<#list trade.tradeEntries as tradeEntry>
 				<#if tradeEntry.villagerProfession == "WanderingTrader">
@@ -57,11 +58,13 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 				</#if>
 			</#list>
 		</#list>
+		</#compress>
 	}
 	</#if>
 
 	<#if w.getGElementsOfType("villagertrade")?filter(e -> e.hasVillagerTrades(false))?size != 0>
 	@SubscribeEvent public static void registerTrades(VillagerTradesEvent event) {
+		<#compress>
 		<#list villagertrades as trade>
 			<#list trade.tradeEntries as tradeEntry>
 				<#if tradeEntry.villagerProfession != "WanderingTrader">
@@ -80,6 +83,7 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 				</#if>
 			</#list>
 		</#list>
+		</#compress>
 	}
 	</#if>
 }

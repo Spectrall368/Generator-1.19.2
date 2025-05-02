@@ -34,8 +34,6 @@
 <#include "triggers.java.ftl">
 package ${package}.item;
 
-import net.minecraft.world.entity.ai.attributes.Attributes;
-
 <#compress>
 <#if data.toolType == "Pickaxe" || data.toolType == "Axe" || data.toolType == "Sword" || data.toolType == "Spade"
 		|| data.toolType == "Hoe" || data.toolType == "Shears" || data.toolType == "Shield" || data.toolType == "MultiTool">
@@ -97,9 +95,7 @@ public class ${name}Item extends ${data.toolType?replace("Spade", "Shovel")?repl
 		<#elseif data.toolType == "Shears" || data.toolType == "Shield">
 			new Item.Properties()
 			 	.tab(<@CreativeTabs data.creativeTabs/>)
-				<#if (data.usageCount != 0) && (data.toolType == "Shears" || data.toolType == "Shield")>
 				.durability(${data.usageCount})
-				</#if>
 				<#if data.immuneToFire>
 				.fireResistant()
 				</#if>
@@ -188,9 +184,7 @@ public class ${name}Item extends Item {
 	public ${name}Item() {
 		super(new Item.Properties()
 			.tab(<@CreativeTabs data.creativeTabs/>)
-			<#if data.usageCount != 0>
 			.durability(${data.usageCount})
-			</#if>
 			<#if data.immuneToFire>
 			.fireResistant()
 			</#if>
@@ -231,9 +225,7 @@ public class ${name}Item extends FishingRodItem {
 	public ${name}Item() {
 		super(new Item.Properties()
 			.tab(<@CreativeTabs data.creativeTabs/>)
-			<#if data.usageCount != 0>
 			.durability(${data.usageCount})
-			</#if>
 			<#if data.immuneToFire>
 			.fireResistant()
 			</#if>

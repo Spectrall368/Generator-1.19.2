@@ -1,4 +1,5 @@
-_default: DIRT
+_default: (new Material.Builder(MaterialColor.NONE)).build()
+NONE: (new Material.Builder(MaterialColor.NONE)).build()
 AIR: AIR
 STRUCTURE_VOID: STRUCTURAL_AIR
 PORTAL: PORTAL
@@ -40,6 +41,7 @@ CRAFTED_SNOW: SNOW
 ANVIL: HEAVY_METAL
 BARRIER: BARRIER
 PISTON: PISTON
+CORAL: STONE
 MOSS_BLOCK: MOSS
 GOURD: VEGETABLE
 DRAGON_EGG: EGG
