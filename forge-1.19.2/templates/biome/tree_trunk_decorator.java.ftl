@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2022, Pylo, opensource contributors
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,65 +29,64 @@
 -->
 
 <#-- @formatter:off -->
-package ${package}.world.features.treedecorators;
 <#include "../mcitems.ftl">
+package ${package}.world.features.treedecorators;
 
-public class ${name}TrunkDecorator extends TrunkVineDecorator {
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}TrunkDecorator extends TrunkVineDecorator {
 
-    public static final ${name}TrunkDecorator INSTANCE = new ${name}TrunkDecorator();
-    public static Codec<${name}TrunkDecorator> codec;
-    public static TreeDecoratorType<?> tdt;
+    private static final ${name}TrunkDecorator INSTANCE = new ${name}TrunkDecorator();
+    public static final Codec<${name}TrunkDecorator> CODEC = Codec.unit(() -> INSTANCE);
+    private static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
 
-    static {
-        codec = Codec.unit(() -> INSTANCE);
-        tdt = new TreeDecoratorType<>(codec);
-        ForgeRegistries.TREE_DECORATOR_TYPES.register("${registryname}_tree_trunk_decorator", tdt);
+	@SubscribeEvent public static void registerTreeDecorator(RegisterEvent event) {
+		event.register(ForgeRegistries.Keys.TREE_DECORATOR_TYPES, new ResourceLocation("${modid}:${registryname}_tree_trunk_decorator"), () -> DECORATOR_TYPE);
+	}
+
+    @Override
+    protected TreeDecoratorType<?> type() {
+        return DECORATOR_TYPE;
     }
 
-    @Override protected TreeDecoratorType<?> type() {
-        return tdt;
-    }
-
-    @Override public void place(TreeDecorator.Context context) {
+    @Override
+    public void place(TreeDecorator.Context context) {
         context.logs().forEach(blockpos -> {
             if (context.random().nextInt(3) > 0) {
                 BlockPos pos = blockpos.west();
                 if (context.isAir(pos)) {
-			context.setBlock(pos, oriented(${mappedBlockToBlockStateCode(data.treeVines)}, Direction.EAST));
+					context.setBlock(pos, oriented(${mappedBlockToBlockStateCode(data.treeVines)}, Direction.EAST));
                 }
             }
 
-		if (context.random().nextInt(3) > 0) {
-			BlockPos pos = blockpos.east();
-			if (context.isAir(pos)) {
-				context.setBlock(pos, oriented(${mappedBlockToBlockStateCode(data.treeVines)}, Direction.WEST));
+			if (context.random().nextInt(3) > 0) {
+				BlockPos pos = blockpos.east();
+				if (context.isAir(pos)) {
+					context.setBlock(pos, oriented(${mappedBlockToBlockStateCode(data.treeVines)}, Direction.WEST));
+				}
 			}
-		}
 
-		if (context.random().nextInt(3) > 0) {
-			BlockPos pos = blockpos.north();
-			if (context.isAir(pos)) {
-				context.setBlock(pos, oriented(${mappedBlockToBlockStateCode(data.treeVines)}, Direction.SOUTH));
+			if (context.random().nextInt(3) > 0) {
+				BlockPos pos = blockpos.north();
+				if (context.isAir(pos)) {
+					context.setBlock(pos, oriented(${mappedBlockToBlockStateCode(data.treeVines)}, Direction.SOUTH));
+				}
 			}
-		}
 
-		if (context.random().nextInt(3) > 0) {
-			BlockPos pos = blockpos.south();
-			if (context.isAir(pos)) {
-				context.setBlock(pos, oriented(${mappedBlockToBlockStateCode(data.treeVines)}, Direction.NORTH));
+			if (context.random().nextInt(3) > 0) {
+				BlockPos pos = blockpos.south();
+				if (context.isAir(pos)) {
+					context.setBlock(pos, oriented(${mappedBlockToBlockStateCode(data.treeVines)}, Direction.NORTH));
+				}
 			}
-		}
         });
     }
 
-	private static BlockState oriented(BlockState blockstate, Direction direction) {
+	@SuppressWarnings("deprecation") private static BlockState oriented(BlockState blockstate, Direction direction) {
 		return switch (direction) {
-			case SOUTH -> blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_180);
-			case EAST -> blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_90);
-			case WEST -> blockstate.getBlock().rotate(blockstate, Rotation.COUNTERCLOCKWISE_90);
+			case SOUTH -> blockstate.rotate(Rotation.CLOCKWISE_180);
+			case EAST -> blockstate.rotate(Rotation.CLOCKWISE_90);
+			case WEST -> blockstate.rotate(Rotation.COUNTERCLOCKWISE_90);
 			default -> blockstate;
 		};
 	}
-
 }
 <#-- @formatter:on -->

@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2022, Pylo, opensource contributors
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,19 +29,17 @@
 -->
 
 <#-- @formatter:off -->
-package ${package}.world.features.treedecorators;
 <#include "../mcitems.ftl">
+package ${package}.world.features.treedecorators;
 
-public class ${name}FruitDecorator extends CocoaDecorator {
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}FruitDecorator extends CocoaDecorator {
 
-    public static final ${name}FruitDecorator INSTANCE = new ${name}FruitDecorator();
-    public static Codec<${name}FruitDecorator> codec;
-    public static TreeDecoratorType<?> tdt;
+    private static final ${name}FruitDecorator INSTANCE = new ${name}FruitDecorator();
+    public static final Codec<${name}FruitDecorator> CODEC = Codec.unit(() -> INSTANCE);
+    private static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
 
-    static {
-        codec = Codec.unit(() -> INSTANCE);
-        tdt = new TreeDecoratorType<>(codec);
-        ForgeRegistries.TREE_DECORATOR_TYPES.register("${registryname}_tree_fruit_decorator", tdt);
+    @SubscribeEvent public static void registerTreeDecorator(RegisterEvent event) {
+        event.register(ForgeRegistries.Keys.TREE_DECORATOR_TYPES, new ResourceLocation("${modid}:${registryname}_tree_fruit_decorator"), () -> DECORATOR_TYPE);
     }
 
     public ${name}FruitDecorator() {
@@ -49,22 +47,21 @@ public class ${name}FruitDecorator extends CocoaDecorator {
     }
 
     @Override protected TreeDecoratorType<?> type() {
-        return tdt;
+        return DECORATOR_TYPE;
     }
 
     @Override ${mcc.getMethod("net.minecraft.world.level.levelgen.feature.treedecorators.CocoaDecorator", "place", "TreeDecorator.Context")
-	.replace("this.probability", "0.2F")
-	.replace("Blocks.COCOA.defaultBlockState().setValue(CocoaBlock.AGE,Integer.valueOf(randomsource.nextInt(3))).setValue(CocoaBlock.FACING,direction)", "oriented(" + mappedBlockToBlockStateCode(data.treeFruits) + ", direction1)")
+        .replace("this.probability", "0.2F")
+        .replace("Blocks.COCOA.defaultBlockState().setValue(CocoaBlock.AGE,Integer.valueOf(randomsource.nextInt(3))).setValue(CocoaBlock.FACING,direction)", "oriented(" + mappedBlockToBlockStateCode(data.treeFruits) + ", direction1)")
         .replace("p_226028_", "context")}
 
-    private static BlockState oriented(BlockState blockstate, Direction direction) {
+    @SuppressWarnings("deprecation") private static BlockState oriented(BlockState blockstate, Direction direction) {
         return switch (direction) {
-            case SOUTH -> blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_180);
-            case EAST -> blockstate.getBlock().rotate(blockstate, Rotation.CLOCKWISE_90);
-            case WEST -> blockstate.getBlock().rotate(blockstate, Rotation.COUNTERCLOCKWISE_90);
+            case SOUTH -> blockstate.rotate(Rotation.CLOCKWISE_180);
+            case EAST -> blockstate.rotate(Rotation.CLOCKWISE_90);
+            case WEST -> blockstate.rotate(Rotation.COUNTERCLOCKWISE_90);
             default -> blockstate;
         };
     }
-
 }
 <#-- @formatter:on -->

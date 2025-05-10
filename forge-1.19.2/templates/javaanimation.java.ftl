@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2024, Pylo, opensource contributors
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  #
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -29,20 +29,8 @@
 -->
 
 <#-- @formatter:off -->
-/*
- *    MCreator note: This file will be REGENERATED on each build.
- */
-package ${package}.init;
+package ${package}.client.model.animations;
 
-public class ${JavaModName}Potions {
+${animation}
 
-	public static final DeferredRegister<Potion> REGISTRY = DeferredRegister.create(ForgeRegistries.POTIONS, ${JavaModName}.MODID);
-
-	<#list potions as potion>
-		public static final RegistryObject<Potion> ${potion.getModElement().getRegistryNameUpper()} = REGISTRY.register("${potion.getModElement().getRegistryName()}", () -> new Potion(
-			<#list potion.effects as effect>
-			new MobEffectInstance(${effect.effect}, ${effect.getDuration()}, ${effect.amplifier}, ${effect.ambient}, ${effect.showParticles})<#sep>,
-			</#list>));
-	</#list>
-}
 <#-- @formatter:on -->

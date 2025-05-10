@@ -10,7 +10,7 @@ public net.minecraft.world.level.GameRules$IntegerValue m_46312_(I)Lnet/minecraf
 public net.minecraft.world.level.GameRules$BooleanValue m_46250_(Z)Lnet/minecraft/world/level/GameRules$Type; #create
 </#if>
 
-<#if w.hasElementsOfType("biome")>
+<#if w.getGElementsOfType("biome")?filter(e -> e.spawnBiome || e.spawnInCaves || e.spawnBiomeNether)?size != 0>
 public net.minecraft.world.level.biome.MultiNoiseBiomeSource <init>(Lnet/minecraft/world/level/biome/Climate$ParameterList;Ljava/util/Optional;)V #constructor
 public-f net.minecraft.world.level.biome.MultiNoiseBiomeSource f_48438_ #preset
 public-f net.minecraft.world.level.biome.MultiNoiseBiomeSource f_48435_ #parameters
