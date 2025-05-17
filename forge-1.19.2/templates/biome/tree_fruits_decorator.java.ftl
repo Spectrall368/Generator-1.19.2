@@ -34,7 +34,7 @@ package ${package}.world.features.treedecorators;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}FruitDecorator extends CocoaDecorator {
 
-    public static Codec<${name}FruitDecorator> CODEC = Codec.unit(${name}FruitDecorator::new);
+    public static final Codec<${name}FruitDecorator> CODEC = Codec.unit(${name}FruitDecorator::new);
     public static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
 
     @SubscribeEvent public static void registerTreeDecorator(RegisterEvent event) {
