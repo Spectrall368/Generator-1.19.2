@@ -34,9 +34,8 @@ package ${package}.world.features.treedecorators;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${name}LeaveDecorator extends LeaveVineDecorator {
 
-    private static final ${name}LeaveDecorator INSTANCE = new ${name}LeaveDecorator();
-    public static final Codec<${name}LeaveDecorator> CODEC = Codec.unit(() -> INSTANCE);
-    private static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
+    public static Codec<${name}LeaveDecorator> CODEC = Codec.unit(${name}LeaveDecorator::new);
+    public static final TreeDecoratorType<?> DECORATOR_TYPE = new TreeDecoratorType<>(CODEC);
 
 	@SubscribeEvent public static void registerTreeDecorator(RegisterEvent event) {
 		event.register(ForgeRegistries.Keys.TREE_DECORATOR_TYPES, new ResourceLocation("${modid}:${registryname}_tree_leave_decorator"), () -> DECORATOR_TYPE);
