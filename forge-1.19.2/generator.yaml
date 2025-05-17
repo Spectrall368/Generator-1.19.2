@@ -59,7 +59,7 @@ base_templates:
     usercodeComment: "#"
     writer: file
     name: "@RESROOT/META-INF/mods.toml"
-  - template: modbase/pack.mcmeta.ftl
+  - template: pack.mcmeta.ftl # loaded from datapack generator
     writer: json
     name: "@RESROOT/pack.mcmeta"
   - template: modbase/sounds.json.ftl
