@@ -23,7 +23,6 @@
   <#if !data.useStartHeight>
   "project_start_to_heightmap": "${data.surfaceDetectionType}",
   </#if>
-  "project_start_to_heightmap": "${data.surfaceDetectionType}",
   <#if spawnBiomes?size == 1>
   "biomes": "${spawnBiomes?first}",
   <#else>
