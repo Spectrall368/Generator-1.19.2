@@ -1148,7 +1148,6 @@ entity.goat.screaming.long_jump: entity.goat.screaming.long_jump
 entity.goat.screaming.milk: entity.goat.screaming.milk
 entity.goat.screaming.prepare_ram: entity.goat.screaming.prepare_ram
 entity.goat.screaming.ram_impact: entity.goat.screaming.ram_impact
-entity.goat.screaming.horn_break: entity.goat.screaming.horn_break
 entity.goat.step: entity.goat.step
 block.hanging_roots.break: block.hanging_roots.break
 block.hanging_roots.fall: block.hanging_roots.fall
@@ -1238,7 +1237,6 @@ entity.frog.lay_spawn: entity.frog.lay_spawn
 entity.frog.long_jump: entity.frog.long_jump
 entity.frog.step: entity.frog.step
 entity.frog.tongue: entity.frog.tongue
-item.goat_horn.play: item.goat_horn.play
 item.goat_horn.sound.0: item.goat_horn.sound.0
 item.goat_horn.sound.1: item.goat_horn.sound.1
 item.goat_horn.sound.2: item.goat_horn.sound.2
