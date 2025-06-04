@@ -14,11 +14,9 @@ EAT: eat
 ELYTRA_GLIDE: elytra_glide
 ENTITY_DAMAGE: entity_damage
 ENTITY_DIE: entity_die
-ENTITY_DISMOUNT: entity_dismount
 ENTITY_INTERACT: entity_interact
 ENTITY_MOUNT: entity_mount
 ENTITY_PLACE: entity_place
-ENTITY_ACTION: entity_action
 EQUIP: equip
 EXPLODE: explode
 FLAP: flap
