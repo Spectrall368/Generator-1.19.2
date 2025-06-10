@@ -52,9 +52,9 @@ package ${package}.init;
     <#if item.creativeTabs == "[]">
         <#assign orderedNullItems = orderedNullItems + [item]>
     <#elseif currentTabs?contains("CreativeModeTab.")>
-        <@setItem false vanillaTabs currentTabs itemName/>
+        <@setItem false vanillaTabs currentTabs itemName item/>
     <#else>
-        <@setItem true customTabs currentTabs itemName/>
+        <@setItem true customTabs currentTabs itemName item/>
     </#if>
 </#list>
 <#assign orderedItems = orderedCustomItems + orderedVanillaItems + orderedNullItems>
@@ -156,10 +156,10 @@ public class ${JavaModName}Items {
 	</#if>
 }
 <#-- @formatter:on -->
-<#macro setItem isCustom tabTypes currentTabs itemName>
+<#macro setItem isCustom tabTypes currentTabs itemName item>
 	<#assign exit = false>
 
-	<#list tabType as tabType>
+	<#list tabTypes as tabType>
 		<#assign tab = tabType>
 
 		<#if isCustom>
@@ -184,4 +184,4 @@ public class ${JavaModName}Items {
 			</#if>
 	  	</#if>
 	</#list>
-</#function>
+</#macro>
