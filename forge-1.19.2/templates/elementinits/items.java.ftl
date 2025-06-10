@@ -49,8 +49,8 @@ package ${package}.init;
     <#assign itemName = item.getModElement().getName()>
     <#assign currentTabs><@CreativeTabs item.creativeTabs/></#assign>
 
-	<#if item.creativeTabs == "[]">
-		<#assign orderedNullItems = orderedNullItems + [item]>
+    <#if item.creativeTabs == "[]">
+        <#assign orderedNullItems = orderedNullItems + [item]>
     <#elseif currentTabs?contains("CreativeModeTab.")>
         <@setItem false vanillaTabs currentTabs itemName/>
     <#else>
@@ -157,32 +157,31 @@ public class ${JavaModName}Items {
 }
 <#-- @formatter:on -->
 <#macro setItem isCustom tabTypes currentTabs itemName>
-		<#assign exit = false>
+	<#assign exit = false>
 
-		<#list tabType as tabType>
-			<#assign tab = tabType>
+	<#list tabType as tabType>
+		<#assign tab = tabType>
 
-			<#if isCustom>
-				<#assign tab = "CUSTOM:" + w.getWorkspace().getModElementByName(tabType.replace("CUSTOM:", "")).getGeneratableElement().getModElement().getName()>
-			</#if>
+		<#if isCustom>
+			<#assign tab = "CUSTOM:" + w.getWorkspace().getModElementByName(tabType.replace("CUSTOM:", "")).getGeneratableElement().getModElement().getName()>
+		</#if>
 
-		    <#if currentTabs?trim == generator.map(tabType, "tabs")?trim>
-				<#list tabMap.get(tab) as tabElement>
-					<#if tabElement?replace("CUSTOM:", "")?keep_before(".") == itemName>
-						<#if isCustom>
-							<#assign orderedCustomItems = orderedCustomItems + [item]>
-						<#else>
-							<#assign orderedVanillaItems = orderedVanillaItems + [item]>
-						</#if>
-						<#assign exit = true>
-						<#break>
+		<#if currentTabs?trim == generator.map(tabType, "tabs")?trim>
+			<#list tabMap.get(tab) as tabElement>
+				<#if tabElement?replace("CUSTOM:", "")?keep_before(".") == itemName>
+					<#if isCustom>
+						<#assign orderedCustomItems = orderedCustomItems + [item]>
+					<#else>
+						<#assign orderedVanillaItems = orderedVanillaItems + [item]>
 					</#if>
-
-				</#list>
-
-				<#if exit>
+					<#assign exit = true>
 					<#break>
 				</#if>
-		   	</#if>
-		</#list>
+
+			</#list>
+			<#if exit>
+				<#break>
+			</#if>
+	  	</#if>
+	</#list>
 </#function>
