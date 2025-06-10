@@ -2,7 +2,6 @@
 
 <#-- Item-related triggers -->
 <#macro CreativeTabs tabs="[]">
-	<#assign CustomTabs = JavaModName + "Tabs">
 	<#if tabs == "[]">
 		null
 	<#else>
