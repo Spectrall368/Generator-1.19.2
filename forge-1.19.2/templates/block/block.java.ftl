@@ -418,15 +418,15 @@ public class ${name}Block extends
 	}
 	</#if>
 
-	<#if data.isReplaceable>
-	@Override public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
-	    return context.getItemInHand().getItem() != this.asItem();
-	}
-	</#if>
-
 	<#if data.enchantPowerBonus != 0>
 	@Override public float getEnchantPowerBonus(BlockState state, LevelReader world, BlockPos pos) {
 		return ${data.enchantPowerBonus}f;
+	}
+	</#if>
+
+	<#if data.isReplaceable>
+	@Override public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+	    return context.getItemInHand().getItem() != this.asItem();
 	}
 	</#if>
 
