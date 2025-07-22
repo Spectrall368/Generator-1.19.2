@@ -451,7 +451,7 @@ public class ${name}Block extends
 	</#if>
 
 	<#if data.ignitedByLava>
-	@Override boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+	@Override public boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
 	    return true;
 	}
 	</#if>
