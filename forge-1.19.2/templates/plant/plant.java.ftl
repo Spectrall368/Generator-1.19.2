@@ -164,7 +164,7 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 	</#if>
 
 	<#if data.ignitedByLava>
-	@Override boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+	@Override public boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
 	    return true;
 	}
 	</#if>
