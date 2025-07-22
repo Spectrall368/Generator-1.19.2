@@ -4,7 +4,7 @@ private static boolean hasEntityInInventory(Entity entity, ItemStack itemstack) 
 	    List<NonNullList<ItemStack>> compartments = com.google.common.collect.ImmutableList.of(inventory.items, inventory.armor, inventory.offhand);
         for (List<ItemStack> list : compartments) {
             for (ItemStack itemstack2 : list) {
-                if (!itemstack2.isEmpty() && ItemStack.isSameItem(itemstack2, itemstack)) {
+                if (itemstack.isSame(itemstack2)) {
                     return true;
                 }
             }

@@ -39,8 +39,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 public class ${name}Block extends LiquidBlock {
 	public ${name}Block() {
 		super(() -> ${JavaModName}Fluids.${REGISTRYNAME}.get(),
-			BlockBehaviour.Properties.of((new Material.Builder(MaterialColor.${data.type?replace("LAVA", "FIRE")}))
-			.noCollider().notSolidBlocking().nonSolid().destroyOnPush().replaceable().liquid()<#if data.ignitedByLava>.flammable()</#if>.build()
+			BlockBehaviour.Properties.of(Material.${data.type}
 			<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
 			, MaterialColor.${generator.map(data.colorOnMap, "mapcolors")}
 			</#if>)
@@ -50,6 +49,12 @@ public class ${name}Block extends LiquidBlock {
 			.noCollission().noLootTable()
 		);
 	}
+
+	<#if data.ignitedByLava>
+	@Override boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+	    return true;
+	}
+	</#if>
 
 	<#if data.flammability != 0>
 	@Override public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {

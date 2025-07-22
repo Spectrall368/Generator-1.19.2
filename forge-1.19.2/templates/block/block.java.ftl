@@ -35,6 +35,12 @@
 <#include "../triggers.java.ftl">
 <#assign filteredCustomProperties = data.customProperties?filter(e ->
  	e.property().getName().startsWith("CUSTOM:") || generator.map(e.property().getName(), "blockstateproperties") != "")>
+<#assign blockSetType = "null">
+<#if data.blockBase?has_content>
+    <#if data.blockBase == "PressurePlate" || data.blockBase == "TrapDoor" || data.blockBase == "Door" || data.blockBase == "Button">
+        <#assign blockSetType = data.blockSetType>
+    </#if>
+</#if>
 package ${package}.block;
 
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
@@ -44,7 +50,7 @@ public class ${name}Block extends
 	<#if data.hasGravity>
 		FallingBlock
 	<#elseif data.blockBase?has_content && data.blockBase == "Button">
-		<#if (data.material.getUnmappedValue() == "WOOD") || (data.material.getUnmappedValue() == "NETHER_WOOD")>Wood<#else>Stone</#if>ButtonBlock
+		<#if blockSetType == "OAK">Wood<#else>Stone</#if>ButtonBlock
 	<#elseif data.blockBase?has_content>
 		${data.blockBase?replace("Stairs", "Stair")?replace("Pane", "IronBars")}Block
 	<#else>
@@ -102,7 +108,12 @@ public class ${name}Block extends
  	</#list>
 
 	<#macro blockProperties>
-	    BlockBehaviour.Properties.of((new Material.Builder(MaterialColor.NONE))<#if data.isReplaceable>.replaceable()</#if><#if data.ignitedByLava>.flammable()</#if>.build()
+	    BlockBehaviour.Properties.of(
+	    <#if blockSetType == "null">
+	    (new Material.Builder(MaterialColor.NONE)).build()
+	    <#else>
+	    Material.${blockSetType?replace("IRON", "METAL")?replace("OAK", "NETHER_WOOD")
+	    </#if>
 		<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
 		    , MaterialColor.${generator.map(data.colorOnMap, "mapcolors")}
 		</#if>)
@@ -171,12 +182,8 @@ public class ${name}Block extends
 		<#if data.blockBase?has_content>
 			<#if data.blockBase == "Stairs">
 				super(() -> Blocks.AIR.defaultBlockState(), <@blockProperties/>);
-			<#elseif data.blockBase == "PressurePlate" || data.blockBase == "TrapDoor" || data.blockBase == "Door">
-				super(<#if data.blockBase == "PressurePlate">Sensitivity.<#if data.blockSetType == "OAK">EVERYTHING<#else>MOBS</#if>, </#if><@blockProperties/>, BlockSetType.${data.blockSetType});
-			<#elseif data.blockBase == "Button">
-				super(<@blockProperties/>, BlockSetType.${data.blockSetType}, <#if data.blockSetType == "OAK">30, true<#else>20, false</#if>);
-			<#elseif data.blockBase == "FenceGate">
-				super(<@blockProperties/>, WoodType.OAK);
+			<#elseif data.blockBase == "PressurePlate">
+				super(Sensitivity.<#if data.blockSetType == "OAK">EVERYTHING<#else>MOBS</#if>, <@blockProperties/>);
 			<#else>
 				super(<@blockProperties/>);
 			</#if>
@@ -413,6 +420,12 @@ public class ${name}Block extends
 	}
 	</#if>
 
+	<#if data.isReplaceable>
+	@Override public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+	    return context.getItemInHand().getItem() != this.asItem();
+	}
+	</#if>
+
 	<#if data.enchantPowerBonus != 0>
 	@Override public float getEnchantPowerBonus(BlockState state, LevelReader world, BlockPos pos) {
 		return ${data.enchantPowerBonus}f;
@@ -434,6 +447,12 @@ public class ${name}Block extends
 		<#else>
 			return ${data.emittedRedstonePower.getFixedValue()};
 		</#if>
+	}
+	</#if>
+
+	<#if data.ignitedByLava>
+	@Override boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+	    return true;
 	}
 	</#if>
 

@@ -61,7 +61,7 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 		<#elseif data.plantType == "sapling">
 		new ${name}TreeGrower(),
 		</#if>
-		BlockBehaviour.Properties.of((new Material.Builder(MaterialColor.PLANT)).noCollider().notSolidBlocking().nonSolid()<#if data.isReplaceable></#if><#if data.ignitedByLava>.flammable()</#if>.destroyOnPush().build()
+		BlockBehaviour.Properties.of(Material.PLANT
 		<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
 		, MaterialColor.${generator.map(data.colorOnMap, "mapcolors")}
 		</#if>)
@@ -154,6 +154,18 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 	<#if (data.plantType == "normal") && (data.suspiciousStewDuration > 0)>
 	@Override public int getEffectDuration() {
 		return ${data.suspiciousStewDuration};
+	}
+	</#if>
+
+	<#if data.isReplaceable>
+	@Override public boolean canBeReplaced(BlockState state, BlockPlaceContext useContext) {
+		return useContext.getItemInHand().getItem() != this.asItem();
+	}
+	</#if>
+
+	<#if data.ignitedByLava>
+	@Override boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+	    return true;
 	}
 	</#if>
 
