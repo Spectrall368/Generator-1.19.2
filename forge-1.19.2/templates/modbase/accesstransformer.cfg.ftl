@@ -27,5 +27,11 @@ public net.minecraft.world.level.levelgen.feature.ScatteredOreFeature <init>(Lco
 public-f net.minecraft.world.level.levelgen.feature.TreeFeature m_142674_(Lnet/minecraft/world/level/levelgen/feature/FeaturePlaceContext;)Z #place
 </#if>
 
+<#if w.hasElementsOfType("block") || w.hasElementsOfType("fluid") || w.hasElementsOfType("plant")>
+public net.minecraft.world.level.material.Material$Builder m_76355_()Lnet/minecraft/world/level/material/Material$Builder; # flammable
+public net.minecraft.world.level.material.Material$Builder m_76360_()Lnet/minecraft/world/level/material/Material$Builder; # notSolidBlocking
+public net.minecraft.world.level.material.Material$Builder m_76357_()Lnet/minecraft/world/level/material/Material$Builder; # destroyOnPush
+</#if>
+
 # Start of user code block custom ATs
 # End of user code block custom ATs

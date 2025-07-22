@@ -33,14 +33,25 @@ package ${package}.block.entity;
 <#include "../procedures.java.ftl">
 
 <#compress>
-public class ${name}BlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
+public class ${name}BlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer
+ 		<#if data.sensitiveToVibration>, VibrationListener.VibrationListenerConfig</#if> {
 
-	private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(${data.inventorySize}, ItemStack.EMPTY);
+	private NonNullList<ItemStack> stacks = NonNullList.withSize(${data.inventorySize}, ItemStack.EMPTY);
 
 	private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());
 
+	<#if data.sensitiveToVibration>
+	private VibrationListener vibrationListener = new VibrationListener(new BlockPositionSource(this.getBlockPos()), getListenerRadius(), this, null, 0.0F, 0);
+	</#if>
+
+	<#if data.renderType() == 4>
+		<#list data.animations as animation>
+		public final AnimationState animationState${animation?index} = new AnimationState();
+		</#list>
+	</#if>
+
 	public ${name}BlockEntity(BlockPos position, BlockState state) {
-		super(${JavaModName}BlockEntities.${data.getModElement().getRegistryNameUpper()}.get(), position, state);
+		super(${JavaModName}BlockEntities.${REGISTRYNAME}.get(), position, state);
 	}
 
 	@Override public void load(CompoundTag compound) {
@@ -60,6 +71,14 @@ public class ${name}BlockEntity extends RandomizableContainerBlockEntity impleme
 		if(compound.get("fluidTank") instanceof CompoundTag compoundTag)
 			fluidTank.readFromNBT(compoundTag);
 		</#if>
+
+		<#if data.sensitiveToVibration>
+		if (compound.contains("listener", 10)) {
+			VibrationListener.codec(this).parse(new Dynamic<>(NbtOps.INSTANCE, compound.getCompound("listener")))
+					.resultOrPartial(e -> ${JavaModName}.LOGGER.error("Failed to parse vibration listener for ${data.name}: '{}'", e))
+					.ifPresent(listener -> this.vibrationListener = listener);
+		}
+		</#if>
 	}
 
 	@Override public void saveAdditional(CompoundTag compound) {
@@ -75,6 +94,12 @@ public class ${name}BlockEntity extends RandomizableContainerBlockEntity impleme
 
 		<#if data.isFluidTank>
 		compound.put("fluidTank", fluidTank.writeToNBT(new CompoundTag()));
+		</#if>
+
+		<#if data.sensitiveToVibration>
+		VibrationListener.codec(this).encodeStart(NbtOps.INSTANCE, this.vibrationListener)
+				.resultOrPartial(e -> ${JavaModName}.LOGGER.error("Failed to encode vibration listener for ${data.name}: '{}'", e))
+				.ifPresent(listener -> compound.put("listener", listener));
 		</#if>
 	}
 
@@ -101,9 +126,11 @@ public class ${name}BlockEntity extends RandomizableContainerBlockEntity impleme
 		return Component.literal("${registryname}");
 	}
 
+	<#if data.inventoryStackSize != 99>
 	@Override public int getMaxStackSize() {
 		return ${data.inventoryStackSize};
 	}
+	</#if>
 
 	@Override public AbstractContainerMenu createMenu(int id, Inventory inventory) {
 		<#if !data.guiBoundTo?has_content>
@@ -236,6 +263,70 @@ public class ${name}BlockEntity extends RandomizableContainerBlockEntity impleme
 		for(LazyOptional<? extends IItemHandler> handler : handlers)
 			handler.invalidate();
 	}
+
+    <#if data.sensitiveToVibration>
+    public VibrationListener getListener() {
+    	return this.vibrationListener;
+    }
+
+	<#if data.vibrationalEvents?has_content>
+	@Override public TagKey<GameEvent> getListenableEvents() {
+		return TagKey.create(Registry.GAME_EVENT_REGISTRY, new ResourceLocation("${registryname}_can_listen"));
+	}
+	</#if>
+
+	public int getListenerRadius() {
+        <#if hasProcedure(data.vibrationSensitivityRadius)>
+            Level world = this.getLevel();
+            double x = this.getBlockPos().getX();
+            double y = this.getBlockPos().getY();
+            double z = this.getBlockPos().getZ();
+            BlockState blockstate = this.getBlockState();
+            return (int) <@procedureOBJToNumberCode data.vibrationSensitivityRadius/>;
+        <#else>
+            return ${data.vibrationSensitivityRadius.getFixedValue()};
+        </#if>
+	}
+
+	@Override public boolean shouldListen(ServerLevel world, GameEventListener eventListener, BlockPos vibrationPos, GameEvent holder, GameEvent.Context context) {
+		<#if hasProcedure(data.canReceiveVibrationCondition)>
+			return <@procedureCode data.canReceiveVibrationCondition {
+				"x": "this.getBlockPos().getX()",
+				"y": "this.getBlockPos().getY()",
+				"z": "this.getBlockPos().getZ()",
+				"vibrationX": "vibrationPos.getX()",
+				"vibrationY": "vibrationPos.getY()",
+				"vibrationZ": "vibrationPos.getZ()",
+				"world": "world",
+				"entity": "context.sourceEntity()",
+				"blockstate": "this.getBlockState()"
+			}/>
+		<#else>
+			return true;
+		</#if>
+	}
+
+	@Override public void onSignalReceive(ServerLevel world, GameEventListener eventListener, BlockPos vibrationPos, GameEvent holder, Entity entity, Entity projectileShooter, float distance) {
+		<#if hasProcedure(data.onReceivedVibration)>
+			<@procedureCode data.onReceivedVibration {
+				"x": "this.getBlockPos().getX()",
+				"y": "this.getBlockPos().getY()",
+				"z": "this.getBlockPos().getZ()",
+				"vibrationX": "vibrationPos.getX()",
+				"vibrationY": "vibrationPos.getY()",
+				"vibrationZ": "vibrationPos.getZ()",
+				"world": "world",
+				"blockstate": "this.getBlockState()",
+				"entity": "entity",
+				"sourceentity": "projectileShooter"
+			}/>
+		</#if>
+	}
+
+	@Override public void onSignalSchedule() {
+		this.setChanged();
+	}
+    </#if>
 }
 </#compress>
 <#-- @formatter:on -->

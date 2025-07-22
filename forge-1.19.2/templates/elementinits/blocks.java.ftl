@@ -29,41 +29,45 @@
 -->
 
 <#-- @formatter:off -->
+
 /*
  *    MCreator note: This file will be REGENERATED on each build.
  */
+
 package ${package}.init;
+
 <#assign hasTintedBlocks = false>
 <#assign hasTintedBlockItems = false>
 <#list blocks as block>
 	<#if block.getModElement().getTypeString() == "block">
 		<#if block.tintType != "No tint">
 			<#assign hasTintedBlocks = true>
-			<#if block.isItemTinted>
+			<#if block.isItemTinted && block.hasBlockItem>
 				<#assign hasTintedBlockItems = true>
 			</#if>
 		</#if>
 	<#elseif block.getModElement().getTypeString() == "plant">
 		<#if block.tintType != "No tint">
 			<#assign hasTintedBlocks = true>
-			<#if block.isItemTinted>
+			<#if block.isItemTinted && block.hasBlockItem>
 				<#assign hasTintedBlockItems = true>
 			</#if>
 		</#if>
 	</#if>
 </#list>
+<#assign noteBlockInstrument = blocks?filter(block -> block.noteBlockInstrument?? && block.noteBlockInstrument != "harp")>
 
-public class ${JavaModName}Blocks {
+<#if noteBlockInstrument?size != 0>@Mod.EventBusSubscriber </#if>public class ${JavaModName}Blocks {
 
 	public static final DeferredRegister<Block> REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, ${JavaModName}.MODID);
 
 	<#list blocks as block>
 		<#if block.getModElement().getTypeString() == "dimension">
             public static final RegistryObject<Block> ${block.getModElement().getRegistryNameUpper()}_PORTAL =
-				REGISTRY.register("${block.getModElement().getRegistryName()}_portal", () -> new ${block.getModElement().getName()}PortalBlock());
+				REGISTRY.register("${block.getModElement().getRegistryName()}_portal", ${block.getModElement().getName()}PortalBlock::new);
 		<#else>
 			public static final RegistryObject<Block> ${block.getModElement().getRegistryNameUpper()} =
-				REGISTRY.register("${block.getModElement().getRegistryName()}", () -> new ${block.getModElement().getName()}Block());
+				REGISTRY.register("${block.getModElement().getRegistryName()}", ${block.getModElement().getName()}Block::new);
 		</#if>
 	</#list>
 
@@ -88,7 +92,7 @@ public class ${JavaModName}Blocks {
 		@SubscribeEvent public static void itemColorLoad(RegisterColorHandlersEvent.Item event) {
 			<#list blocks as block>
 				<#if block.getModElement().getTypeString() == "block" || block.getModElement().getTypeString() == "plant">
-					<#if block.tintType != "No tint" && block.isItemTinted>
+					<#if block.tintType != "No tint" && block.isItemTinted && block.hasBlockItem>
 						 ${block.getModElement().getName()}Block.itemColorLoad(event);
 					</#if>
 				</#if>
@@ -96,6 +100,19 @@ public class ${JavaModName}Blocks {
 		}
 		</#if>
 	}
+	</#if>
+
+	<#if noteBlockInstrument?size != 0>
+	@SubscribeEvent public static void onNoteBlockPlay(NoteBlockEvent.Play event) {
+        <#compress>
+        Block below = event.getLevel().getBlockState(event.getPos().below()).getBlock();
+		<#list noteBlockInstrument as block>
+		if (below == ${JavaModName}Blocks.${block.getModElement().getRegistryNameUpper()}.get()) {
+            event.setInstrument(${generator.map(block.noteBlockInstrument, "noteblockinstruments")});
+        }<#sep>else
+		</#list>
+        </#compress>
+    }
 	</#if>
 }
 <#-- @formatter:on -->

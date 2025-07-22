@@ -33,26 +33,33 @@
 <#include "../mcitems.ftl">
 <#include "../triggers.java.ftl">
 package ${package}.item;
+<#assign hasCustomJAVAModels = data.hasCustomJAVAModel() || data.getModels()?filter(e -> e.hasCustomJAVAModel())?has_content>
 
 <#compress>
-public class ${name}Item extends <#if data.isMusicDisc>Record</#if>Item {
+public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#elseif data.isMusicDisc>Record</#if>Item {
+	<#if data.hasBannerPatterns()>
+	public static final TagKey<BannerPattern> PROVIDED_PATTERNS = TagKey.create(Registry.BANNER_PATTERN_REGISTRY, new ResourceLocation(${JavaModName}.MODID, "pattern_item/${registryname}"));
+	</#if>
 
 	public ${name}Item() {
-	    super(<#if data.isMusicDisc>
-                ${data.musicDiscAnalogOutput}, () -> ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.musicDiscMusic}" )),
+    super(<#if data.hasBannerPatterns()>PROVIDED_PATTERNS,
+                <#elseif data.isMusicDisc>
+                ${data.musicDiscAnalogOutput}, () -> ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.musicDiscMusic}")),
                 </#if>new Item.Properties()
 				.tab(<@CreativeTabs data.creativeTabs/>)
 				<#if data.hasInventory()>
 				.stacksTo(1)
 				<#elseif data.damageCount != 0>
 				.durability(${data.damageCount})
-				<#else>
+				<#elseif data.stackSize != 64>
 				.stacksTo(${data.stackSize})
 				</#if>
 				<#if data.immuneToFire>
 				.fireResistant()
 				</#if>
+				<#if data.rarity != "COMMON">
 				.rarity(Rarity.${data.rarity})
+				</#if>
 				<#if data.isFood>
 				.food((new FoodProperties.Builder())
 					.nutrition(${data.nutritionalValue})
@@ -61,12 +68,35 @@ public class ${name}Item extends <#if data.isMusicDisc>Record</#if>Item {
 					<#if data.isMeat>.meat()</#if>
 					.build())
 				</#if>
-		<#if data.isMusicDisc>
+				<#if data.stayInGridWhenCrafting && (!data.recipeRemainder?? || data.recipeRemainder.isEmpty()) && data.damageCount != 0>
+				.setNoRepair()
+				</#if>
+		<#if !data.hasBannerPatterns() && data.isMusicDisc>
  		,${data.musicDiscLengthInTicks});
  		<#else>
 		);
 		</#if>
 	}
+
+	<#if hasCustomJAVAModels>
+	@Override public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+		consumer.accept(new IClientItemExtensions() {
+			private ${name}ItemRenderer rendererInstance;
+
+			@Override public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+				if (rendererInstance == null)
+					rendererInstance = new ${name}ItemRenderer(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
+				return rendererInstance;
+			}
+		});
+	}
+	</#if>
+
+	<#if data.hasBannerPatterns()> <#-- Workaround to allow both music disc and patterns info in description -->
+	public MutableComponent getDisplayName() {
+		return Component.translatable(this.getDescriptionId() + ".patterns");
+	}
+	</#if>
 
 	<#if data.hasNonDefaultAnimation()>
 	@Override public UseAnim getUseAnimation(ItemStack itemstack) {
@@ -92,20 +122,10 @@ public class ${name}Item extends <#if data.isMusicDisc>Record</#if>Item {
 				}
 				return retval;
 			}
-
-			@Override public boolean isRepairable(ItemStack itemstack) {
-				return false;
-			}
 		<#else>
 			@Override public ItemStack getCraftingRemainingItem(ItemStack itemstack) {
 				return new ItemStack(this);
 			}
-
-			<#if data.damageCount != 0>
-			@Override public boolean isRepairable(ItemStack itemstack) {
-				return false;
-			}
-			</#if>
 		</#if>
 	</#if>
 

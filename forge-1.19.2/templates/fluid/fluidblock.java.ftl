@@ -38,12 +38,12 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 <#compress>
 public class ${name}Block extends LiquidBlock {
 	public ${name}Block() {
-		super(() -> ${JavaModName}Fluids.${data.getModElement().getRegistryNameUpper()}.get(),
+		super(() -> ${JavaModName}Fluids.${REGISTRYNAME}.get(),
+			BlockBehaviour.Properties.of((new Material.Builder(MaterialColor.${data.type?replace("LAVA", "FIRE")}))
+			.noCollider().notSolidBlocking().nonSolid().destroyOnPush().replaceable().liquid()<#if data.ignitedByLava>.flammable()</#if>.build()
 			<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
-			BlockBehaviour.Properties.of(Material.${data.type}, MaterialColor.${generator.map(data.colorOnMap, "mapcolors")})
-			<#else>
-			BlockBehaviour.Properties.of(Material.${data.type})
-			</#if>
+			, MaterialColor.${generator.map(data.colorOnMap, "mapcolors")}
+			</#if>)
 			.strength(${data.resistance}f)
 			<#if data.emissiveRendering>.hasPostProcess((bs, br, bp) -> true).emissiveRendering((bs, br, bp) -> true)</#if>
 			<#if data.luminance != 0>.lightLevel(s -> ${data.luminance})</#if>
