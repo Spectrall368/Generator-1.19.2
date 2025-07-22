@@ -48,14 +48,12 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 <#compress>
 public class ${name}Block extends
 	<#if data.hasGravity>
-		FallingBlock
+		Falling
 	<#elseif data.blockBase?has_content && data.blockBase == "Button">
-		<#if blockSetType == "OAK">Wood<#else>Stone</#if>ButtonBlock
+		<#if blockSetType == "OAK">Wood<#else>Stone</#if>Button
 	<#elseif data.blockBase?has_content>
-		${data.blockBase?replace("Stairs", "Stair")?replace("Pane", "IronBars")}Block
-	<#else>
-		Block
-	</#if>
+		${data.blockBase?replace("Stairs", "Stair")?replace("Pane", "IronBars")}
+	</#if>Block
 
 	<#assign interfaces = []>
 	<#if data.isWaterloggable>
