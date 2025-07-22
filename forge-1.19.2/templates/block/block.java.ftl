@@ -110,7 +110,7 @@ public class ${name}Block extends
 	    <#if blockSetType == "null">
 	    (new Material.Builder(MaterialColor.NONE)).build()
 	    <#else>
-	    Material.${blockSetType?replace("IRON", "METAL")?replace("OAK", "NETHER_WOOD")
+	    Material.${blockSetType?replace("IRON", "METAL")?replace("OAK", "NETHER_WOOD")}
 	    </#if>
 		<#if generator.map(data.colorOnMap, "mapcolors") != "DEFAULT">
 		    , MaterialColor.${generator.map(data.colorOnMap, "mapcolors")}
