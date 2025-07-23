@@ -223,7 +223,7 @@ public class ${name}Menu extends AbstractContainerMenu implements ${JavaModName}
 				}
 
 				if (itemstack1.isEmpty()) {
-					slot.setByPlayer(ItemStack.EMPTY);
+					slot.set(ItemStack.EMPTY);
 				} else {
 					slot.setChanged();
 				}
