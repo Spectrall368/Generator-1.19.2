@@ -238,7 +238,7 @@ public class ${name}Screen extends AbstractContainerScreen<${name}Menu> implemen
 					menu.sendMenuStateUpdate(entity, 0, "${component.getName()}", content, false);
 			});
 			<#if component.placeholder?has_content>
-			${component.getName()}.setHint(Component.translatable("gui.${modid}.${registryname}.${component.getName()}"));
+			${component.getName()}.setSuggestion(Component.translatable("gui.${modid}.${registryname}.${component.getName()}").getString());
 			</#if>
 
 			this.addWidget(this.${component.getName()});
