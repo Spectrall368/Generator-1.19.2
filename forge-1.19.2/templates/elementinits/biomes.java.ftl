@@ -48,15 +48,15 @@ import com.google.common.base.Suppliers;
 
 	@SubscribeEvent public static void onServerAboutToStart(ServerAboutToStartEvent event) {
 		MinecraftServer server = event.getServer();
-		WorldGenSettings worldGenSettings = server.getWorldData().worldGenSettings();
+		Registry<LevelStem> levelStemTypeRegistry = server.registryAccess().registryOrThrow(Registry.LEVEL_STEM_REGISTRY);
 		Registry<Biome> biomeRegistry = server.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
 
-		for (Map.Entry<ResourceKey<LevelStem>, LevelStem> entry : worldGenSettings.dimensions().entrySet()) {
-			Holder<DimensionType> dimensionType = entry.getValue().typeHolder();
+		for (LevelStem levelStem : levelStemTypeRegistry.stream().toList()) {
+			Holder<DimensionType> dimensionType = levelStem.typeHolder();
 
 			<#if spawn_overworld?has_content || spawn_overworld_caves?has_content>
 			if (dimensionType.is(BuiltinDimensionTypes.OVERWORLD)) {
-				ChunkGenerator chunkGenerator = entry.getValue().generator();
+				ChunkGenerator chunkGenerator = levelStem.generator();
 
 				// Inject biomes to biome source
 				if(chunkGenerator.getBiomeSource() instanceof MultiNoiseBiomeSource noiseSource) {
@@ -118,7 +118,7 @@ import com.google.common.base.Suppliers;
 
 			<#if spawn_nether?has_content>
 			if (dimensionType.is(BuiltinDimensionTypes.NETHER)) {
-				ChunkGenerator chunkGenerator = entry.getValue().generator();
+				ChunkGenerator chunkGenerator = levelStem.generator();
 
 				// Inject biomes to biome source
 				if(chunkGenerator.getBiomeSource() instanceof MultiNoiseBiomeSource noiseSource) {
