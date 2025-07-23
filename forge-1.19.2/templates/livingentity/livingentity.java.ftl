@@ -325,7 +325,7 @@ public class ${name}Entity extends ${extendsClass} <#if interfaces?size gt 0>imp
 	}
     </#if>
 
-	<#if hasProcedure(data.whenMobIsHurt) || data.immuneToFire || data.immuneToArrows || data.immuneToFallDamage
+	<#if hasProcedure(data.whenMobIsHurt) || data.immuneToArrows || data.immuneToFallDamage
 		|| data.immuneToCactus || data.immuneToDrowning || data.immuneToLightning || data.immuneToPotions
 		|| data.immuneToPlayer || data.immuneToExplosion || data.immuneToTrident || data.immuneToAnvil
 		|| data.immuneToDragonBreath || data.immuneToWither>
@@ -344,10 +344,6 @@ public class ${name}Entity extends ${extendsClass} <#if interfaces?size gt 0>imp
 			<#else>
 				<@procedureOBJToCode data.whenMobIsHurt/>
 			</#if>
-		</#if>
-		<#if data.immuneToFire>
-			if (damagesource == DamageSource.IN_FIRE)
-				return false;
 		</#if>
 		<#if data.immuneToArrows>
 			if (damagesource.getDirectEntity() instanceof AbstractArrow)
