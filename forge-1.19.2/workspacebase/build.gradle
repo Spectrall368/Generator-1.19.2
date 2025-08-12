@@ -50,7 +50,7 @@ mixin {
 }
 
 dependencies {
-    implementation(jarJar("io.github.llamalad7:mixinextras-neoforge:0.4.1"))
+    implementation(jarJar("io.github.llamalad7:mixinextras-neoforge:0.5.0"))
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
