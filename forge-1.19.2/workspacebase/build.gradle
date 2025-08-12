@@ -1,6 +1,6 @@
 plugins {
     id 'eclipse'
-    id 'net.neoforged.moddev.legacyforge' version '2.0.103'
+    id 'net.neoforged.moddev.legacyforge' version '2.0.107'
 }
 
 version = '1.0'
@@ -45,6 +45,7 @@ tasks.withType(JavaCompile).configureEach {
 
 <#if w.getGElementsOfType('biome')?filter(e -> e.spawnBiome || e.spawnInCaves || e.spawnBiomeNether)?size != 0>
 mixin {
+    add sourceSets.main, "${modid}.refmap.json"
     config "${modid}.mixins.json"
 }
 
