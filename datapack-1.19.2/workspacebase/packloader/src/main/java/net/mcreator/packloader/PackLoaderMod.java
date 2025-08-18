@@ -18,7 +18,6 @@ import java.io.File;
 	}
 
 	public void addPacks(AddPackFindersEvent event) {
-		event.addRepositorySource(new FolderRepositorySource(new File("datapacks"), PackSource.DEFAULT));
+		event.addRepositorySource(new FolderRepositorySource(FMLPaths.getOrCreateGameRelativePath(Path.of("datapacks"), "datapacks"), PackSource.DEFAULT));
 	}
-
 }
