@@ -1,5 +1,6 @@
 package net.mcreator.packloader;
 
+import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.AddPackFindersEvent;
@@ -7,7 +8,7 @@ import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.repository.FolderRepositorySource;
 
-import java.io.File;
+import java.nio.file.Path;
 
 @Mod(PackLoaderMod.MODID) public class PackLoaderMod {
 
