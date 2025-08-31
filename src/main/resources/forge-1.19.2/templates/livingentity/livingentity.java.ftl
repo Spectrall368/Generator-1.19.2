@@ -286,7 +286,7 @@ public class ${name}Entity extends ${extendsClass} <#if interfaces?size gt 0>imp
 		<#if data.raidCelebrationSound?has_content && data.raidCelebrationSound.getMappedValue()?has_content>
 		return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.raidCelebrationSound}"));
 		<#else>
-		return SoundEvents.EMPTY;
+		return null;
 		</#if>
 	}
 	</#if>
