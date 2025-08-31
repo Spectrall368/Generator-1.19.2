@@ -1,7 +1,7 @@
 <#--
  # MCreator (https://mcreator.net/)
  # Copyright (C) 2012-2020, Pylo
- # Copyright (C) 2020-2022, Pylo, opensource contributors
+ # Copyright (C) 2020-2023, Pylo, opensource contributors
  # 
  # This program is free software: you can redistribute it and/or modify
  # it under the terms of the GNU General Public License as published by
@@ -179,10 +179,6 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 	@Override public BlockPathTypes getBlockPathType(BlockState state, BlockGetter world, BlockPos pos, Mob entity) {
 		return BlockPathTypes.${generator.map(data.aiPathNodeType, "pathnodetypes")};
 	}
-	<#elseif !data.hasBlockItem>
-	@Override public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-		return ItemStack.EMPTY;
-	}
 	</#if>
 
 	<@addSpecialInformation data.specialInformation, "block." + modid + "." + registryname, true/>
@@ -196,6 +192,10 @@ public class ${name}Block extends ${getPlantClass(data.plantType)}Block
 	<#if data.creativePickItem?? && !data.creativePickItem.isEmpty()>
 	@Override public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
 		return ${mappedMCItemToItemStackCode(data.creativePickItem, 1)};
+	}
+	<#elseif !data.hasBlockItem>
+	@Override public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+		return ItemStack.EMPTY;
 	}
 	</#if>
 
