@@ -37,7 +37,7 @@ package ${package}.init;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ${JavaModName}GameRules {
 
-	<#compress>
+	<@javacompress>
 	<#list gamerules as gamerule>
 		<#if gamerule.type == "Number">
 		 public static final GameRules.Key<GameRules.IntegerValue> ${gamerule.getModElement().getRegistryNameUpper()} =
@@ -49,6 +49,6 @@ public class ${JavaModName}GameRules {
 				GameRules.Category.${gamerule.category}, GameRules.BooleanValue.create(${gamerule.defaultValueLogic}));
 		</#if>
 	</#list>
-	</#compress>
+	</@javacompress>
 }
 <#-- @formatter:on -->

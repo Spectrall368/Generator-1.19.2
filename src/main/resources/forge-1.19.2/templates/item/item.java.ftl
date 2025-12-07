@@ -35,7 +35,7 @@
 package ${package}.item;
 <#assign hasCustomJAVAModels = data.hasCustomJAVAModel() || data.getModels()?filter(e -> e.hasCustomJAVAModel())?has_content>
 
-<#compress>
+<@javacompress>
 public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#elseif data.isMusicDisc>Record</#if>Item {
 	<#if data.hasBannerPatterns()>
 	public static final TagKey<BannerPattern> PROVIDED_PATTERNS = TagKey.create(Registry.BANNER_PATTERN_REGISTRY, new ResourceLocation(${JavaModName}.MODID, "pattern_item/${registryname}"));
@@ -93,14 +93,30 @@ public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#el
 	</#if>
 
 	<#if data.hasBannerPatterns()> <#-- Workaround to allow both music disc and patterns info in description -->
-	public MutableComponent getDisplayName() {
+	@Override public MutableComponent getDisplayName() {
 		return Component.translatable(this.getDescriptionId() + ".patterns");
+	}
+	</#if>
+
+	<#if data.isPiglinCurrency>
+	@Override public boolean isPiglinCurrency(ItemStack stack) {
+		return true;
 	}
 	</#if>
 
 	<#if data.hasNonDefaultAnimation()>
 	@Override public UseAnim getUseAnimation(ItemStack itemstack) {
 		return UseAnim.${data.animation?upper_case};
+	}
+	</#if>
+
+	<#if !data.isFood && data.animation == "eat">
+	@Override public SoundEvent getEatingSound() {
+		return null;
+	}
+	<#elseif !data.isFood && data.animation == "drink">
+	@Override public SoundEvent getDrinkingSound() {
+		return null;
 	}
 	</#if>
 
@@ -275,6 +291,8 @@ public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#el
 
 	<@onDroppedByPlayer data.onDroppedByPlayer/>
 
+	<@onItemEntityDestroyed data.onItemEntityDestroyed/>
+
 	<#if data.hasInventory()>
 	@Override public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag compound) {
 		return new ${name}InventoryCapability();
@@ -319,12 +337,25 @@ public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#el
 		}
 	</#if>
 
-	<#if data.enableRanged && data.shootConstantly>
-		@Override public void onUseTick(Level world, LivingEntity entity, ItemStack itemstack, int count) {
-			if (!world.isClientSide() && entity instanceof ServerPlayer player) {
-				<@arrowShootCode/>
-				entity.releaseUsingItem();
-			}
+	<#if hasProcedure(data.everyTickWhileUsing) || (data.enableRanged && data.shootConstantly)>
+		@Override public void onUseTick(Level world, LivingEntity entity, ItemStack itemstack, int time) {
+			<#if hasProcedure(data.everyTickWhileUsing)>
+				<@procedureCode data.everyTickWhileUsing, {
+            		"x": "entity.getX()",
+            		"y": "entity.getY()",
+            		"z": "entity.getZ()",
+            		"world": "world",
+            		"entity": "entity",
+            		"itemstack": "itemstack",
+            		"time": "time"
+            	}/>
+            </#if>
+			<#if data.enableRanged && data.shootConstantly>
+				if (!world.isClientSide() && entity instanceof ServerPlayer player) {
+					<@arrowShootCode/>
+					entity.releaseUsingItem();
+				}
+			</#if>
 		}
 	</#if>
 
@@ -396,5 +427,5 @@ public class ${name}Item extends <#if data.hasBannerPatterns()>BannerPattern<#el
 		</#if>
 	}
 </#macro>
-</#compress>
+</@javacompress>
 <#-- @formatter:on -->

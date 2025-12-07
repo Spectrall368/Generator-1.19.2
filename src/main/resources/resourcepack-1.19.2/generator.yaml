@@ -1,6 +1,6 @@
 name: Resource Pack for Java Edition @minecraft
 status: deprecated
-buildfileversion: 43.5.1
+buildfileversion: 43.5.2
 
 # gradle task definitions
 gradle:

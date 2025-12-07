@@ -1,10 +1,10 @@
 {
   "parent": "forge:item/default",
   "loader": "forge:composite",
-  "render_type": "${data.getRenderType()}",
   "children": {
     "part1": {
       "loader": "forge:obj",
+      "render_type": "${data.getRenderType()}",
       "model": "${modid}:models/item/${data.customModelName.split(":")[0]}.obj",
       "emissive_ambient": true
       <#if data.getTextureMap()??>,

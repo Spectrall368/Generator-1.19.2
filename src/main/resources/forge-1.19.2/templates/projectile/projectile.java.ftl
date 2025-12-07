@@ -34,7 +34,7 @@
 
 package ${package}.entity;
 
-<#compress>
+<@javacompress>
 @OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
 public class ${name}Entity extends AbstractArrow implements ItemSupplier {
 
@@ -246,5 +246,5 @@ public class ${name}Entity extends AbstractArrow implements ItemSupplier {
 	}
 
 }
-</#compress>
+</@javacompress>
 <#-- @formatter:on -->

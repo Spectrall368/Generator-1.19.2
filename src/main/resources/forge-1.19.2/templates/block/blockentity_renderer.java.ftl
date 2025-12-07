@@ -53,7 +53,8 @@ package ${package}.client.renderer.block;
                    					"y": "blockEntity.getBlockPos().getY()",
                    					"z": "blockEntity.getBlockPos().getZ()",
                    					"blockstate": "blockEntity.getBlockState()",
-                   					"world": "blockEntity.getLevel()"
+                                    "world": "blockEntity.getLevel()",
+                                    "entity": "Minecraft.getInstance().player"
                    				}, false/>)
 				    blockEntity.animationState${animation?index}.startIfStopped(tickCount);
  				else
@@ -66,7 +67,7 @@ package ${package}.client.renderer.block;
 	</#if>
 
 	@Override public void render(${name}BlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource renderer, int light, int overlayLight) {
-		<#compress>
+		<@javacompress>
 		<#if data.animations?has_content>
 		updateRenderState(blockEntity);
 		</#if>
@@ -109,7 +110,7 @@ package ${package}.client.renderer.block;
 		model.setupBlockEntityAnim(blockEntity, blockEntity.getLevel().getGameTime() + partialTick);
 		model.renderToBuffer(poseStack, builder, light, overlayLight, 1, 1, 1, 1);
 		poseStack.popPose();
-		</#compress>
+		</@javacompress>
 	}
 
 	@SubscribeEvent public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -132,10 +133,6 @@ package ${package}.client.renderer.block;
 			super.setupAnim(null, 0, 0, ageInTicks, 0, 0);
 		}
 
-		public ModelPart getRoot() {
-			return root;
-		}
-
 		private class BlockEntityHierarchicalModel extends HierarchicalModel<Entity> {
 
 			@Override public ModelPart root() {
@@ -151,11 +148,7 @@ package ${package}.client.renderer.block;
 				animator.animate(blockEntity.animationState${animation?index}, ${animation.animation}, ageInTicks, ${animation.speed}f);
 				</#list>
 			}
-
 		}
-
 	}
-
 }
-
 <#-- @formatter:on -->

@@ -32,7 +32,7 @@
 <#include "../procedures.java.ftl">
 package ${package}.fluid.types;
 
-<#compress>
+<@javacompress>
 public class ${name}FluidType extends FluidType {
 	public ${name}FluidType() {
 		super(FluidType.Properties.create()
@@ -161,4 +161,4 @@ public class ${name}FluidType extends FluidType {
 			}
 		);
 	}
-}</#compress>
+}</@javacompress>

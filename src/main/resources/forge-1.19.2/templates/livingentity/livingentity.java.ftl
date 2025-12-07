@@ -179,7 +179,7 @@ public class ${name}Entity extends ${extendsClass} <#if interfaces?size gt 0>imp
 	@Override protected void defineSynchedData() {
 		super.defineSynchedData();
 		<#list data.entityDataEntries as entry>
-			this.entityData.define(DATA_${entry.property().getName()}, ${entry.value()?is_string?then("\"" + entry.value() + "\"", entry.value())});
+			this.entityData.define(DATA_${entry.property().getName()}, ${entry.value()?is_string?then("\"" + JavaConventions.escapeStringForJava(entry.value()) + "\"", entry.value())});
 		</#list>
 	}
 	</#if>
@@ -1022,7 +1022,7 @@ public class ${name}Entity extends ${extendsClass} <#if interfaces?size gt 0>imp
 	<#if data.sensitiveToVibration>
 		<#if data.vibrationalEvents?has_content>
 		@Override public TagKey<GameEvent> getListenableEvents() {
-			return TagKey.create(Registry.GAME_EVENT_REGISTRY, new ResourceLocation("${data.getModElement().getRegistryName()}_can_listen"));
+			return TagKey.create(Registry.GAME_EVENT_REGISTRY, new ResourceLocation("${registryname}_can_listen"));
 		}
 		</#if>
 
