@@ -63,7 +63,7 @@ package ${package}.client.renderer.item;
 		</#list>
 	}
 
-	@Override public void renderByItem(ItemStack itemstack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+	@Override public void renderByItem(ItemStack itemstack, ItemTransforms.TransformType displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
 		<#if data.hasCustomJAVAModel() && data.animations?has_content>
 		updateRenderState(itemstack);
 		</#if>
@@ -87,7 +87,7 @@ package ${package}.client.renderer.item;
 		Minecraft.getInstance().getItemRenderer().getModel(this.transformSource, null, null, 0).applyTransform(displayContext, poseStack, isLeftHand(displayContext));
 		poseStack.translate(0.5, isInventory(displayContext) ? 1.5 : 2, 0.5);
 		poseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
-		poseStack.scale(1, 1, displayContext == ItemDisplayContext.GUI ? -1 : 1);
+		poseStack.scale(1, 1, displayContext == ItemTransforms.TransformType.GUI ? -1 : 1);
 		VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(bufferSource, model.renderType(texture), false, itemstack.hasFoil());
 		<#if data.hasCustomJAVAModel() && data.animations?has_content>
 		if (model instanceof AnimatedModel animatedModel)
@@ -99,12 +99,12 @@ package ${package}.client.renderer.item;
 		poseStack.popPose();
 	}
 
-	private static boolean isLeftHand(ItemDisplayContext type) {
-		return type == ItemDisplayContext.FIRST_PERSON_LEFT_HAND || type == ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
+	private static boolean isLeftHand(ItemTransforms.TransformType type) {
+		return type == ItemTransforms.TransformType.FIRST_PERSON_LEFT_HAND || type == ItemTransforms.TransformType.THIRD_PERSON_LEFT_HAND;
 	}
 
-	private static boolean isInventory(ItemDisplayContext type) {
-		return type == ItemDisplayContext.GUI || type == ItemDisplayContext.FIXED;
+	private static boolean isInventory(ItemTransforms.TransformType type) {
+		return type == ItemTransforms.TransformType.GUI || type == ItemTransforms.TransformType.FIXED;
 	}
 
 	<#if data.hasCustomJAVAModel() && data.animations?has_content>
@@ -118,16 +118,19 @@ package ${package}.client.renderer.item;
 		int tickCount = (int) (System.currentTimeMillis() - start) / 50;
 		<#list data.animations as animation>
 			<#if hasProcedure(animation.condition)>
-				getAnimationState(itemstack).get(${animation?index}).animateWhen(<@procedureCode animation.condition, {
+				if(<@procedureCode animation.condition, {
 					"itemstack": "itemstack",
 					"x": "Minecraft.getInstance().player.getX()",
 					"y": "Minecraft.getInstance().player.getY()",
 					"z": "Minecraft.getInstance().player.getZ()",
 					"entity": "Minecraft.getInstance().player",
 					"world": "Minecraft.getInstance().level"
-				}, false/>, tickCount);
+				}, false/>)
+ 					getAnimationState(itemstack).get(${animation?index}).startIfStopped(tickCount);
+ 				else
+ 					getAnimationState(itemstack).get(${animation?index}).stop();
 			<#else>
-				getAnimationState(itemstack).get(${animation?index}).animateWhen(true, tickCount);
+				getAnimationState(itemstack).get(${animation?index}).startIfStopped(tickCount);
 			</#if>
 		</#list>
 	}
