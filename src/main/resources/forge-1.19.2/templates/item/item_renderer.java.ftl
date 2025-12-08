@@ -73,7 +73,7 @@ package ${package}.client.renderer.item;
 		<#list data.getModels() as model>
 			<#if model.hasCustomJAVAModel()>
 			if (<#list model.stateMap.entrySet() as entry>
-					ItemProperties.getProperty(itemstack, new ResourceLocation("${generator.map(entry.getKey().getPrefixedName(registryname + "_"), "itemproperties")}"))
+					ItemProperties.getProperty(itemstack.getItem(), new ResourceLocation("${generator.map(entry.getKey().getPrefixedName(registryname + "_"), "itemproperties")}"))
 						.call(itemstack, Minecraft.getInstance().level, Minecraft.getInstance().player, 0) >= ${entry.getValue()?is_boolean?then(entry.getValue()?then("1", "0"), entry.getValue())}
 				<#sep> && </#list>) {
 				model = models.get(${model?index + 1});
@@ -86,7 +86,7 @@ package ${package}.client.renderer.item;
 		poseStack.pushPose();
 		Minecraft.getInstance().getItemRenderer().getModel(this.transformSource, null, null, 0).applyTransform(displayContext, poseStack, isLeftHand(displayContext));
 		poseStack.translate(0.5, isInventory(displayContext) ? 1.5 : 2, 0.5);
-		poseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));
+		poseStack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
 		poseStack.scale(1, 1, displayContext == ItemTransforms.TransformType.GUI ? -1 : 1);
 		VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(bufferSource, model.renderType(texture), false, itemstack.hasFoil());
 		<#if data.hasCustomJAVAModel() && data.animations?has_content>
