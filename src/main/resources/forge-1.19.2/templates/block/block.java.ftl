@@ -55,7 +55,7 @@ public class ${name}Block extends
 	<#if data.hasGravity>
 		FallingBlock
 	<#elseif data.blockBase?has_content && data.blockBase == "Button">
-		<#if blockSetType == "OAK">Wood<#else>Stone</#if>ButtonBlock
+		net.minecraft.world.level.block.<#if blockSetType == "OAK">Wood<#else>Stone</#if>ButtonBlock
 	<#elseif data.blockBase?has_content>
 		${data.blockBase?replace("Stairs", "Stair")?replace("Pane", "IronBars")}Block
 	<#else>
