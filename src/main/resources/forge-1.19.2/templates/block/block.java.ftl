@@ -813,9 +813,9 @@ public class ${getClassName()}Block extends ${getBlockClass(data.blockBase)}
 	<#elseif data.hasGravity><#return "FallingBlock">
 	<#elseif blockBase == "Button">
 		<#if blockSetType != "OAK">
-            <#return "StoneButtonBlock">
+            <#return "net.minecraft.world.level.block.StoneButtonBlock">
         <#else>
-            <#return "WoodButtonBlock">
+            <#return "net.minecraft.world.level.block.WoodButtonBlock">
         </#if>
 	<#elseif blockBase == "Stairs"><#return "StairBlock">
 	<#elseif blockBase == "Pane"><#return "IronBarsBlock">

@@ -149,10 +149,10 @@ package ${package}.client.particle;
         float[][] uvs = { {u1,v1}, {u1,v0}, {u0,v0}, {u0,v1} };
 
         for (int i = 0; i < 4; i++) {
-            Vector3f v = new Vector3f(corners[i][0], corners[i][1], 0.0F)
-                .transform(rotation)
-                .mul(size)
-                .add(cx, cy, cz);
+            Vector3f v = new Vector3f(corners[i][0], corners[i][1], 0.0F);
+            v.transform(rotation)
+            v.mul(size)
+            v.add(cx, cy, cz);
             buffer.vertex(v.x(), v.y(), v.z())
                 .uv(uvs[i][0], uvs[i][1])
                 .color(this.rCol, this.gCol, this.bCol, this.alpha)

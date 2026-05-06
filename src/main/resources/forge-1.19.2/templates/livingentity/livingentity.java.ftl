@@ -905,10 +905,6 @@ public class ${name}Entity extends ${extendsClass} <#if interfaces?size gt 0>imp
 		super.aiStep();
 		this.setNoGravity(true);
 	}
-
-	@Override protected float getFlyingSpeed() {
-		return (float) this.getAttributeValue(Attributes.FLYING_SPEED);
-	}
     </#if>
 
 	public static void init() {
