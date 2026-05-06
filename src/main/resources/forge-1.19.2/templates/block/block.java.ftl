@@ -811,10 +811,15 @@ public class ${getClassName()}Block extends ${getBlockClass(data.blockBase)}
 <#function getBlockClass blockBase="">
 	<#if var_extends_class??><#return var_extends_class>
 	<#elseif data.hasGravity><#return "FallingBlock">
+	<#elseif blockBase == "Button">
+		<#if blockSetType != "OAK">
+            <#return "StoneButtonBlock">
+        <#else>
+            <#return "WoodButtonBlock">
+        </#if>
 	<#elseif blockBase == "Stairs"><#return "StairBlock">
 	<#elseif blockBase == "Pane"><#return "IronBarsBlock">
-	<#elseif blockBase == "Sign"><#return "StandingSignBlock">
-	<#elseif blockBase == "HangingSign"><#return "CeilingHangingSignBlock">
+	<#elseif blockBase == "Sign" || blockBase == "HangingSign"><#return "StandingSignBlock">
 	<#else><#return blockBase + "Block">
 	</#if>
 </#function>

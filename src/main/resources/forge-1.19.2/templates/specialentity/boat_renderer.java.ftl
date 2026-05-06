@@ -37,7 +37,7 @@ import com.mojang.datafixers.util.Pair;
 
 @OnlyIn(Dist.CLIENT)
 public class ${JavaModName}BoatRenderer extends BoatRenderer {
-	private final Map<${JavaModName}Boat.Type, Pair<ResourceLocation, ListModel<Boat>>> boatResources;
+	private final Map<${JavaModName}Boat.Type, Pair<ResourceLocation, BoatModel>> boatResources;
 
 	public ${JavaModName}BoatRenderer(EntityRendererProvider.Context context, boolean hasChest) {
 		super(context, hasChest);
@@ -49,10 +49,9 @@ public class ${JavaModName}BoatRenderer extends BoatRenderer {
 		return hasChest ? "textures/entity/chest_boat/" + type.getName() + ".png" : "textures/entity/boat/" + type.getName() + ".png";
 	}
 
-	private ListModel<Boat> createBoatModel(EntityRendererProvider.Context context, ${JavaModName}Boat.Type type, boolean hasChest) {
+	private BoatModel createBoatModel(EntityRendererProvider.Context context, ${JavaModName}Boat.Type type, boolean hasChest) {
 		ModelLayerLocation modellayerlocation = hasChest ? createChestBoatModelName(type) : createBoatModelName(type);
-		ModelPart modelpart = context.bakeLayer(modellayerlocation);
-		return hasChest ? new ChestBoatModel(modelpart) : new BoatModel(modelpart);
+		return new BoatModel(context.bakeLayer(modellayerlocation), hasChest);
 	}
 
 	private static ModelLayerLocation createBoatModelName(${JavaModName}Boat.Type type) {
@@ -67,13 +66,13 @@ public class ${JavaModName}BoatRenderer extends BoatRenderer {
 		return new ModelLayerLocation(new ResourceLocation("${modid}", path), model);
 	}
 
-	@Override public Pair<ResourceLocation, ListModel<Boat>> getModelWithLocation(Boat boat) {
+	@Override public Pair<ResourceLocation, BoatModel> getModelWithLocation(Boat boat) {
 		<#if hasBoat && hasChestBoat>
-		return boat instanceof ${JavaModName}Boat modBoat ? this.boatResources.get(modBoat.getModVariant()) : (boat instanceof ${JavaModName}ChestBoat modChestBoat ? this.boatResources.get(modChestBoat.getModVariant()) : null);
+		return boat instanceof ${JavaModName}Boat modBoat ? this.boatResources.get(modBoat.getModType()) : (boat instanceof ${JavaModName}ChestBoat modChestBoat ? this.boatResources.get(modChestBoat.getModType()) : null);
 		<#elseif hasBoat>
-		return boat instanceof ${JavaModName}Boat modBoat ? this.boatResources.get(modBoat.getModVariant()) : null;
+		return boat instanceof ${JavaModName}Boat modBoat ? this.boatResources.get(modBoat.getModType()) : null;
 		<#else>
-		return boat instanceof ${JavaModName}ChestBoat modChestBoat ? this.boatResources.get(modChestBoat.getModVariant()) : null;
+		return boat instanceof ${JavaModName}ChestBoat modChestBoat ? this.boatResources.get(modChestBoat.getModType()) : null;
 		</#if>
 	}
 }

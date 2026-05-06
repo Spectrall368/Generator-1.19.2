@@ -39,7 +39,6 @@ package ${package}.init;
 <#assign hasBlocks = false>
 <#assign hasDoubleBlocks = false>
 <#assign hasSigns = false>
-<#assign hasHangingSigns = false>
 <#assign hasItemsWithProperties = w.getGElementsOfType("item")?filter(e -> e.customProperties?has_content)?size != 0
 	|| w.getGElementsOfType("tool")?filter(e -> e.toolType == "Shield")?size != 0>
 <#assign tabMap = w.getCreativeTabMap()>
@@ -144,7 +143,7 @@ public class ${JavaModName}Items {
 			<#elseif item.getModElement().getTypeString() == "specialentity">
 				${item.getModElement().getRegistryNameUpper()} =
 					REGISTRY.register("${item.getModElement().getRegistryName()}",
-						() -> new ${JavaModName}BoatItem(${JavaModName}Boat.Type.${item.getModElement().getRegistryNameUpper()}));
+						() -> new ${JavaModName}BoatItem(${JavaModName}Boat.Type.${item.getModElement().getRegistryNameUpper()}, new Item.Properties().tab(<@CreativeTabs item.creativeTabs/>)));
 			<#elseif item.getModElement().getTypeString() == "dimension" && item.hasIgniter()>
 				${item.getModElement().getRegistryNameUpper()} =
 					REGISTRY.register("${item.getModElement().getRegistryName()}", ${item.getModElement().getName()}Item::new);
@@ -156,22 +155,17 @@ public class ${JavaModName}Items {
 				<#if item.isDoubleBlock()>
 					<#assign hasDoubleBlocks = true>
 					${item.getModElement().getRegistryNameUpper()} =
-					doubleBlock<#if !customProp>CMT</#if>(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()},
+					doubleBlock<#if !customProp>Tab</#if>(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()},
 					<#if customProp><@blockItemProperties item/><#else><@CreativeTabs item.creativeTabs/></#if>);
-				<#elseif (item.getModElement().getTypeString() == "block") && (item.blockBase! == "Sign")>
+				<#elseif (item.getModElement().getTypeString() == "block") && ((item.blockBase! == "Sign") || (item.blockBase! == "HangingSign"))>
 					<#assign hasSigns = true>
 					${item.getModElement().getRegistryNameUpper()} =
-					signBlock(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()}, ${JavaModName}Blocks.${item.getWallRegistryNameUpper()}
-					<#if item.hasCustomItemProperties()>, <@blockItemProperties item/></#if>);
-				<#elseif (item.getModElement().getTypeString() == "block") && (item.blockBase! == "HangingSign")>
-					<#assign hasHangingSigns = true>
-					${item.getModElement().getRegistryNameUpper()} =
-					hangingSignBlock(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()}, ${JavaModName}Blocks.${item.getWallRegistryNameUpper()}
-					<#if item.hasCustomItemProperties()>, <@blockItemProperties item/></#if>);
+					signBlock<#if !customProp>Tab</#if>(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()}, ${JavaModName}Blocks.${item.getWallRegistryNameUpper()},
+					<#if customProp><@blockItemProperties item/><#else><@CreativeTabs item.creativeTabs/></#if>);
 				<#else>
 					<#assign hasBlocks = true>
 					${item.getModElement().getRegistryNameUpper()} =
-					block<#if !customProp>CMT</#if>(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()},
+					block<#if !customProp>Tab</#if>(${JavaModName}Blocks.${item.getModElement().getRegistryNameUpper()},
 					<#if customProp><@blockItemProperties item/><#else><@CreativeTabs item.creativeTabs/></#if>);
 				</#if>
 			<#else>
@@ -192,7 +186,7 @@ public class ${JavaModName}Items {
 	// End of user code block custom items
 
 	<#if hasBlocks>
-	private static RegistryObject<Item> blockCMT(RegistryObject<Block> block, CreativeModeTab tab) {
+	private static RegistryObject<Item> blockTab(RegistryObject<Block> block, CreativeModeTab tab) {
 		return block(block, new Item.Properties().tab(tab));
 	}
 
@@ -202,7 +196,7 @@ public class ${JavaModName}Items {
 	</#if>
 
 	<#if hasDoubleBlocks>
-	private static RegistryObject<Item> doubleBlockCMT(RegistryObject<Block> block, CreativeModeTab tab) {
+	private static RegistryObject<Item> doubleBlockTab(RegistryObject<Block> block, CreativeModeTab tab) {
 		return doubleBlock(block, new Item.Properties().tab(tab));
 	}
 
@@ -212,22 +206,12 @@ public class ${JavaModName}Items {
 	</#if>
 
 	<#if hasSigns>
-	private static RegistryObject<Item> signBlock(RegistryObject<Block> block, RegistryObject<Block> wallBlock) {
-		return signBlock(block, wallBlock, new Item.Properties());
+	private static RegistryObject<Item> signBlockTab(RegistryObject<Block> block, RegistryObject<Block> wallBlock, CreativeModeTab tab) {
+		return signBlock(block, wallBlock, new Item.Properties().tab(tab));
 	}
 
 	private static RegistryObject<Item> signBlock(RegistryObject<Block> block, RegistryObject<Block> wallBlock, Item.Properties properties) {
 		return REGISTRY.register(block.getId().getPath(), () -> new SignItem(properties, block.get(), wallBlock.get()));
-	}
-	</#if>
-
-	<#if hasHangingSigns>
-	private static RegistryObject<Item> hangingSignBlock(RegistryObject<Block> block, RegistryObject<Block> wallBlock) {
-		return hangingSignBlock(block, wallBlock, new Item.Properties());
-	}
-
-	private static RegistryObject<Item> hangingSignBlock(RegistryObject<Block> block, RegistryObject<Block> wallBlock, Item.Properties properties) {
-		return REGISTRY.register(block.getId().getPath(), () -> new HangingSignItem(block.get(), wallBlock.get(), properties));
 	}
 	</#if>
 

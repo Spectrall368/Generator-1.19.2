@@ -54,7 +54,7 @@ public class ${JavaModName}ChestBoat extends ChestBoat {
 	}
 
 	@Override public Item getDropItem() {
-		return switch (getModVariant()) {
+		return switch (getModType()) {
 		<#list chestBoatEntities as entity>
 		    case ${entity.getModElement().getRegistryNameUpper()} -> ${JavaModName}Items.${entity.getModElement().getRegistryNameUpper()}.get();
 		</#list>
@@ -68,20 +68,20 @@ public class ${JavaModName}ChestBoat extends ChestBoat {
 	}
 
 	@Override protected void addAdditionalSaveData(CompoundTag compound) {
-		compound.putString("Type", getModVariant().getSerializedName());
+		compound.putString("Type", getModType().getName());
 	}
 
 	@Override protected void readAdditionalSaveData(CompoundTag compound) {
 		if (compound.contains("Type", 8)) {
-			setVariant(${JavaModName}Boat.Type.byName(compound.getString("Type")));
+			setType(${JavaModName}Boat.Type.byName(compound.getString("Type")));
 		}
 	}
 
-	public void setVariant(${JavaModName}Boat.Type variant) {
+	public void setType(${JavaModName}Boat.Type variant) {
 		this.entityData.set(DATA_ID_TYPE, variant.ordinal());
 	}
 
-	public ${JavaModName}Boat.Type getModVariant() {
+	public ${JavaModName}Boat.Type getModType() {
 		return ${JavaModName}Boat.Type.byId(this.entityData.get(DATA_ID_TYPE));
 	}
 

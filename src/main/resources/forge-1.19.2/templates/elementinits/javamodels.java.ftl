@@ -46,7 +46,7 @@ package ${package}.init;
 		event.registerLayerDefinition(${model.getReadableName()}.LAYER_LOCATION, ${model.getReadableName()}::createBodyLayer);
 		</#list>
 		<#list specialentities as entity>
-		event.registerLayerDefinition(${entity.getModElement().getRegistryNameUpper()}_LAYER_LOCATION, ${entity.entityType}Model::createBodyModel);
+		event.registerLayerDefinition(${entity.getModElement().getRegistryNameUpper()}_LAYER_LOCATION, () -> BoatModel.createBodyModel(${entity.entityType != "Boat"}));
 		</#list>
 	}
 }

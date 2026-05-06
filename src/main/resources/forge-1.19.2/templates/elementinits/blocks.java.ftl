@@ -161,8 +161,7 @@ package ${package}.init;
 	@SubscribeEvent public static void registerSigns(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
             <#list signs as block>
-                modify(BlockEntityType.<#if block.blockBase == "HangingSign">HANGING_</#if>SIGN,
-                        ${block.getModElement().getRegistryNameUpper()}.get(), ${block.getWallRegistryNameUpper()}.get());
+                modify(BlockEntityType.SIGN, ${block.getModElement().getRegistryNameUpper()}.get(), ${block.getWallRegistryNameUpper()}.get());
             </#list>
 		});
 	}

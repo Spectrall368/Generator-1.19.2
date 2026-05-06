@@ -33,11 +33,7 @@
 </#function>
 
 <#function toBlockPos x y z>
-    <#if x?trim?starts_with("/*@int*/") && y?trim?starts_with("/*@int*/") && z?trim?starts_with("/*@int*/")>
-        <#return "new BlockPos(" + opt.removeParentheses(x) + "," + opt.removeParentheses(y) + "," + opt.removeParentheses(z) +")">
-    <#else>
-        <#return "BlockPos.containing(" + opt.removeParentheses(x) + "," + opt.removeParentheses(y) + "," + opt.removeParentheses(z) +")">
-    </#if>
+	<#return "new BlockPos(" + opt.removeParentheses(x) + "," + opt.removeParentheses(y) + "," + opt.removeParentheses(z) +")">
 </#function>
 
 <#function toPlacedFeature featureType featureConfig placement="">

@@ -47,16 +47,16 @@ package ${package}.init;
 <#assign variantSetterCode>
 <#if hasChestBoat && hasBoat>
 if(boat instanceof ${JavaModName}ChestBoat chestBoat) {
-    chestBoat.setVariant(this.type);
+    chestBoat.setType(this.type);
 } else if(boat instanceof ${JavaModName}Boat boatt) {
-    boatt.setVariant(this.type);
+    boatt.setType(this.type);
 }
 <#elseif hasChestBoat>
 if(boat instanceof ${JavaModName}ChestBoat chestBoat)
-    chestBoat.setVariant(this.type);
+    chestBoat.setType(this.type);
 <#else>
 if(boat instanceof ${JavaModName}Boat boatt)
-    boatt.setVariant(this.type);
+    boatt.setType(this.type);
 </#if>
 </#assign>
 
@@ -159,7 +159,7 @@ if(boat instanceof ${JavaModName}Boat boatt)
 	    <#if hasBoat>
 	    	<#assign executeMethod = executeMethod.replace("new Boat", "new " + JavaModName + "Boat")>
 	    </#if>
-	    <#assign executeMethod = executeMethod.replace("boat.setVariant(this.type);", variantSetterCode)>
+	    <#assign executeMethod = executeMethod.replace("boat.setType(this.type);", variantSetterCode)>
 	    @Override ${executeMethod}
 
 	    @Override ${mcc.getMethod("net.minecraft.core.dispenser.BoatDispenseItemBehavior", "playSound", "BlockSource")}

@@ -25,22 +25,22 @@ templates:
     name: "@MODASSETSROOT/models/item/@registryname_0.json"
 
 tags:
-  - tag: ITEMS:minecraft:pickaxes
+  - tag: ITEMS:forge:tools/pickaxes
     condition_any:
       - "toolType %= Pickaxe"
       - "toolType %= Special"
       - "toolType %= MultiTool"
-  - tag: ITEMS:minecraft:axes
+  - tag: ITEMS:forge:tools/axes
     condition_any:
       - "toolType %= Axe"
       - "toolType %= MultiTool"
-  - tag: ITEMS:minecraft:swords
+  - tag: ITEMS:forge:tools/swords
     condition_any:
       - "toolType %= Sword"
       - "toolType %= MultiTool"
-  - tag: ITEMS:minecraft:shovels
+  - tag: ITEMS:forge:tools/shovels
     condition: "toolType %= Spade"
-  - tag: ITEMS:minecraft:hoes
+  - tag: ITEMS:forge:tools/hoes
     condition: "toolType %= Hoe"
 
 localizationkeys:

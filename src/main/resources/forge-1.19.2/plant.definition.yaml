@@ -94,7 +94,5 @@ localizationkeys:
     key: block.@modid.@registryname.description_@item_index
 
 tags:
-  - tag: BLOCKS:minecraft:replaceable
-    condition: isReplaceable
   - tag: BLOCKS:minecraft:saplings
     condition: "plantType %= sapling"

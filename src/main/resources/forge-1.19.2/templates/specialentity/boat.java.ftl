@@ -57,7 +57,7 @@ public class ${JavaModName}Boat extends Boat {
 	}
 
 	@Override public Item getDropItem() {
-		return switch (getModVariant()) {
+		return switch (getModType()) {
 		<#list boatEntities as entity>
 		    case ${entity.getModElement().getRegistryNameUpper()} -> ${JavaModName}Items.${entity.getModElement().getRegistryNameUpper()}.get();
 		</#list>
@@ -75,24 +75,24 @@ public class ${JavaModName}Boat extends Boat {
 	}
 
 	@Override protected void addAdditionalSaveData(CompoundTag compound) {
-		compound.putString("Type", getModVariant().getSerializedName());
+		compound.putString("Type", getModType().getName());
 	}
 
 	@Override protected void readAdditionalSaveData(CompoundTag compound) {
 		if (compound.contains("Type", 8)) {
-			setVariant(Type.byName(compound.getString("Type")));
+			setType(Type.byName(compound.getString("Type")));
 		}
 	}
 
-	public void setVariant(Type variant) {
+	public void setType(Type variant) {
 		this.entityData.set(DATA_ID_TYPE, variant.ordinal());
 	}
 
-	public Type getModVariant() {
+	public Type getModType() {
 		return Type.byId(this.entityData.get(DATA_ID_TYPE));
 	}
 
-	public static enum Type implements StringRepresentable {
+	public static enum Type {
         <@javacompress>
             <#list specialentities as entity>
                 ${entity.getModElement().getRegistryNameUpper()}(Blocks.OAK_PLANKS, "${entity.getModElement().getRegistryName()}", ${entity.entityType == "ChestBoat"})<#sep>,
@@ -102,17 +102,11 @@ public class ${JavaModName}Boat extends Boat {
         private final String name;
         private final Block planks;
         private final boolean hasChest;
-        public static final StringRepresentable.EnumCodec<${JavaModName}Boat.Type> CODEC = StringRepresentable.fromEnum(${JavaModName}Boat.Type::values);
-        private static final IntFunction<${JavaModName}Boat.Type> BY_ID = ByIdMap.continuous(Enum::ordinal, values(), ByIdMap.OutOfBoundsStrategy.ZERO);
 
         private Type(Block block, String name, boolean hasChest) {
             this.name = name;
             this.planks = block;
             this.hasChest = hasChest;
-        }
-
-        public String getSerializedName() {
-            return name;
         }
 
         public String getName() {
@@ -132,15 +126,22 @@ public class ${JavaModName}Boat extends Boat {
         }
 
         public static ${JavaModName}Boat.Type byId(int id) {
-            return BY_ID.apply(id);
+            Type[] type = values();
+            if (id < 0 || id >= type.length)
+                id = 0;
+
+            return type[id];
         }
 
         public static ${JavaModName}Boat.Type byName(String name) {
-        	<#if boatEntities?has_content>
-            return CODEC.byName(name, ${boatEntities[0].getModElement().getRegistryNameUpper()});
-            <#else>
-            return CODEC.byName(name, ${specialentities[0].getModElement().getRegistryNameUpper()});
-            </#if>
+            Type[] type = values();
+
+            for(int i = 0; i < type.length; ++i) {
+                if (type[i].getName().equals(name))
+                    return type[i];
+            }
+
+            return type[0];
         }
 	}
 }

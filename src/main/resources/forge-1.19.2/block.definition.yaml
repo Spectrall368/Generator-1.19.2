@@ -659,19 +659,15 @@ tags:
   - tag: BLOCKS:minecraft:flower_pots
     condition: "blockBase %= FlowerPot"
   - tag: BLOCKS:minecraft:standing_signs
-    condition: "blockBase %= Sign"
+    condition_any:
+      - "blockBase %= Sign"
+      - "blockBase %= HangingSign"
   - tag: BLOCKS:minecraft:wall_signs
-    condition: "blockBase %= Sign"
-    entry: "CUSTOM:@NAME.wall"
-  - tag: BLOCKS:minecraft:ceiling_hanging_signs
-    condition: "blockBase %= HangingSign"
-  - tag: BLOCKS:minecraft:wall_hanging_signs
-    condition: "blockBase %= HangingSign"
+    condition_any:
+      - "blockBase %= Sign"
+      - "blockBase %= HangingSign"
     entry: "CUSTOM:@NAME.wall"
 
-  - tag: BLOCKS:minecraft:replaceable
-    condition: isReplaceable
-    entryprovider: getProvidedBlocks()
   - tag: BLOCKS:minecraft:climbable
     condition: isLadder
     entryprovider: getProvidedBlocks()

@@ -39,16 +39,16 @@ import net.minecraft.world.entity.EntitySelector;
 <#assign variantSetterCode>
 <#if hasChestBoat && hasBoat>
 if(boat instanceof ${JavaModName}ChestBoat chestBoat) {
-    chestBoat.setVariant(this.type);
+    chestBoat.setType(this.type);
 } else if(boat instanceof ${JavaModName}Boat boatt) {
-    boatt.setVariant(this.type);
+    boatt.setType(this.type);
 }
 <#elseif hasChestBoat>
 if(boat instanceof ${JavaModName}ChestBoat chestBoat)
-    chestBoat.setVariant(this.type);
+    chestBoat.setType(this.type);
 <#else>
 if(boat instanceof ${JavaModName}Boat boatt)
-    boatt.setVariant(this.type);
+    boatt.setType(this.type);
 </#if>
 </#assign>
 
@@ -57,14 +57,14 @@ public class ${JavaModName}BoatItem extends Item {
 	private final ${JavaModName}Boat.Type type;
 	private final boolean hasChest;
 
-	public ${JavaModName}BoatItem(${JavaModName}Boat.Type type) {
-		super(new Item.Properties().stacksTo(1));
+	public ${JavaModName}BoatItem(${JavaModName}Boat.Type type, Item.Properties properties) {
+		super(properties.stacksTo(1));
 		this.hasChest = type.hasChest();
 		this.type = type;
 	}
 
 	<#assign useMethod = mcc.getMethod("net.minecraft.world.item.BoatItem", "use", "Level", "Player", "InteractionHand")>
-	<#assign useMethod = useMethod.replace("boat.setVariant(this.type);", variantSetterCode)>
+	<#assign useMethod = useMethod.replace("boat.setType(this.type);", variantSetterCode)>
 	@Override ${useMethod}
 
 	private Boat getBoat(Level level, HitResult hitResult) {
