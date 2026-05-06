@@ -94,6 +94,9 @@ public class ${name}Entity extends ${extendsClass} <#if interfaces?size gt 0>imp
 		maxUpStep = ${data.stepHeight}f;
 		xpReward = ${data.xpAmount};
 		setNoAi(${(!data.hasAI)});
+		<#if data.flyingMob>
+		flyingSpeed = (float) this.getAttributeValue(Attributes.FLYING_SPEED);
+		</#if>
 
 		<#if data.mobLabel?has_content >
         	setCustomName(Component.literal("${data.mobLabel}"));
@@ -871,7 +874,7 @@ public class ${name}Entity extends ${extendsClass} <#if interfaces?size gt 0>imp
 				this.animationPosition += this.animationSpeed;
 				return;
 			}
-			this.flyingSpeed = 0.02F;
+			this.flyingSpeed = <#if data.flyingMob>(float) this.getAttributeValue(Attributes.FLYING_SPEED)<#else>0.02F</#if>;
 			</#if>
 
 			super.travel(dir);
