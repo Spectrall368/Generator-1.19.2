@@ -50,12 +50,6 @@ public class ${name}Block extends LiquidBlock {
 		);
 	}
 
-	<#if data.isReplaceable>
-	@Override public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
-	    return context.getItemInHand().getItem() != this.asItem();
-	}
-	</#if>
-
 	<#if data.ignitedByLava>
 	@Override public boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
 	    return true;
