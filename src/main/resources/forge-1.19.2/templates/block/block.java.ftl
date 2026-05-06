@@ -184,7 +184,7 @@ public class ${getClassName()}Block extends ${getBlockClass(data.blockBase)}
 			.isSuffocating((bs, br, bp) -> false)
 			.isViewBlocking((bs, br, bp) -> false)
 		</#if>
-		<#if var_extends_class! == "WallSignBlock" || var_extends_class! == "WallHangingSignBlock">
+		<#if var_extends_class! == "WallSignBlock">
 			.dropsLike(${JavaModName}Blocks.${REGISTRYNAME}.get())
 		</#if>
 	</#macro>
@@ -803,7 +803,7 @@ public class ${getClassName()}Block extends ${getBlockClass(data.blockBase)}
 <#-- @formatter:on -->
 
 <#function getClassName>
-	<#if var_extends_class! == "WallSignBlock" || var_extends_class! == "WallHangingSignBlock"><#return data.getWallName()>
+	<#if var_extends_class! == "WallSignBlock"><#return data.getWallName()>
 	<#else><#return name>
 	</#if>
 </#function>

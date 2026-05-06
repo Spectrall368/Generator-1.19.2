@@ -486,7 +486,7 @@ templates:
   - template: block/block.java.ftl # Wall hanging sign class
     condition: "blockBase %= HangingSign"
     name: "@SRCROOT/@BASEPACKAGEPATH/block/@[getWallName()]Block.java"
-    variables: "extends_class=WallHangingSignBlock"
+    variables: "extends_class=WallSignBlock"
   - template: json/block_item.json.ftl
     condition:
       - hasBlockItem
