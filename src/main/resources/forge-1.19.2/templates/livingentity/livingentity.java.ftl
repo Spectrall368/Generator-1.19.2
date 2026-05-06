@@ -95,7 +95,7 @@ public class ${name}Entity extends ${extendsClass} <#if interfaces?size gt 0>imp
 		xpReward = ${data.xpAmount};
 		setNoAi(${(!data.hasAI)});
 		<#if data.flyingMob>
-		flyingSpeed = (float) this.getAttributeValue(Attributes.FLYING_SPEED);
+		flyingSpeed = ${data.movementSpeed}f;
 		</#if>
 
 		<#if data.mobLabel?has_content >
@@ -874,7 +874,7 @@ public class ${name}Entity extends ${extendsClass} <#if interfaces?size gt 0>imp
 				this.animationPosition += this.animationSpeed;
 				return;
 			}
-			this.flyingSpeed = <#if data.flyingMob>(float) this.getAttributeValue(Attributes.FLYING_SPEED)<#else>0.02F</#if>;
+			this.flyingSpeed = <#if data.flyingMob>${data.movementSpeed}<#else>0.02</#if>F;
 			</#if>
 
 			super.travel(dir);
