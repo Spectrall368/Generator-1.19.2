@@ -318,7 +318,8 @@ public class ${name}BlockEntity extends RandomizableContainerBlockEntity impleme
 				"world": "world",
 				"blockstate": "this.getBlockState()",
 				"entity": "entity",
-				"sourceentity": "projectileShooter"
+				"sourceentity": "projectileShooter",
+				"distance": "distance"
 			}/>
 		</#if>
 	}

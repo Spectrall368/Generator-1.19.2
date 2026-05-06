@@ -33,14 +33,13 @@
  *    MCreator note: This file will be REGENERATED on each build.
  */
 package ${package}.init;
-<#assign hasLivingEntities = w.hasElementsOfType("livingentity")>
 
-<#if hasLivingEntities>
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-</#if>
-public class ${JavaModName}Entities {
+<#assign specialentities = w.getGElementsOfType("specialentity")>
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD) public class ${JavaModName}Entities {
 
 	public static final DeferredRegister<EntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ${JavaModName}.MODID);
+
+	<#assign hasLivingEntities = false>
 
 	<#list entities as entity>
 		<#if entity.getModElement().getTypeString() == "projectile">
@@ -48,7 +47,8 @@ public class ${JavaModName}Entities {
 				register("${entity.getModElement().getRegistryName()}", EntityType.Builder.<${entity.getModElement().getName()}Entity>
 						of(${entity.getModElement().getName()}Entity::new, MobCategory.MISC).setCustomClientFactory(${entity.getModElement().getName()}Entity::new)
 						.setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(${entity.modelWidth}f, ${entity.modelHeight}f));
-		<#else>
+		<#elseif entity.getModElement().getTypeString() == "livingentity">
+			<#assign hasLivingEntities = true>
 			public static final RegistryObject<EntityType<${entity.getModElement().getName()}Entity>> ${entity.getModElement().getRegistryNameUpper()} =
 				register("${entity.getModElement().getRegistryName()}", EntityType.Builder.<${entity.getModElement().getName()}Entity>
 						of(${entity.getModElement().getName()}Entity::new, ${generator.map(entity.mobSpawningType, "mobspawntypes")})
@@ -65,6 +65,19 @@ public class ${JavaModName}Entities {
 			</#if>
 		</#if>
 	</#list>
+
+	<#if specialentities?size != 0>
+		<#if specialentities?filter(e -> e.entityType == "Boat")?size != 0>
+			public static final RegistryObject<EntityType<${JavaModName}Boat>> ${JavaModName?upper_case}_BOAT =
+				register("boat", EntityType.Builder.<${JavaModName}Boat>
+					of(${JavaModName}Boat::new, MobCategory.MISC).sized(1.375f, 0.5625f).clientTrackingRange(10));
+		</#if>
+		<#if specialentities?filter(e -> e.entityType == "ChestBoat")?size != 0>
+			public static final RegistryObject<EntityType<${JavaModName}ChestBoat>> ${JavaModName?upper_case}_CHEST_BOAT =
+				register("chest_boat", EntityType.Builder.<${JavaModName}ChestBoat>
+					of(${JavaModName}ChestBoat::new, MobCategory.MISC).sized(1.375f, 0.5625f).clientTrackingRange(10));
+		</#if>
+	</#if>
 
 	// Start of user code block custom entities
  	// End of user code block custom entities

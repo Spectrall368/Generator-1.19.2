@@ -34,6 +34,7 @@
  */
 package ${package}.init;
 
+<#assign specialentities = w.getGElementsOfType("specialentity")>
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT) public class ${JavaModName}EntityRenderers {
 
 	@SubscribeEvent public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -44,13 +45,22 @@ package ${package}.init;
 				<#else>
 				event.registerEntityRenderer(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ThrownItemRenderer::new);
 				</#if>
-			<#else>
+			<#elseif entity.getModElement().getTypeString() == "livingentity">
 				event.registerEntityRenderer(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}.get(), ${entity.getModElement().getName()}Renderer::new);
 				<#if entity.hasCustomProjectile()>
 				event.registerEntityRenderer(${JavaModName}Entities.${entity.getModElement().getRegistryNameUpper()}_PROJECTILE.get(), ThrownItemRenderer::new);
 				</#if>
 			</#if>
 		</#list>
+
+		<#if specialentities?size != 0>
+			<#if specialentities?filter(e -> e.entityType == "Boat")?size != 0>
+			event.registerEntityRenderer(${JavaModName}Entities.${JavaModName?upper_case}_BOAT.get(), context -> new ${JavaModName}BoatRenderer(context, false));
+			</#if>
+			<#if specialentities?filter(e -> e.entityType == "ChestBoat")?size != 0>
+			event.registerEntityRenderer(${JavaModName}Entities.${JavaModName?upper_case}_CHEST_BOAT.get(), context -> new ${JavaModName}BoatRenderer(context, true));
+			</#if>
+		</#if>
 	}
 }
 <#-- @formatter:on -->
