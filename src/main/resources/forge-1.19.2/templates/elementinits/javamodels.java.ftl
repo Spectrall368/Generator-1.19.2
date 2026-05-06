@@ -45,9 +45,15 @@ package ${package}.init;
 		<#list javamodels as model>
 		event.registerLayerDefinition(${model.getReadableName()}.LAYER_LOCATION, ${model.getReadableName()}::createBodyLayer);
 		</#list>
-		<#list specialentities as entity>
-		event.registerLayerDefinition(${entity.getModElement().getRegistryNameUpper()}_LAYER_LOCATION, () -> BoatModel.createBodyModel(${entity.entityType != "Boat"}));
-		</#list>
+
+		<#if specialentities?size != 0>
+		    LayerDefinition boat = BoatModel.createBodyModel(false);
+		    LayerDefinition chestBoat = BoatModel.createBodyModel(true);
+
+		    <#list specialentities as entity>
+		    event.registerLayerDefinition(${entity.getModElement().getRegistryNameUpper()}_LAYER_LOCATION, () -> <#if entity.entityType != "Boat">chestBoat<#else>boat</#if>);
+		    </#list>
+		</#if>
 	}
 }
 <#-- @formatter:on -->

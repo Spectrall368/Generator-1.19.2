@@ -124,14 +124,15 @@ package ${package}.client.particle;
 			"angularAcceleration": "this.angularAcceleration",
 			"age": "this.age + partialTicks"
 		}/>
-		Quaternionf tilt = new Quaternionf().rotationXYZ((float) vec.x(), (float) vec.y(), (float) vec.z());
+		Quaternion tilt = Quaternion.fromXYZ((float) vec.x(), (float) vec.y(), (float) vec.z());
 		this.renderRotatedQuad(buffer, camera, tilt, partialTicks);
-		Quaternionf flippedTilt = new Quaternionf(tilt).mul(new Quaternionf().rotateY((float) Math.PI));
+		Quaternion flippedTilt = tilt.copy();
+		flippedTilt.mul(Vector3f.YP.rotation((float) Math.PI));
 		<#-- render a flipped face because by default only a single side renders this makes particle visible from all angles -->
 		this.renderRotatedQuad(buffer, camera, flippedTilt, partialTicks);
 	}
 
-    private void renderRotatedQuad(VertexConsumer buffer, Camera camera, Quaternionf rotation, float partialTicks) {
+    private void renderRotatedQuad(VertexConsumer buffer, Camera camera, Quaternion rotation, float partialTicks) {
         Vec3 camPos = camera.getPosition();
         float cx = (float)(Mth.lerp((double) partialTicks, this.xo, this.x) - camPos.x());
         float cy = (float)(Mth.lerp((double) partialTicks, this.yo, this.y) - camPos.y());
@@ -149,7 +150,7 @@ package ${package}.client.particle;
 
         for (int i = 0; i < 4; i++) {
             Vector3f v = new Vector3f(corners[i][0], corners[i][1], 0.0F)
-                .rotate(rotation)
+                .transform(rotation)
                 .mul(size)
                 .add(cx, cy, cz);
             buffer.vertex(v.x(), v.y(), v.z())
