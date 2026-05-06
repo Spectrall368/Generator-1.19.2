@@ -150,8 +150,8 @@ package ${package}.client.particle;
 
         for (int i = 0; i < 4; i++) {
             Vector3f v = new Vector3f(corners[i][0], corners[i][1], 0.0F);
-            v.transform(rotation)
-            v.mul(size)
+            v.transform(rotation);
+            v.mul(size);
             v.add(cx, cy, cz);
             buffer.vertex(v.x(), v.y(), v.z())
                 .uv(uvs[i][0], uvs[i][1])
