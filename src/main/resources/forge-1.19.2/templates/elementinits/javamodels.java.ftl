@@ -38,7 +38,7 @@ package ${package}.init;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT) public class ${JavaModName}Models {
 	<#list specialentities as entity>
 	public static final ModelLayerLocation ${entity.getModElement().getRegistryNameUpper()}_LAYER_LOCATION =
-			new ModelLayerLocation(new ResourceLocation("${modid}:<#if entity.entityType == "Boat">boat<#else>chest_boat</#if>/${entity.getModElement().getRegistryName()}"), "main");
+			new ModelLayerLocation(new ResourceLocation("${modid}:<#if entity.isBoatChestVariant()>chest_</#if>boat/${entity.getModElement().getRegistryName()}"), "main");
 	</#list>
 
 	@SubscribeEvent public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {

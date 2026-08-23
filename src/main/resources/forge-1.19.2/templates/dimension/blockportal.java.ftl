@@ -38,7 +38,7 @@ public class ${name}PortalBlock extends NetherPortalBlock {
 
 	public ${name}PortalBlock() {
 		super(BlockBehaviour.Properties.of(Material.PORTAL).noCollission().randomTicks()
-				.strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> ${data.portalLuminance}).noLootTable());
+				.strength(-1.0F).sound(SoundType.GLASS).lightLevel(state -> ${data.portalLuminance}).noLootTable());
 	}
 
 	<#-- Prevent ZOMBIFIED_PIGLINs from spawning -->
@@ -85,7 +85,7 @@ public class ${name}PortalBlock extends NetherPortalBlock {
 			world.addParticle(${data.portalParticles}, px, py, pz, vx, vy, vz);
 		}
 
-		<#if data.portalSound.toString()?has_content>
+		<#if data.portalSound?? && data.portalSound.toString()?has_content>
 		if (random.nextInt(110) == 0)
 			world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
 			    ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("${data.portalSound}")), SoundSource.BLOCKS, 0.5f, random.nextFloat() * 0.4f + 0.8f);

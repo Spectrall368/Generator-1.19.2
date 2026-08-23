@@ -13,7 +13,7 @@
 						"tag": "${replacementBlock.getUnmappedValue().replace("TAG:", "").replace("mod:", modid + ":")}"
                 	<#elseif replacementBlock.getMappedValue(1).startsWith("#")>
 						"predicate_type": "tag_match",
-						"tag": "${replacementBlock.getMappedValue(1).replace("#", "")}"
+						"tag": "${replacementBlock.asTagEntry()}"
                 	<#else>
 						"predicate_type": "blockstate_match",
 						"block_state": ${mappedMCItemToBlockStateJSON(replacementBlock)}

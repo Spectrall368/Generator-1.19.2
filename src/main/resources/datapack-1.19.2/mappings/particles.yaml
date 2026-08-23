@@ -19,9 +19,6 @@ CRIT:
 DAMAGE_INDICATOR:
   - ParticleTypes.DAMAGE_INDICATOR
   - "damage_indicator"
-DRAGON_BREATH:
-  - ParticleTypes.DRAGON_BREATH
-  - "dragon_breath"
 DRIP_LAVA:
   - ParticleTypes.DRIPPING_LAVA
   - "dripping_lava"
@@ -37,9 +34,6 @@ DRIP_WATER:
 WATER_DROP:
   - ParticleTypes.FALLING_WATER
   - "falling_water"
-SPELL:
-  - ParticleTypes.EFFECT
-  - "effect"
 ELDER_GUARDIAN:
   - ParticleTypes.ELDER_GUARDIAN
   - "elder_guardian"
@@ -67,9 +61,6 @@ FISHING:
 FLAME:
   - ParticleTypes.FLAME
   - "flame"
-FLASH:
-  - ParticleTypes.FLASH
-  - "flash"
 VILLAGER_HAPPY:
   - ParticleTypes.HAPPY_VILLAGER
   - "happy_villager"
@@ -79,9 +70,6 @@ COMPOSTER:
 HEART:
   - ParticleTypes.HEART
   - "heart"
-SPELL_INSTANT:
-  - ParticleTypes.INSTANT_EFFECT
-  - "instant_effect"
 SLIME:
   - ParticleTypes.ITEM_SLIME
   - "item_slime"

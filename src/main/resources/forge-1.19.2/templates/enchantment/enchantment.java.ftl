@@ -29,7 +29,7 @@
 -->
 
 <#-- @formatter:off -->
-<#include "mcitems.ftl">
+<#include "../mcitems.ftl">
 
 <#assign supportedItems = w.filterBrokenReferences(data.supportedItems)>
 <#assign incompatibleEnchantments = w.filterBrokenReferences(data.incompatibleEnchantments)>
@@ -41,6 +41,24 @@
 	<#else>COMMON
 	</#if>
 </#macro>
+
+<#assign effectStatements = effectcode?split(";")>
+<#assign mobStatements = []>
+<#assign blockStatements = []>
+
+<#list effectStatements as stmt>
+	<#assign trimmed = stmt?trim>
+	<#if trimmed?has_content>
+		<#if trimmed?contains("ExpToDrop")>
+			<#assign blockStatements = blockStatements + [trimmed]>
+		<#else>
+			<#assign mobStatements = mobStatements + [trimmed]>
+		</#if>
+	</#if>
+</#list>
+
+<#assign effectcodeMob = mobStatements?join(";") + (mobStatements?has_content)?then(";", "")>
+<#assign effectcodeBlock = blockStatements?join(";") + (blockStatements?has_content)?then(";", "")>
 
 package ${package}.enchantment;
 
@@ -65,7 +83,7 @@ public class ${name}Enchantment extends Enchantment {
 		</#if>
 
 	public ${name}Enchantment() {
-		this(${generator.map(data.supportedSlots, "equipmentslots", 2)});
+		this(${data.supportedSlots.getMappedValue(2)});
 	}
 
 	private ${name}Enchantment(EquipmentSlot... slots) {
@@ -124,6 +142,24 @@ public class ${name}Enchantment extends Enchantment {
 	@Override public boolean isTradeable() {
 		return false;
 	}
+	</#if>
+
+    <#if effectblocks?size != 0>
+		<#if data.effectsxml?contains('ench_component_mob_experience')>
+		public static void onMobExperienceDrop(ItemStack stack, LivingExperienceDropEvent event) {
+            if (EnchantmentHelper.getItemEnchantmentLevel(${JavaModName}Enchantments.${REGISTRYNAME}.get(), stack) > 0) {
+                ${effectcodeMob}
+            }
+		}
+		</#if>
+
+		<#if data.effectsxml?contains('ench_component_block_experience')>
+		public static void onBlockExperienceDrop(ItemStack stack, BlockEvent.BreakEvent event) {
+            if (EnchantmentHelper.getItemEnchantmentLevel(${JavaModName}Enchantments.${REGISTRYNAME}.get(), stack) > 0) {
+                ${effectcodeBlock}
+            }
+		}
+		</#if>
 	</#if>
 }
 <#-- @formatter:on -->
