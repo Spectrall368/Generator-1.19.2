@@ -86,7 +86,7 @@ import com.mojang.datafixers.util.Pair;
 		return currentRuleSource;
 	}
 
-	public static <T> Climate.ParameterList<T> adaptPresetParameterList(ResourceLocation idArg, Climate.ParameterList<T> originalList, Registry<Biome> lookup) {
+	public static <T> Climate.ParameterList<Holder<Biome>> adaptPresetParameterList(ResourceLocation idArg, Climate.ParameterList<Holder<Biome>> originalList, Registry<Biome> lookup) {
 		<#-- Skip adaptation during server bootstrap validation, as custom biomes are not available yet -->
 		if (!BOOTSTRAP_VALIDATION_PASSED) return originalList;
 
@@ -132,7 +132,7 @@ import com.mojang.datafixers.util.Pair;
 		}
 	}
 
-	public static <T> Climate.ParameterList<T> modifyOverworldParameterPoints(Climate.ParameterList<T> originalList, Registry<Biome> lookup) {
+	public static <T> Climate.ParameterList<Holder<Biome>> modifyOverworldParameterPoints(Climate.ParameterList<Holder<Biome>> originalList, Registry<Biome> lookup) {
 		List<Pair<Climate.ParameterPoint, T>> parameters = new ArrayList<>(originalList.values());
 
 		<#list spawn_overworld as biome>
@@ -203,7 +203,7 @@ import com.mojang.datafixers.util.Pair;
 		}
 	}
 
-	public static <T> Climate.ParameterList<T> modifyNetherParameterPoints(Climate.ParameterList<T> originalList, Registry<Biome> lookup) {
+	public static <T> Climate.ParameterList<Holder<Biome>> modifyNetherParameterPoints(Climate.ParameterList<Holder<Biome>> originalList, Registry<Biome> lookup) {
 		List<Pair<Climate.ParameterPoint, T>> parameters = new ArrayList<>(originalList.values());
 
 		<#list spawn_nether as biome>

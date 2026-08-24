@@ -45,7 +45,7 @@ import org.spongepowered.asm.mixin.Mutable;
 			Function<Registry<Biome>, Climate.ParameterList<Holder<Biome>>> existingProvider = this.parameterSource;
 			this.parameterSource = lookup -> {
 					<#-- Call the chain. If another mod ran before us, this safely calls their logic first. -->
-					Climate.ParameterList<T> originalList = existingProvider.apply(lookup);
+					Climate.ParameterList<Holder<Biome>> originalList = existingProvider.apply(lookup);
 					return ${JavaModName}Biomes.adaptPresetParameterList(idArg, originalList, lookup);
 			};
 		}
