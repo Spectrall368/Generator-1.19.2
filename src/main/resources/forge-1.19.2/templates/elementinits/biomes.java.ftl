@@ -133,7 +133,7 @@ import com.mojang.datafixers.util.Pair;
 	}
 
 	public static <T> Climate.ParameterList<Holder<Biome>> modifyOverworldParameterPoints(Climate.ParameterList<Holder<Biome>> originalList, Registry<Biome> lookup) {
-		List<Pair<Climate.ParameterPoint, T>> parameters = new ArrayList<>(originalList.values());
+		List<Pair<Climate.ParameterPoint, Holder<Biome>>> parameters = new ArrayList<>(originalList.values());
 
 		<#list spawn_overworld as biome>
 		parameters.add(new Pair<>(
@@ -204,7 +204,7 @@ import com.mojang.datafixers.util.Pair;
 	}
 
 	public static <T> Climate.ParameterList<Holder<Biome>> modifyNetherParameterPoints(Climate.ParameterList<Holder<Biome>> originalList, Registry<Biome> lookup) {
-		List<Pair<Climate.ParameterPoint, T>> parameters = new ArrayList<>(originalList.values());
+		List<Pair<Climate.ParameterPoint, Holder<Biome>>> parameters = new ArrayList<>(originalList.values());
 
 		<#list spawn_nether as biome>
 		parameters.add(new Pair<>(
