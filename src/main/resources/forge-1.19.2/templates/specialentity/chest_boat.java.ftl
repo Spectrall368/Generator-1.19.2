@@ -29,11 +29,14 @@
 -->
 
 <#-- @formatter:off -->
+<#include "../procedures.java.ftl">
 package ${package}.entity;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 
-<#assign chestBoatEntities = specialentities?filter(e -> e.entityType == "ChestBoat")>
+<#assign chestBoatEntities = specialentities?filter(e -> e.isBoatChestVariant())>
+<#assign boatsWithTickEvent = specialentities?filter(e -> hasProcedure(e.onTickUpdate))>
+<#assign boatsWithCollidesEvent = specialentities?filter(e -> hasProcedure(e.onPlayerCollidesWith))>
 public class ${JavaModName}ChestBoat extends ChestBoat {
 	private static final EntityDataAccessor<Integer> DATA_ID_TYPE = SynchedEntityData.defineId(${JavaModName}ChestBoat.class, EntityDataSerializers.INT);
 
@@ -49,8 +52,48 @@ public class ${JavaModName}ChestBoat extends ChestBoat {
 		this.zo = z;
 	}
 
+	<#if boatsWithTickEvent?size gt 0>
+	@Override public void baseTick() {
+		super.baseTick();
+			<#list boatsWithTickEvent as entity>
+			if (getModVariant() == ${JavaModName}Boat.Type.${entity.getModElement().getRegistryNameUpper()}) {
+			<@procedureCode entity.onTickUpdate, {
+				"x": "this.getX()",
+				"y": "this.getY()",
+				"z": "this.getZ()",
+				"entity": "this",
+				"world": "this.level"
+			}/>
+			}<#sep>else
+			</#list>
+	}
+	</#if>
+
+	<#if boatsWithCollidesEvent?size gt 0>
+	@Override public void playerTouch(Player sourceentity) {
+		super.playerTouch(sourceentity);
+			<#list boatsWithCollidesEvent as entity>
+			if (getModVariant() == ${JavaModName}Boat.Type.${entity.getModElement().getRegistryNameUpper()}) {
+            <@procedureCode entity.onPlayerCollidesWith, {
+                "x": "this.getX()",
+                "y": "this.getY()",
+                "z": "this.getZ()",
+                "entity": "this",
+                "sourceentity": "sourceentity",
+                "world": "this.level"
+            }/>
+			}<#sep>else
+			</#list>
+	}
+	</#if>
+
 	@Override protected Component getTypeName() {
 		return Component.translatable("entity.minecraft.chest_boat");
+	}
+
+	@Override protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.entityData.define(DATA_ID_TYPE, ${JavaModName}Boat.Type.${chestBoatEntities[0].getModElement().getRegistryNameUpper()}.ordinal());
 	}
 
 	@Override public Item getDropItem() {
@@ -60,11 +103,6 @@ public class ${JavaModName}ChestBoat extends ChestBoat {
 		</#list>
 		    default -> Items.AIR;
 		};
-	}
-
-	@Override protected void defineSynchedData() {
-		super.defineSynchedData();
-		this.entityData.define(DATA_ID_TYPE, ${JavaModName}Boat.Type.${chestBoatEntities[0].getModElement().getRegistryNameUpper()}.ordinal());
 	}
 
 	@Override protected void addAdditionalSaveData(CompoundTag compound) {

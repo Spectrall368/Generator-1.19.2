@@ -29,11 +29,14 @@
 -->
 
 <#-- @formatter:off -->
+<#include "../procedures.java.ftl">
 package ${package}.entity;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
 
-<#assign boatEntities = specialentities?filter(e -> e.entityType == "Boat")>
+<#assign boatEntities = specialentities?filter(e -> !e.isBoatChestVariant())>
+<#assign boatsWithTickEvent = specialentities?filter(e -> hasProcedure(e.onTickUpdate))>
+<#assign boatsWithCollidesEvent = specialentities?filter(e -> hasProcedure(e.onPlayerCollidesWith))>
 
 public class ${JavaModName}Boat extends Boat {
 	private static final EntityDataAccessor<Integer> DATA_ID_TYPE = SynchedEntityData.defineId(${JavaModName}Boat.class, EntityDataSerializers.INT);
@@ -52,17 +55,43 @@ public class ${JavaModName}Boat extends Boat {
     }
     </#if>
 
+	<#if boatsWithTickEvent?size gt 0>
+	@Override public void baseTick() {
+		super.baseTick();
+			<#list boatsWithTickEvent as entity>
+			if (getModVariant() == Type.${entity.getModElement().getRegistryNameUpper()}) {
+			<@procedureCode entity.onTickUpdate, {
+				"x": "this.getX()",
+				"y": "this.getY()",
+				"z": "this.getZ()",
+				"entity": "this",
+				"world": "this.level"
+			}/>
+			}<#sep>else
+			</#list>
+	}
+	</#if>
+
+	<#if boatsWithCollidesEvent?size gt 0>
+	@Override public void playerTouch(Player sourceentity) {
+		super.playerTouch(sourceentity);
+			<#list boatsWithCollidesEvent as entity>
+			if (getModVariant() == Type.${entity.getModElement().getRegistryNameUpper()}) {
+            <@procedureCode entity.onPlayerCollidesWith, {
+                "x": "this.getX()",
+                "y": "this.getY()",
+                "z": "this.getZ()",
+                "entity": "this",
+                "sourceentity": "sourceentity",
+                "world": "this.level"
+            }/>
+			}<#sep>else
+			</#list>
+	}
+	</#if>
+
 	@Override protected Component getTypeName() {
 		return Component.translatable("entity.minecraft.boat");
-	}
-
-	@Override public Item getDropItem() {
-		return switch (getModType()) {
-		<#list boatEntities as entity>
-		    case ${entity.getModElement().getRegistryNameUpper()} -> ${JavaModName}Items.${entity.getModElement().getRegistryNameUpper()}.get();
-		</#list>
-		    default -> Items.AIR;
-		};
 	}
 
 	@Override protected void defineSynchedData() {
@@ -72,6 +101,15 @@ public class ${JavaModName}Boat extends Boat {
 		<#else>
 		this.entityData.define(DATA_ID_TYPE, Type.${specialentities[0].getModElement().getRegistryNameUpper()}.ordinal());
 		</#if>
+	}
+
+	@Override public Item getDropItem() {
+		return switch (getModType()) {
+		<#list boatEntities as entity>
+		    case ${entity.getModElement().getRegistryNameUpper()} -> ${JavaModName}Items.${entity.getModElement().getRegistryNameUpper()}.get();
+		</#list>
+		    default -> Items.AIR;
+		};
 	}
 
 	@Override protected void addAdditionalSaveData(CompoundTag compound) {
@@ -95,17 +133,16 @@ public class ${JavaModName}Boat extends Boat {
 	public static enum Type {
         <@javacompress>
             <#list specialentities as entity>
-                ${entity.getModElement().getRegistryNameUpper()}(Blocks.OAK_PLANKS, "${entity.getModElement().getRegistryName()}", ${entity.entityType == "ChestBoat"})<#sep>,
+                ${entity.getModElement().getRegistryNameUpper()}("${entity.getModElement().getRegistryName()}", ${entity.isBoatChestVariant()})<#sep>,
             </#list>;
         </@javacompress>
 
         private final String name;
-        private final Block planks;
+        private final Block planks = Blocks.OAK_PLANKS;
         private final boolean hasChest;
 
-        private Type(Block block, String name, boolean hasChest) {
+        private Type(String name, boolean hasChest) {
             this.name = name;
-            this.planks = block;
             this.hasChest = hasChest;
         }
 

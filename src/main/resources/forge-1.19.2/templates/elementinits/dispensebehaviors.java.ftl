@@ -159,7 +159,7 @@ if(boat instanceof ${JavaModName}Boat boatt)
 	    <#if hasBoat>
 	    	<#assign executeMethod = executeMethod.replace("new Boat", "new " + JavaModName + "Boat")>
 	    </#if>
-	    @Override ${executeMethod.replace("boat.setVariant(this.type);", variantSetterCode)}
+	    @Override ${executeMethod.replace("boat.setType(this.type);", variantSetterCode)}
 
 	    @Override ${mcc.getMethod("net.minecraft.core.dispenser.BoatDispenseItemBehavior", "playSound", "BlockSource")}
 	}

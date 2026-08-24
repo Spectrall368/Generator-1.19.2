@@ -1,5 +1,15 @@
 <#include "procedures.java.ftl">
 
+<#function getAttributeOperation operation>
+ 	<#if operation == "ADD_VALUE">
+ 		<#return "ADDITION">
+ 	<#elseif operation == "ADD_MULTIPLIED_BASE">
+ 		<#return "MULTIPLY_BASE">
+ 	<#else>
+ 		<#return "MULTIPLY_TOTAL">
+ 	</#if>
+</#function>
+
 <#-- Item-related triggers -->
 <#macro CreativeTabs tabs="[]">
 	<#if tabs == "[]">
@@ -347,8 +357,7 @@
 			"blockstate": "blockstate"
 			}/>
 		</#if>
-		}
-		<#if hasProcedure(onRedstoneOff)> else {
+		} <#if hasProcedure(onRedstoneOff)> else {
 			<@procedureCode onRedstoneOff, {
 			"x": "pos.getX()",
 			"y": "pos.getY()",
