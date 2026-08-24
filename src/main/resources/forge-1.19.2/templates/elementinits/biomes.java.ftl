@@ -86,7 +86,7 @@ import com.mojang.datafixers.util.Pair;
 		return currentRuleSource;
 	}
 
-	public static <T> Climate.ParameterList<T> adaptPresetParameterList(ResourceLocation idArg, Climate.ParameterList<T> originalList, Function<ResourceKey<Biome>, T> lookup) {
+	public static <T> Climate.ParameterList<T> adaptPresetParameterList(ResourceLocation idArg, Climate.ParameterList<T> originalList, Registry<Biome> lookup) {
 		<#-- Skip adaptation during server bootstrap validation, as custom biomes are not available yet -->
 		if (!BOOTSTRAP_VALIDATION_PASSED) return originalList;
 
@@ -132,7 +132,7 @@ import com.mojang.datafixers.util.Pair;
 		}
 	}
 
-	public static <T> Climate.ParameterList<T> modifyOverworldParameterPoints(Climate.ParameterList<T> originalList, Function<ResourceKey<Biome>, T> lookup) {
+	public static <T> Climate.ParameterList<T> modifyOverworldParameterPoints(Climate.ParameterList<T> originalList, Registry<Biome> lookup) {
 		List<Pair<Climate.ParameterPoint, T>> parameters = new ArrayList<>(originalList.values());
 
 		<#list spawn_overworld as biome>
@@ -146,7 +146,7 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.apply(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			lookup.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
 		));
 		parameters.add(new Pair<>(
 			new Climate.ParameterPoint(
@@ -158,7 +158,7 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.apply(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			lookup.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
 		));
 		</#list>
 
@@ -173,7 +173,7 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.apply(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			lookup.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
 		));
 		</#list>
 
@@ -203,7 +203,7 @@ import com.mojang.datafixers.util.Pair;
 		}
 	}
 
-	public static <T> Climate.ParameterList<T> modifyNetherParameterPoints(Climate.ParameterList<T> originalList, Function<ResourceKey<Biome>, T> lookup) {
+	public static <T> Climate.ParameterList<T> modifyNetherParameterPoints(Climate.ParameterList<T> originalList, Registry<Biome> lookup) {
 		List<Pair<Climate.ParameterPoint, T>> parameters = new ArrayList<>(originalList.values());
 
 		<#list spawn_nether as biome>
@@ -217,7 +217,7 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.apply(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			lookup.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
 		));
 		parameters.add(new Pair<>(
 			new Climate.ParameterPoint(
@@ -229,7 +229,7 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.apply(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			lookup.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
 		));
 		</#list>
 

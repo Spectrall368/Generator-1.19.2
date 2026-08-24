@@ -13,7 +13,6 @@ public net.minecraft.world.level.GameRules$BooleanValue m_46250_(Z)Lnet/minecraf
 <#if w.getGElementsOfType("biome")?filter(e -> e.spawnBiome || e.spawnInCaves || e.spawnBiomeNether)?size != 0>
 public net.minecraft.world.level.levelgen.SurfaceRules$SequenceRuleSource
 public net.minecraft.world.level.levelgen.SurfaceRules$SequenceRuleSource <init>(Ljava/util/List;)V
-public net.minecraft.world.level.biome.MultiNoiseBiomeSourceParameterList$Preset$SourceProvider
 </#if>
 
 <#if w.hasElementsOfType("feature")>

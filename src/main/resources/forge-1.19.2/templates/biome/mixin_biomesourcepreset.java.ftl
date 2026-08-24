@@ -34,21 +34,19 @@ package ${package}.mixin;
 
 import org.spongepowered.asm.mixin.Mutable;
 
-@Mixin(MultiNoiseBiomeSourceParameterList.Preset.class) public class BiomeSourcePresetMixin {
+@Mixin(MultiNoiseBiomeSource.Preset.class) public class BiomeSourcePresetMixin {
 
-	@Mutable @Shadow @Final private MultiNoiseBiomeSourceParameterList.Preset.SourceProvider provider;
+	@Mutable @Shadow @Final private Function<Registry<Biome>, Climate.ParameterList<Holder<Biome>>> parameterSource;
 
 	@Inject(method = "<init>", at = @At("RETURN"))
-	private void daisyChainProvider(ResourceLocation idArg, MultiNoiseBiomeSourceParameterList.Preset.SourceProvider ignored, CallbackInfo ci) {
+	private void daisyChainProvider(ResourceLocation idArg, Function<Registry<Biome>, Climate.ParameterList<Holder<Biome>>> ignored, CallbackInfo ci) {
 		if (idArg.equals(${JavaModName}Biomes.OVERWORLD_BIOMESOURCE_PRESET_ID) || idArg.equals(${JavaModName}Biomes.NETHER_BIOMESOURCE_PRESET_ID)) {
-			<#-- Capture the current state of the field, which includes any previous mod's wrappers, calling this.provider directly in apply is not safe -->
-			MultiNoiseBiomeSourceParameterList.Preset.SourceProvider existingProvider = this.provider;
-			this.provider = new MultiNoiseBiomeSourceParameterList.Preset.SourceProvider() {
-				@Override public <T> Climate.ParameterList<T> apply(Function<ResourceKey<Biome>, T> lookup) {
+			<#-- Capture the current state of the field, which includes any previous mod's wrappers, calling this.parameterSource directly in apply is not safe -->
+			Function<Registry<Biome>, Climate.ParameterList<Holder<Biome>>> existingProvider = this.parameterSource;
+			this.parameterSource = lookup -> {
 					<#-- Call the chain. If another mod ran before us, this safely calls their logic first. -->
 					Climate.ParameterList<T> originalList = existingProvider.apply(lookup);
 					return ${JavaModName}Biomes.adaptPresetParameterList(idArg, originalList, lookup);
-				}
 			};
 		}
 	}
