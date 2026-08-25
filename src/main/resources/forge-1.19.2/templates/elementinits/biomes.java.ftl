@@ -136,6 +136,7 @@ import com.mojang.datafixers.util.Pair;
 		List<Pair<Climate.ParameterPoint, Holder<Biome>>> parameters = new ArrayList<>(originalList.values());
 
 		<#list spawn_overworld as biome>
+		lookup.getHolder(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}"))).ifPresent(biomeHolder -> {
 		parameters.add(new Pair<>(
 			new Climate.ParameterPoint(
 				Climate.Parameter.span(${biome.genTemperature.min}f, ${biome.genTemperature.max}f),
@@ -146,7 +147,7 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.getOrCreateHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			biomeHolder
 		));
 		parameters.add(new Pair<>(
 			new Climate.ParameterPoint(
@@ -158,11 +159,13 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.getOrCreateHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			biomeHolder
 		));
+		});
 		</#list>
 
 		<#list spawn_overworld_caves as biome>
+		lookup.getHolder(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}"))).ifPresent(biomeHolder -> {
 		parameters.add(new Pair<>(
 			new Climate.ParameterPoint(
 				Climate.Parameter.span(${biome.genTemperature.min}f, ${biome.genTemperature.max}f),
@@ -173,8 +176,9 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.getOrCreateHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			biomeHolder
 		));
+		});
 		</#list>
 
 		return new Climate.ParameterList<>(parameters);
@@ -207,6 +211,7 @@ import com.mojang.datafixers.util.Pair;
 		List<Pair<Climate.ParameterPoint, Holder<Biome>>> parameters = new ArrayList<>(originalList.values());
 
 		<#list spawn_nether as biome>
+		lookup.getHolder(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}"))).ifPresent(biomeHolder -> {
 		parameters.add(new Pair<>(
 			new Climate.ParameterPoint(
 				Climate.Parameter.span(${biome.genTemperature.min}f, ${biome.genTemperature.max}f),
@@ -217,7 +222,7 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.getOrCreateHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			biomeHolder
 		));
 		parameters.add(new Pair<>(
 			new Climate.ParameterPoint(
@@ -229,8 +234,9 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.getOrCreateHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			biomeHolder
 		));
+		});
 		</#list>
 
 		return new Climate.ParameterList<>(parameters);
