@@ -80,8 +80,8 @@ public class ${JavaModName}SkyboxRenderer {
 		float partialTick = event.getPartialTick();
 		float f11 = 1.0F - level.getRainLevel(partialTick);
 		RenderSystem.setShaderColor(1, 1, 1, f11);
-		posestack.mulPose(Axis.YP.rotationDegrees(-90.0F));
-		posestack.mulPose(Axis.XP.rotationDegrees(level.getTimeOfDay(partialTick) * 360.0F));
+		posestack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
+		posestack.mulPose(Vector3f.XP.rotationDegrees(level.getTimeOfDay(partialTick) * 360.0F));
 		Matrix4f matrix4f1 = posestack.last().pose();
 		float f12 = 30.0F;
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -109,8 +109,8 @@ public class ${JavaModName}SkyboxRenderer {
 		float partialTick = event.getPartialTick();
 		float f11 = 1.0F - level.getRainLevel(partialTick);
 		RenderSystem.setShaderColor(1, 1, 1, f11);
-		posestack.mulPose(Axis.YP.rotationDegrees(-90.0F));
-		posestack.mulPose(Axis.XP.rotationDegrees(level.getTimeOfDay(partialTick) * 360.0F));
+		posestack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
+		posestack.mulPose(Vector3f.XP.rotationDegrees(level.getTimeOfDay(partialTick) * 360.0F));
 		Matrix4f matrix4f1 = posestack.last().pose();
 		float f12 = 20.0F;
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);

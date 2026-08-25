@@ -59,7 +59,7 @@ public class ${JavaModName}Boat extends Boat {
 	@Override public void baseTick() {
 		super.baseTick();
 			<#list boatsWithTickEvent as entity>
-			if (getModVariant() == Type.${entity.getModElement().getRegistryNameUpper()}) {
+			if (getModType() == Type.${entity.getModElement().getRegistryNameUpper()}) {
 			<@procedureCode entity.onTickUpdate, {
 				"x": "this.getX()",
 				"y": "this.getY()",
@@ -76,7 +76,7 @@ public class ${JavaModName}Boat extends Boat {
 	@Override public void playerTouch(Player sourceentity) {
 		super.playerTouch(sourceentity);
 			<#list boatsWithCollidesEvent as entity>
-			if (getModVariant() == Type.${entity.getModElement().getRegistryNameUpper()}) {
+			if (getModType() == Type.${entity.getModElement().getRegistryNameUpper()}) {
             <@procedureCode entity.onPlayerCollidesWith, {
                 "x": "this.getX()",
                 "y": "this.getY()",

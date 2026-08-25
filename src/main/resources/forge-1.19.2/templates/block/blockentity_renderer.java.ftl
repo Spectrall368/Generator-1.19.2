@@ -91,8 +91,8 @@ package ${package}.client.renderer.block;
 				<#if data.enablePitch && (data.rotationMode == 1 || data.rotationMode == 3)>
 				switch (state.getValue(${name}Block.FACE)) {
 					case FLOOR -> {}
-					case WALL -> poseStack.mulPose(Axis.XP.rotationDegrees(90));
-					case CEILING -> poseStack.mulPose(Axis.XP.rotationDegrees(180));
+					case WALL -> poseStack.mulPose(Vector3f.XP.rotationDegrees(90));
+					case CEILING -> poseStack.mulPose(Vector3f.XP.rotationDegrees(180));
 				};
 				</#if>
 			<#else>
