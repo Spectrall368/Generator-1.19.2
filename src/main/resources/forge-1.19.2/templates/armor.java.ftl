@@ -91,7 +91,7 @@ public abstract class ${name}Item extends ArmorItem {
 			super(EquipmentSlot.HEAD, new Item.Properties().tab(<@CreativeTabs data.creativeTabs/>)<#if data.helmetImmuneToFire>.fireResistant()</#if><#if data.rarity != "COMMON">.rarity(Rarity.${data.rarity})</#if>);
 		}
 
-		<@itemAttributeModifiers data.attributeModifiers?filter(e -> e.armorPieces[0]) "helmet" "ArmorItem.Type.HELMET" "EquipmentSlot.HEAD" data.damageValueHelmet/>
+		<@itemAttributeModifiers data.attributeModifiers?filter(e -> e.armorPieces[0]) "helmet" "EquipmentSlot.HEAD" data.damageValueHelmet/>
 
 		<#if helmetCustomModel>
 		@Override public void initializeClient(Consumer<IClientItemExtensions> consumer) {
@@ -155,7 +155,7 @@ public abstract class ${name}Item extends ArmorItem {
 			super(EquipmentSlot.CHEST, new Item.Properties().tab(<@CreativeTabs data.creativeTabs/>)<#if data.bodyImmuneToFire>.fireResistant()</#if><#if data.rarity != "COMMON">.rarity(Rarity.${data.rarity})</#if>);
 		}
 
-		<@itemAttributeModifiers data.attributeModifiers?filter(e -> e.armorPieces[1]) "chestplate" "ArmorItem.Type.CHESTPLATE" "EquipmentSlot.CHEST" data.damageValueBody/>
+		<@itemAttributeModifiers data.attributeModifiers?filter(e -> e.armorPieces[1]) "chestplate" EquipmentSlot.CHEST" data.damageValueBody/>
 
 		<#if bodyCustomModel>
 		@Override public void initializeClient(Consumer<IClientItemExtensions> consumer) {
@@ -220,7 +220,7 @@ public abstract class ${name}Item extends ArmorItem {
 			super(EquipmentSlot.LEGS, new Item.Properties().tab(<@CreativeTabs data.creativeTabs/>)<#if data.leggingsImmuneToFire>.fireResistant()</#if><#if data.rarity != "COMMON">.rarity(Rarity.${data.rarity})</#if>);
 		}
 
-		<@itemAttributeModifiers data.attributeModifiers?filter(e -> e.armorPieces[2]) "leggings" "ArmorItem.Type.LEGGINGS" "EquipmentSlot.LEGS" data.damageValueLeggings/>
+		<@itemAttributeModifiers data.attributeModifiers?filter(e -> e.armorPieces[2]) "leggings" "EquipmentSlot.LEGS" data.damageValueLeggings/>
 
 		<#if leggingsCustomModel>
 		@Override public void initializeClient(Consumer<IClientItemExtensions> consumer) {
@@ -285,7 +285,7 @@ public abstract class ${name}Item extends ArmorItem {
 			super(EquipmentSlot.FEET, new Item.Properties().tab(<@CreativeTabs data.creativeTabs/>)<#if data.bootsImmuneToFire>.fireResistant()</#if><#if data.rarity != "COMMON">.rarity(Rarity.${data.rarity})</#if>);
 		}
 
-		<@itemAttributeModifiers data.attributeModifiers?filter(e -> e.armorPieces[3]) "boots" "ArmorItem.Type.BOOTS" "EquipmentSlot.FEET" data.damageValueBoots/>
+		<@itemAttributeModifiers data.attributeModifiers?filter(e -> e.armorPieces[3]) "boots" "EquipmentSlot.FEET" data.damageValueBoots/>
 
 		<#if bootsCustomModel>
 		@Override public void initializeClient(Consumer<IClientItemExtensions> consumer) {
@@ -345,7 +345,7 @@ public abstract class ${name}Item extends ArmorItem {
 }
 </@javacompress>
 <#-- @formatter:on -->
-<#macro itemAttributeModifiers modifiers armorPart armorType defaultEquipSlot defense>
+<#macro itemAttributeModifiers modifiers armorPart defaultEquipSlot defense>
 <#if modifiers?size != 0>
     <#assign hasToughness = data.toughness != 0>
     <#assign hasKnockbackResistance = data.knockbackResistance != 0>
@@ -379,13 +379,13 @@ public abstract class ${name}Item extends ArmorItem {
         if (equipmentSlot == ${defaultEquipSlot}) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(super.getAttributeModifiers(equipmentSlot, stack));
-            builder.put(Attributes.ARMOR, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_TYPE.get(${armorType}), "Armor modifier", ${defense}, AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ARMOR, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_SLOT[${defaultEquipSlot}.getIndex()], "Armor modifier", ${defense}, AttributeModifier.Operation.ADDITION));
 
             <#if hasToughness>
-            builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_TYPE.get(${armorType}), "Armor toughness", ${data.toughness}, AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_SLOT[${defaultEquipSlot}.getIndex()], "Armor toughness", ${data.toughness}, AttributeModifier.Operation.ADDITION));
             </#if>
             <#if hasKnockbackResistance>
-            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_TYPE.get(${armorType}), "Armor knockback resistance", ${data.knockbackResistance}, AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_SLOT[${defaultEquipSlot}.getIndex()], "Armor knockback resistance", ${data.knockbackResistance}, AttributeModifier.Operation.ADDITION));
             </#if>
 
             <#list modifiers as modifier>
@@ -412,13 +412,13 @@ public abstract class ${name}Item extends ArmorItem {
                 <#if !hasGlobal>
                 builder = initializeBuilder(builder, defaultModifiers);
                 </#if>
-                builder.put(Attributes.ARMOR, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_TYPE.get(${armorType}), "Armor modifier", ${defense}, AttributeModifier.Operation.ADDITION));
+                builder.put(Attributes.ARMOR, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_SLOT[${defaultEquipSlot}.getIndex()], "Armor modifier", ${defense}, AttributeModifier.Operation.ADDITION));
 
                 <#if hasToughness>
-                builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_TYPE.get(${armorType}), "Armor toughness", ${data.toughness}, AttributeModifier.Operation.ADDITION));
+                builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_SLOT[${defaultEquipSlot}.getIndex()], "Armor toughness", ${data.toughness}, AttributeModifier.Operation.ADDITION));
                 </#if>
                 <#if hasKnockbackResistance>
-                builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_TYPE.get(${armorType}), "Armor knockback resistance", ${data.knockbackResistance}, AttributeModifier.Operation.ADDITION));
+                builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_SLOT[${defaultEquipSlot}.getIndex()], "Armor knockback resistance", ${data.knockbackResistance}, AttributeModifier.Operation.ADDITION));
                 </#if>
 
                 <#assign currentSlot = defaultEquipSlot>

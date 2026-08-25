@@ -38,7 +38,7 @@ public class ${JavaModName}SkyboxRenderer {
 	<#list dimensions as dimension>
 		<#if dimension.enableCustomSkyboxTextures || dimension.enableCustomSunMoonTextures>
 			private static final ResourceKey ${dimension.getModElement().getRegistryNameUpper()}
-				= ResourceKey.create(Registries.DIMENSION, new ResourceLocation("${modid}:${dimension.getModElement().getRegistryName()}"));
+				= ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation("${modid}:${dimension.getModElement().getRegistryName()}"));
 		</#if>
 		<#if dimension.enableCustomSkyboxTextures>
 			private static final ResourceLocation ${dimension.getModElement().getRegistryNameUpper()}_SKYBOX

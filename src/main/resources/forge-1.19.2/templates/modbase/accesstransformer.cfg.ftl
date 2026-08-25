@@ -21,7 +21,7 @@ public-f net.minecraft.world.level.levelgen.feature.TreeFeature m_142674_(Lnet/m
 </#if>
 
 <#if w.hasElementsOfType("armor")>
-public net.minecraft.world.item.ArmorItem f_265987_ # ARMOR_MODIFIER_UUID_PER_TYPE
+public net.minecraft.world.item.ArmorItem f_40380_ # ARMOR_MODIFIER_UUID_PER_SLOT
 </#if>
 
 # Start of user code block custom ATs
