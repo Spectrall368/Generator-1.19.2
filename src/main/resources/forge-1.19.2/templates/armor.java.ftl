@@ -155,7 +155,7 @@ public abstract class ${name}Item extends ArmorItem {
 			super(EquipmentSlot.CHEST, new Item.Properties().tab(<@CreativeTabs data.creativeTabs/>)<#if data.bodyImmuneToFire>.fireResistant()</#if><#if data.rarity != "COMMON">.rarity(Rarity.${data.rarity})</#if>);
 		}
 
-		<@itemAttributeModifiers data.attributeModifiers?filter(e -> e.armorPieces[1]) "chestplate" EquipmentSlot.CHEST" data.damageValueBody/>
+		<@itemAttributeModifiers data.attributeModifiers?filter(e -> e.armorPieces[1]) "chestplate" "EquipmentSlot.CHEST" data.damageValueBody/>
 
 		<#if bodyCustomModel>
 		@Override public void initializeClient(Consumer<IClientItemExtensions> consumer) {
