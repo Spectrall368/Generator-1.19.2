@@ -146,7 +146,7 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			lookup.getOrCreateHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
 		));
 		parameters.add(new Pair<>(
 			new Climate.ParameterPoint(
@@ -158,7 +158,7 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			lookup.getOrCreateHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
 		));
 		</#list>
 
@@ -173,7 +173,7 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			lookup.getOrCreateHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
 		));
 		</#list>
 
@@ -217,7 +217,7 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			lookup.getOrCreateHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
 		));
 		parameters.add(new Pair<>(
 			new Climate.ParameterPoint(
@@ -229,7 +229,7 @@ import com.mojang.datafixers.util.Pair;
 				Climate.Parameter.span(${biome.genWeirdness.min}f, ${biome.genWeirdness.max}f),
 				0 <#-- offset -->
 			),
-			lookup.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
+			lookup.getOrCreateHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation("${modid}", "${biome.getModElement().getRegistryName()}")))
 		));
 		</#list>
 
